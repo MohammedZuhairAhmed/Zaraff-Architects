@@ -1,0 +1,53 @@
+<!-- @dsCard group="Components" viewport="1280x860" name="Input" subtitle="Baseline rule, no box" -->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Zaraff — Input</title><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>.pad{padding:var(--space-xl) var(--gutter)}.band{padding:var(--space-xl) var(--gutter)}h1{margin:0 0 var(--space-sm)}.eyebrow{color:var(--body);margin:0 0 var(--space-xs)}.note{font-size:var(--fs-body-small);color:var(--body);max-width:64ch;margin:0 0 var(--space-lg)}.zf-light .note{color:var(--body-on-light)}h2{margin:0 0 var(--space-md)}.grid{display:grid;grid-template-columns:150px repeat(4,max-content);gap:var(--space-md) var(--space-lg);align-items:center;justify-content:start}.colhead{font-size:12px;color:var(--body);font-weight:500}.zf-light .colhead{color:var(--body-on-light)}.rowlabel{font-size:var(--fs-label);font-weight:500;color:var(--on-dark)}.zf-light .rowlabel{color:var(--ink)}.stack{display:grid;gap:var(--space-lg)}.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--gutter)}</style></head><body>
+<div id="root"></div>
+<script type="text/babel">
+const { Input } = window.ArchitectureStudioDesignSystem_04f6f4;
+const R = React;
+
+const Specimen = () => (
+  <div className="cols">
+    <div className="stack">
+      <Input label="Your name" placeholder="e.g. Anjali Menon" defaultValue="" />
+      <Input label="Plot size" hint="In square feet. An approximate figure is fine." placeholder="2,400" />
+      <Input label="WhatsApp number" defaultValue="+91 98470 12345" />
+    </div>
+    <div className="stack">
+      <Input label="Hover" className="hoverdemo" placeholder="Baseline lifts to full white" />
+      <Input label="Focus visible" placeholder="Rule doubles, outline appears" />
+      <Input label="Error" error="Enter a 10-digit number so we can reach you." defaultValue="98470" />
+      <Input label="Disabled" defaultValue="Kottayam, Kerala" disabled />
+    </div>
+  </div>
+);
+const Card = () => {
+  React.useEffect(() => {
+    document.querySelectorAll('.hoverdemo .zf-input').forEach((n) => n.classList.add('is-hover'));
+    document.querySelectorAll('.zf-field').forEach((f) => {
+      const l = f.querySelector('.zf-field__label');
+      if (l && l.textContent === 'Focus visible') f.querySelector('.zf-input').classList.add('is-focus');
+    });
+  });
+  return (
+    <>
+      <div className="pad">
+        <p className="zf-label eyebrow">Components</p>
+        <h1 className="zf-display">Input</h1>
+        <p className="note">A single baseline rule, no box and no radius — the field reads as a line on a drawing sheet. Labels are sentence case; hints sit below in body small. The error state uses a lifted red so it stays legible on near-black, and red oxide itself on the light band.</p>
+        <Specimen />
+      </div>
+      <div className="band zf-light">
+        <h2 className="zf-heading">On the light band</h2>
+        <Specimen />
+      </div>
+    </>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById('root')).render(<Card />);
+</script></body></html>

@@ -1,0 +1,38 @@
+<!-- @dsCard group="Domain" viewport="1280x1240" name="Comparison hero" subtitle="Render against photograph, dragged" -->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Zaraff — Comparison hero</title><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>.pad{padding:var(--space-xl) var(--gutter)}.band{padding:var(--space-xl) var(--gutter)}h1{margin:0 0 var(--space-sm)}.eyebrow{color:var(--body);margin:0 0 var(--space-xs)}.note{font-size:var(--fs-body-small);color:var(--body);max-width:64ch;margin:0 0 var(--space-lg)}.zf-light .note{color:var(--body-on-light)}h2{margin:0 0 var(--space-md)}.caption{font-size:var(--fs-body-small);color:var(--body);margin:var(--space-xs) 0 0}.phone{width:390px;flex:none}.phone__label{font-size:var(--fs-body-small);color:var(--body);margin:0 0 var(--space-xs)}.split{display:flex;gap:var(--gutter);align-items:flex-start;flex-wrap:wrap}.wide{flex:1;min-width:420px}</style></head><body>
+<div id="root"></div>
+<script type="text/babel">
+const { ComparisonHero } = window.ArchitectureStudioDesignSystem_04f6f4;
+
+const Card = () => (
+  <div className="pad">
+    <p className="zf-label eyebrow">Domain</p>
+    <h1 className="zf-display">Comparison hero</h1>
+    <p className="note">The signature component, and the only place boldness is spent. The same house twice: the Enscape render under the divider, the finished photograph behind it. Drag the divider, or use the arrow keys — the handle is a real slider, 48px, well over the touch minimum. The hint clears as soon as the visitor moves it.</p>
+    <div className="split">
+      <div className="phone">
+        <p className="phone__label">390px — the toggle fallback</p>
+        <ComparisonHero mode="toggle" ratio="4 / 3" labelA="The render" labelB="Built" />
+        <p className="caption">Dragging inside a 390px frame gives a visitor about 190px of travel per side, so at a coarse pointer under 520px the component switches itself to a two-button before and after. Reduced motion gets the same treatment.</p>
+      </div>
+      <div className="wide">
+        <p className="phone__label">Wide — drag mode</p>
+        <ComparisonHero ratio="3 / 2" labelA="The render" labelB="Built" initial={52} />
+        <p className="caption">Drag anywhere on the image, not only on the handle. Arrow keys move 2 per cent, shift and arrow 10, Home and End go to the edges.</p>
+      </div>
+    </div>
+    <h2 className="zf-heading" style={{ margin: 'var(--space-xxl) 0 var(--space-md)' }}>Forced modes</h2>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,minmax(0,1fr))', gap: 'var(--gutter)' }}>
+      <div><ComparisonHero mode="drag" ratio="4 / 3" initial={30} /><p className="caption">mode="drag"</p></div>
+      <div><ComparisonHero mode="toggle" ratio="4 / 3" /><p className="caption">mode="toggle"</p></div>
+    </div>
+  </div>
+);
+
+ReactDOM.createRoot(document.getElementById('root')).render(<Card />);
+</script></body></html>

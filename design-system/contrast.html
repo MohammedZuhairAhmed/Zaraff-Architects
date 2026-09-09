@@ -1,0 +1,54 @@
+<!-- @dsCard group="Foundations" viewport="1280x900" name="Contrast check" subtitle="Measured ratios on both grounds" -->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Zaraff — contrast</title><link rel="stylesheet" href="styles.css"><style>.wrap{padding:var(--space-xl) var(--gutter) var(--space-xxl)}.note{font-size:var(--fs-body-small);color:var(--body);max-width:66ch;margin:0 0 var(--space-lg)}table{width:100%;border-collapse:collapse;font-size:var(--fs-body-small)}th{text-align:left;font-size:var(--fs-body-small);font-weight:500;color:var(--body);padding:0 var(--space-sm) var(--space-xs) 0;border-bottom:var(--frame)}td{padding:10px var(--space-sm) 10px 0;border-bottom:var(--frame);color:var(--body);vertical-align:middle}.sample{display:inline-flex;align-items:center;justify-content:center;min-width:104px;padding:7px 10px;border-radius:var(--radius-sm);font-size:var(--fs-label);font-weight:500}.ratio{color:var(--on-dark);font-weight:500}.pass{color:#7FB98F}.large{color:var(--body)}.fail{color:#E0705F}h2{margin:var(--space-xl) 0 var(--space-sm)}</style></head><body>
+<div class="wrap">
+<p class="zf-label" style="color:var(--muted);margin:0 0 var(--space-xs)">Foundations</p>
+<h1 class="zf-display" style="margin:0 0 var(--space-sm)">Contrast check</h1>
+<p class="note">Every foreground and background pair the system actually uses, measured against WCAG 2.1. Pass = 4.5:1 or better at body size. Large = 3:1 or better, so headline sizes only. Ratios are computed in the page, not typed in.</p>
+<h2 class="zf-heading">On near-black, #0E0E0D</h2>
+<table id="dark"></table>
+<h2 class="zf-heading">On the light band, #F4F3F0</h2>
+<table id="light"></table>
+<h2 class="zf-heading">Non-text boundaries, 3:1 minimum</h2>
+<p class="note">Control edges are held to 3:1. The hairline frame is not a control — it is the brand's drawn rule, and it is meant to sit at the edge of visibility, so it is exempt and never carries meaning on its own.</p>
+<table id="nontext"></table>
+<p class="note" style="margin-top:var(--space-lg)">Two known limits. WhatsApp green with white type sits below 4.5:1 — it is a brand fixture, so its button label never goes below 16px / 500, where the 3:1 threshold applies. Muted grey on near-black is likewise a large-text-only value; body copy on dark uses #A3A29D.</p>
+</div>
+<script>
+const lin=c=>{c/=255;return c<=0.03928?c/12.92:Math.pow((c+0.055)/1.055,2.4)};
+const L=h=>{const n=parseInt(h.slice(1),16);return 0.2126*lin(n>>16&255)+0.7152*lin(n>>8&255)+0.0722*lin(n&255)};
+const ratio=(a,b)=>{const x=L(a),y=L(b);return ((Math.max(x,y)+0.05)/(Math.min(x,y)+0.05))};
+const dark=[
+["White type","#FFFFFF","#0E0E0D","Headings, primary type"],
+["Body on dark","#A3A29D","#0E0E0D","Body copy, labels, placeholders"],
+["Muted","#6B6A66","#0E0E0D","Column heads and captions at large sizes"],
+["Red oxide as fill","#FFFFFF","#8C2F22","Primary button label"],
+["Red oxide, pressed","#FFFFFF","#6E241A","Primary button, hover"],
+["WhatsApp green as fill","#FFFFFF","#1FA855","Conversion button label, 16px / 500"],
+["WhatsApp green, hover","#FFFFFF","#188742","Conversion button, hover"],
+["Secondary outline label","#FFFFFF","#0E0E0D","Hairline outline button"],
+["Chip label on elevated","#FFFFFF","#1A1A18","Status chip"],
+["Error text on dark","#CF7663","#0E0E0D","Field error message — oxide lifted, same hue"],
+["Red oxide as type on dark","#8C2F22","#0E0E0D","Never used this way — kept here as the reason --primary-lifted exists"]];
+const light=[
+["Ink","#0E0E0D","#F4F3F0","Headings and body on light"],
+["Body on light","#4A4A46","#F4F3F0","Body copy and hints"],
+["Muted on light","#6B6A66","#F4F3F0","Captions and column heads"],
+["Red oxide as type","#8C2F22","#F4F3F0","Link hover, error text"],
+["Red oxide as fill","#FFFFFF","#8C2F22","Primary button label"],
+["WhatsApp green as fill","#FFFFFF","#1FA855","Conversion button label, 16px / 500"],
+["Secondary outline label","#0E0E0D","#F4F3F0","Hairline outline button"],
+["Chip label on chalk","#0E0E0D","#EAE8E3","Status chip"],
+["Disabled label on chalk","#6B6A66","#EFEDE8","Disabled button"]];
+const nontext=[
+["Control border on canvas","#6B6A66","#0E0E0D","Secondary button, field baseline, toggle"],
+["Old control border","#4F4F4B","#0E0E0D","Replaced — 2.35:1 is below the 3:1 boundary minimum"],
+["Hairline frame on canvas","#2E2E2B","#0E0E0D","The brand frame device — decorative, exempt by design"],
+["Control border on light","#7B7A76","#F4F3F0","Secondary button, field baseline"],
+["Hairline frame on light","#D8D6D0","#F4F3F0","The frame device on the light band"]];
+const verdict=r=>r>=4.5?['pass','Pass']:r>=3?['large','Large only']:['fail','Below 3:1'];
+const build=(id,rows)=>{const t=document.getElementById(id);t.innerHTML='<thead><tr><th style="width:190px">Pair</th><th style="width:150px">Sample</th><th style="width:90px">Ratio</th><th style="width:120px">Verdict</th><th>Used for</th></tr></thead><tbody>'+rows.map(([name,fg,bg,use])=>{const r=ratio(fg,bg);const[c,v]=verdict(r);return '<tr><td>'+name+'</td><td><span class="sample" style="color:'+fg+';background:'+bg+'">Sample</span></td><td class="ratio">'+r.toFixed(2)+':1</td><td class="'+c+'">'+v+'</td><td>'+use+'</td></tr>'}).join('')+'</tbody>'};
+const verdict3=r=>r>=3?['pass','Pass']:['fail','Below 3:1'];
+build('dark',dark);build('light',light);
+const t=document.getElementById('nontext');t.innerHTML='<thead><tr><th style="width:190px">Pair</th><th style="width:150px">Sample</th><th style="width:90px">Ratio</th><th style="width:120px">Verdict</th><th>Used for</th></tr></thead><tbody>'+nontext.map(([name,fg,bg,use])=>{const r=ratio(fg,bg);const[cl,v]=verdict3(r);const dec=name.indexOf('Hairline')===0;return '<tr><td>'+name+'</td><td><span class="sample" style="background:'+bg+';border:1px solid '+fg+';color:'+(bg==='#F4F3F0'?'#0E0E0D':'#fff')+'">Edge</span></td><td class="ratio">'+r.toFixed(2)+':1</td><td class="'+(dec?'large':cl)+'">'+(dec?'Exempt':v)+'</td><td>'+use+'</td></tr>'}).join('')+'</tbody>';
+</script>
+</body></html>

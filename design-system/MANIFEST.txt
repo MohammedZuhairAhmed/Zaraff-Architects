@@ -1,0 +1,28 @@
+Zaraff design system — Claude Design project 04f6f4bb-2f86-43af-a733-dd016bd325e0
+Pulled manifest 2026-09-09. Verify the exported zip contains all of these.
+
+DESIGN.md
+readme.md
+styles.css          <- tokens: colour, type, spacing, frame device
+components.css      <- Button, TextLink, Input, Select, StatusChip, Frame
+domain.css          <- media, ProjectPlate, ComparisonHero, PackageTier, FactTable, WhatsAppBar
+_ds_manifest.json
+_ds_bundle.js
+_adherence.oxlintrc.json
+
+previews: brand.html colour.html type.html spacing.html contrast.html thumbnail.html
+
+assets/logo-lockup.png
+uploads/Screenshot_20260909-144335.Instagram.png
+
+components/  (each has .html .jsx .d.ts)
+  Button  ComparisonHero  FactTable  Frame  Input  PackageTier
+  ProjectPlate  Rule  Select  StatusChip  TextLink  WhatsAppBar
+
+KNOWN ISSUES TO FIX AT INTEGRATION
+1. ComparisonHero.jsx uses React.useState/useRef/useEffect without importing React.
+   Works in the preview (React on window), breaks in Next.js. Check every .jsx.
+2. Monogram was never uploaded — only the wordmark screenshot. The monogram's role
+   (favicon, watermark, corner stamp) and its geometry driving the grid are missing.
+3. assets/logo-lockup.png derives from a cropped low-res Instagram screenshot.
+   Unusable for production. Vector files still needed.

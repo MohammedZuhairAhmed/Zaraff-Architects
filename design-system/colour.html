@@ -1,0 +1,51 @@
+<!-- @dsCard group="Foundations" viewport="1280x900" name="Colour" subtitle="Monochrome ground, one accent" -->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Zaraff — colour</title><link rel="stylesheet" href="styles.css"><style>.wrap{padding:var(--space-xl) var(--gutter) var(--space-xxl)}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:var(--space-sm)}.sw{border:var(--frame);border-radius:0;display:grid;grid-template-rows:96px auto}.chip{border-bottom:var(--frame)}.meta{padding:var(--space-sm)}.name{color:var(--on-dark);font-size:var(--fs-label);font-weight:500}.var{font-size:var(--fs-body-small);color:var(--body);margin-top:2px}.hex{font-size:var(--fs-body-small);color:var(--body);margin-top:var(--space-xxs)}h2{margin:var(--space-xl) 0 var(--space-sm)}.note{font-size:var(--fs-body-small);color:var(--body);max-width:62ch;margin:0 0 var(--space-md)}.dots{display:flex;gap:var(--space-md);align-items:center;flex-wrap:wrap}.dotrow{display:flex;align-items:center;gap:var(--space-xs);font-size:var(--fs-body-small)}.dot{width:8px;height:8px;border-radius:var(--radius-full)}</style></head><body>
+<div class="wrap">
+<p class="zf-label" style="color:var(--muted);margin:0 0 var(--space-xs)">Foundations</p>
+<h1 class="zf-display" style="margin:0 0 var(--space-sm)">Colour</h1>
+<p class="note">The marks are pure black and white, so the system is monochrome: a near-black canvas, white type, a grey ladder. Exactly one accent — red oxide, taken from Indian oxide flooring — on the primary action and status markers. WhatsApp green appears at most once per view.</p>
+
+<h2 class="zf-heading">Accent</h2>
+<p class="note">Used scarcely. If two red elements are visible at once, one of them is wrong.</p>
+<div class="grid">
+<div class="sw"><div class="chip" style="background:#8C2F22"></div><div class="meta"><div class="name">Red oxide</div><div class="var">--primary</div><div class="hex">#8C2F22</div></div></div>
+<div class="sw"><div class="chip" style="background:#6E241A"></div><div class="meta"><div class="name">Red oxide, pressed</div><div class="var">--primary-hover</div><div class="hex">#6E241A</div></div></div>
+<div class="sw"><div class="chip" style="background:#1FA855"></div><div class="meta"><div class="name">WhatsApp green</div><div class="var">--whatsapp</div><div class="hex">#1FA855</div></div></div>
+<div class="sw"><div class="chip" style="background:#188742"></div><div class="meta"><div class="name">WhatsApp green, pressed</div><div class="var">--whatsapp-hover</div><div class="hex">#188742</div></div></div>
+<div class="sw"><div class="chip" style="background:#CF7663"></div><div class="meta"><div class="name">Oxide, lifted</div><div class="var">--primary-lifted</div><div class="hex">#CF7663</div></div></div>
+</div>
+<p class="note" style="margin-top:var(--space-md)">The lifted oxide is not a second accent. It is the same hue — oklch(.66 .115 33) — raised in lightness because #8C2F22 as type on near-black measures 2.3:1. It appears only as type on the dark ground, on field errors. On the light band the accent itself is used.</p>
+
+<h2 class="zf-heading">Ground</h2>
+<div class="grid">
+<div class="sw"><div class="chip" style="background:#0E0E0D"></div><div class="meta"><div class="name">Canvas</div><div class="var">--canvas</div><div class="hex">#0E0E0D</div></div></div>
+<div class="sw"><div class="chip" style="background:#1A1A18"></div><div class="meta"><div class="name">Canvas, elevated</div><div class="var">--canvas-elevated</div><div class="hex">#1A1A18</div></div></div>
+<div class="sw"><div class="chip" style="background:#F4F3F0"></div><div class="meta"><div class="name">Canvas, light band</div><div class="var">--canvas-light</div><div class="hex">#F4F3F0</div></div></div>
+</div>
+
+<h2 class="zf-heading">Grey ladder</h2>
+<div class="grid">
+<div class="sw"><div class="chip" style="background:#FFFFFF"></div><div class="meta"><div class="name">White — type on dark</div><div class="var">--on-dark</div><div class="hex">#FFFFFF</div></div></div>
+<div class="sw"><div class="chip" style="background:#A3A29D"></div><div class="meta"><div class="name">Body on dark</div><div class="var">--body</div><div class="hex">#A3A29D</div></div></div>
+<div class="sw"><div class="chip" style="background:#6B6A66"></div><div class="meta"><div class="name">Muted</div><div class="var">--muted</div><div class="hex">#6B6A66</div></div></div>
+<div class="sw"><div class="chip" style="background:#4A4A46"></div><div class="meta"><div class="name">Body on light</div><div class="var">--body-on-light</div><div class="hex">#4A4A46</div></div></div>
+<div class="sw"><div class="chip" style="background:#0E0E0D"></div><div class="meta"><div class="name">Ink — type on light</div><div class="var">--ink</div><div class="hex">#0E0E0D</div></div></div>
+</div>
+
+<h2 class="zf-heading">Hairline — the frame device</h2>
+<p class="note">The thin rectangle from the wordmark lockup, reused as a token: 1px, hairline colour, no radius. It frames hero imagery, project plates and section edges.</p>
+<div class="grid">
+<div class="sw"><div class="chip" style="background:#2E2E2B"></div><div class="meta"><div class="name">Hairline</div><div class="var">--hairline</div><div class="hex">#2E2E2B</div></div></div>
+<div class="sw"><div class="chip" style="background:#D8D6D0"></div><div class="meta"><div class="name">Hairline on light</div><div class="var">--hairline-on-light</div><div class="hex">#D8D6D0</div></div></div>
+<div class="sw"><div class="chip" style="background:#6B6A66"></div><div class="meta"><div class="name">Control border</div><div class="var">--control-border</div><div class="hex">#6B6A66</div></div></div>
+<div class="sw" style="grid-column:span 2"><div class="chip" style="display:grid;place-items:center;background:var(--canvas)"><div class="zf-frame" style="width:80%;height:56px"></div></div><div class="meta"><div class="name">Frame, applied</div><div class="var">--frame · .zf-frame</div><div class="hex">1px solid var(--hairline)</div></div></div>
+</div>
+
+<h2 class="zf-heading">Status</h2>
+<div class="dots">
+<span class="dotrow"><span class="dot" style="background:#8C2F22"></span>Ongoing <span style="color:var(--muted)">— --status-ongoing</span></span>
+<span class="dotrow"><span class="dot" style="background:#A3A29D"></span>Completed <span style="color:var(--muted)">— --status-completed</span></span>
+</div>
+<p class="note" style="margin-top:var(--space-sm)">Status dots are the only fully round shape in the system.</p>
+</div>
+</body></html>

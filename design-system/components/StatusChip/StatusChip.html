@@ -1,0 +1,46 @@
+<!-- @dsCard group="Components" viewport="1280x700" name="Status chip" subtitle="Coloured dot, sentence-case label" -->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Zaraff — Status chip</title><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>.pad{padding:var(--space-xl) var(--gutter)}.band{padding:var(--space-xl) var(--gutter)}h1{margin:0 0 var(--space-sm)}.eyebrow{color:var(--body);margin:0 0 var(--space-xs)}.note{font-size:var(--fs-body-small);color:var(--body);max-width:64ch;margin:0 0 var(--space-lg)}.zf-light .note{color:var(--body-on-light)}h2{margin:0 0 var(--space-md)}.grid{display:grid;grid-template-columns:150px repeat(4,max-content);gap:var(--space-md) var(--space-lg);align-items:center;justify-content:start}.colhead{font-size:12px;color:var(--body);font-weight:500}.zf-light .colhead{color:var(--body-on-light)}.rowlabel{font-size:var(--fs-label);font-weight:500;color:var(--on-dark)}.zf-light .rowlabel{color:var(--ink)}.stack{display:grid;gap:var(--space-lg)}.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--gutter)}</style></head><body>
+<div id="root"></div>
+<script type="text/babel">
+const { StatusChip, Frame } = window.ArchitectureStudioDesignSystem_04f6f4;
+const R = React;
+
+const Specimen = () => (
+  <div style={{ display: 'flex', gap: 'var(--space-md)', flexWrap: 'wrap', alignItems: 'center' }}>
+    <StatusChip status="ongoing" />
+    <StatusChip status="completed" />
+    <StatusChip status="ongoing">Under construction</StatusChip>
+    <StatusChip status="completed">Handed over, 2025</StatusChip>
+    <StatusChip status="ongoing" bare />
+    <StatusChip status="completed" bare>Handed over</StatusChip>
+  </div>
+);
+const Card = () => (
+  <>
+    <div className="pad">
+      <p className="zf-label eyebrow">Components</p>
+      <h1 className="zf-display">Status chip</h1>
+      <p className="note">A chalk plate, 2px radius, with a coloured dot and a sentence-case label. Ongoing takes red oxide; completed takes grey. The dot is the only fully round shape in the system, and the chip is the only place the accent appears without being an action.</p>
+      <Specimen />
+      <h2 className="zf-heading" style={{ margin: 'var(--space-xl) 0 var(--space-md)' }}>In place, on a project plate</h2>
+      <Frame inset style={{ maxWidth: 420 }}>
+        <div style={{ background: 'var(--canvas-elevated)', height: 150, marginBottom: 'var(--space-md)' }}></div>
+        <StatusChip status="ongoing">Under construction</StatusChip>
+        <div className="zf-heading" style={{ margin: 'var(--space-xs) 0 var(--space-xxs)' }}>House at Kottayam</div>
+        <div className="zf-body-small">Residence of 2,850 square feet in Kottayam, Kerala.</div>
+      </Frame>
+    </div>
+    <div className="band zf-light">
+      <h2 className="zf-heading">On the light band</h2>
+      <Specimen />
+    </div>
+  </>
+);
+
+ReactDOM.createRoot(document.getElementById('root')).render(<Card />);
+</script></body></html>

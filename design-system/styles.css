@@ -1,0 +1,183 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&display=swap');
+@import url('components.css');
+@import url('domain.css');
+
+/* Zaraff — Architects & Interiors. Monochrome foundations.
+   One accent (red oxide). WhatsApp green appears once per view at most. */
+
+:root{
+  /* ---- Accent: the only colour in the system ---- */
+  --primary:#8C2F22;
+  --primary-hover:#6E241A;
+  /* The same oxide hue lifted for type on near-black, where #8C2F22 reads 2.3:1.
+     Not a second accent — identical hue, oklch(.66 .115 33), 5.9:1 on canvas. */
+  --primary-lifted:#CF7663;
+  --whatsapp:#1FA855;
+  --whatsapp-hover:#188742;
+
+  /* ---- Ground ---- */
+  --canvas:#12100D;
+  --canvas-elevated:#1D1A16;
+  --canvas-light:#EFEAE1;
+
+  /* ---- Ink / grey ladder ---- */
+  --ink:#12100D;
+  --on-dark:#FFFFFF;
+  --body:#A8A196;
+  --body-on-light:#4C4740;
+  --muted:#736C61;
+
+  /* ---- Hairline: the frame device ---- */
+  --hairline:#332E27;
+  --hairline-on-light:#D6CFC2;
+  /* Control boundaries, as opposed to the decorative frame: the hairline is
+     1.4:1 on canvas, which is right for a drawn rule and wrong for a button. */
+  --control-border:#736C61;
+  --control-border-on-light:#837B6E;
+  /* Chalk fills on the light band. */
+  --chalk:#E4DDD1;
+  --chalk-deep:#EAE4D9;
+
+  /* ---- Warm neutrals: section grounds, drawn from lime plaster and sand ---- */
+  --limewash:#E8E2D6;
+  --sand:#CDBFA8;
+  --sand-deep:#B9A88D;
+  --warm-veil:rgba(205,191,168,.07);
+
+  /* ---- Status ---- */
+  --status-ongoing:#8C2F22;
+  --status-completed:#A3A29D;
+
+  /* ---- Frame device tokens (lifted from the wordmark lockup) ---- */
+  --frame-width:1px;
+  --frame-color:var(--hairline);
+  --frame-color-on-light:var(--hairline-on-light);
+  --frame:var(--frame-width) solid var(--frame-color);
+  --frame-on-light:var(--frame-width) solid var(--frame-color-on-light);
+  --frame-inset:var(--space-md);
+
+  /* ---- Type ---- */
+  --font-core:'Archivo',system-ui,sans-serif;
+  /* Fluid display. The gap between 132px and 13px is the hierarchy —
+     a 56/16 ratio reads as a document, not as a building. */
+  --fs-display-mega:clamp(4rem,11vw,10.5rem);
+  --lh-display-mega:0.92; /* @kind font */
+  --ls-display-mega:-0.05em;
+  --fw-display-mega:600; /* @kind font */
+  --fs-display-large:clamp(2.75rem,6.4vw,5.25rem);
+  --lh-display-large:1.02; /* @kind font */
+  --ls-display-large:-0.04em;
+  --fw-display-large:600; /* @kind font */
+  --fs-display:clamp(2rem,3.6vw,3rem);
+  --lh-display:1.08; /* @kind font */
+  --ls-display:-0.03em;
+  --fw-display:500; /* @kind font */
+  --fs-heading:clamp(1.35rem,2vw,1.75rem);
+  --lh-heading:1.2; /* @kind font */
+  --ls-heading:-0.4px;
+  --fw-heading:400; /* @kind font */
+  --fs-body:16px;
+  --lh-body:1.7; /* @kind font */
+  --fw-body:400; /* @kind font */
+  --fs-body-small:13.5px;
+  --lh-body-small:1.5; /* @kind font */
+  --fs-label:13px;
+  --lh-label:1.4; /* @kind font */
+  --fw-label:500; /* @kind font */
+
+  /* ---- Spacing ladder ---- */
+  --space-xxs:4px;
+  --space-xs:8px;
+  --space-sm:16px;
+  --space-md:24px;
+  --space-lg:40px;
+  --space-xl:64px;
+  --space-xxl:96px;
+  --space-section:128px;
+  --gutter:56px;
+
+  /* ---- Motion: spring easing, three durations ---- */
+  --ease-spring:cubic-bezier(.22,1,.36,1);
+  --ease-out:cubic-bezier(.33,1,.68,1);
+  --dur-fast:.22s;
+  --dur:.42s;
+  --dur-slow:.95s;
+
+  /* ---- Elevation: tinted to the ground, never generic black ---- */
+  --shadow-lift:0 18px 40px -24px rgba(0,0,0,.9),0 2px 8px -4px rgba(0,0,0,.6);
+
+  /* ---- Radius: near-square ---- */
+  /* Varied, not uniform: containers soften, the things inside them stay tight.
+     One radius on everything is the SaaS-kit tell. */
+  --radius-none:0;
+  --radius-xs:6px;
+  --radius-sm:10px;
+  --radius-md:16px;
+  --radius-lg:24px;
+  --radius-xl:34px;
+  --radius-full:9999px;
+}
+
+body{margin:0;background:var(--canvas);color:var(--body);font-family:var(--font-core);font-size:var(--fs-body);line-height:var(--lh-body);-webkit-font-smoothing:antialiased}
+
+/* Type roles. Sentence case everywhere — no tracked-out all-caps. */
+.zf-display-mega{font-family:var(--font-core);font-size:var(--fs-display-mega);font-weight:var(--fw-display-mega);line-height:var(--lh-display-mega);letter-spacing:var(--ls-display-mega);color:var(--on-dark);text-wrap:balance;margin:0}
+.zf-display-large{font-family:var(--font-core);font-size:var(--fs-display-large);font-weight:var(--fw-display-large);line-height:var(--lh-display-large);letter-spacing:var(--ls-display-large);color:var(--on-dark);text-wrap:balance}
+.zf-display{font-size:var(--fs-display);font-weight:var(--fw-display);line-height:var(--lh-display);letter-spacing:var(--ls-display);color:var(--on-dark);text-wrap:pretty}
+.zf-heading{font-size:var(--fs-heading);font-weight:var(--fw-heading);line-height:var(--lh-heading);letter-spacing:var(--ls-heading);color:var(--on-dark)}
+.zf-body{font-size:var(--fs-body);font-weight:var(--fw-body);line-height:var(--lh-body);color:var(--body)}
+.zf-body-small{font-size:var(--fs-body-small);line-height:var(--lh-body-small);color:var(--muted)}
+.zf-label{font-size:var(--fs-label);font-weight:var(--fw-label);line-height:var(--lh-label);text-transform:none;color:var(--body)}
+
+/* The connective device: a hairline rectangle, no radius. */
+.zf-frame{border:var(--frame);border-radius:0}
+.zf-frame-on-light{border:var(--frame-on-light);border-radius:0}
+.zf-frame-inset{border:var(--frame);border-radius:0;padding:var(--frame-inset)}
+.zf-rule{border:0;border-top:var(--frame);margin:0}
+
+/* Light band, e.g. pricing and long-form reading. */
+.zf-light{background:var(--canvas-light);color:var(--body-on-light)}
+.zf-light .zf-display-mega,.zf-light .zf-display-large,.zf-light .zf-display,.zf-light .zf-heading{color:var(--ink)}
+
+a{color:var(--on-dark);text-decoration:underline;text-decoration-color:var(--hairline);text-underline-offset:3px}
+a:hover{color:var(--primary);text-decoration-color:var(--primary)}
+.zf-light a{color:var(--ink);text-decoration-color:var(--hairline-on-light)}
+.zf-light a:hover{color:var(--primary);text-decoration-color:var(--primary)}
+
+/* ---------- Surface: grain breaks the digital flatness ---------- */
+.zf-grain{position:relative}
+.zf-grain::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;opacity:.4;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E")}
+
+/* ---------- Full bleed: imagery escapes the container ---------- */
+.zf-bleed{width:100vw;max-width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw)}
+
+/* ---------- Scroll-driven reveal, staggered ---------- */
+html{scroll-behavior:smooth}
+[data-reveal]{opacity:0;transform:translateY(18px);transition:opacity var(--dur-slow) var(--ease-out),transform var(--dur-slow) var(--ease-spring);transition-delay:var(--reveal-delay,0ms)}
+[data-reveal].is-in{opacity:1;transform:none}
+
+/* ---------- Press feedback: interfaces should feel physical ---------- */
+.zf-btn:active:not(:disabled):not([aria-disabled="true"]){transform:translateY(1px) scale(.985)}
+.zf-btn{transition:background-color var(--dur-fast) var(--ease-out),border-color var(--dur-fast) var(--ease-out),color var(--dur-fast) var(--ease-out),transform var(--dur-fast) var(--ease-spring)}
+
+/* ---------- Keyboard users get in ---------- */
+.zf-skip{position:absolute;left:var(--space-sm);top:-100px;z-index:100;background:var(--on-dark);color:var(--ink);padding:12px 18px;border-radius:var(--radius-sm);font-weight:500;transition:top var(--dur) var(--ease-spring)}
+.zf-skip:focus{top:var(--space-sm)}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  [data-reveal]{opacity:1;transform:none;transition:none}
+  .zf-btn:active:not(:disabled){transform:none}
+  *,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important}
+}
+
+/* ---------- Warm grounds ---------- */
+.zf-sand{background:var(--sand);color:var(--ink)}
+.zf-sand .zf-display-mega,.zf-sand .zf-display-large,.zf-sand .zf-display,.zf-sand .zf-heading{color:var(--ink)}
+.zf-sand .zf-body,.zf-sand .zf-body-small{color:#4C4740}
+.zf-limewash{background:var(--limewash);color:var(--ink)}
+.zf-limewash .zf-display-mega,.zf-limewash .zf-display-large,.zf-limewash .zf-display,.zf-limewash .zf-heading{color:var(--ink)}
+.zf-limewash .zf-body{color:#4C4740}
+/* A warm veil lifts a dark section off pure black without introducing a colour. */
+.zf-warm{background-image:linear-gradient(180deg,var(--warm-veil),transparent 70%)}

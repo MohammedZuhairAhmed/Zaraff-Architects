@@ -1,0 +1,78 @@
+<!-- @dsCard group="Domain" viewport="1280x1180" name="Project plate" subtitle="Work index — featured and index density" -->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Zaraff — Project plate</title><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>.pad{padding:var(--space-xl) var(--gutter)}.band{padding:var(--space-xl) var(--gutter)}h1{margin:0 0 var(--space-sm)}.eyebrow{color:var(--body);margin:0 0 var(--space-xs)}.note{font-size:var(--fs-body-small);color:var(--body);max-width:64ch;margin:0 0 var(--space-lg)}.zf-light .note{color:var(--body-on-light)}h2{margin:0 0 var(--space-md)}.caption{font-size:var(--fs-body-small);color:var(--body);margin:var(--space-xs) 0 0}.phone{width:390px;flex:none}.phone__label{font-size:var(--fs-body-small);color:var(--body);margin:0 0 var(--space-xs)}.split{display:flex;gap:var(--gutter);align-items:flex-start;flex-wrap:wrap}.wide{flex:1;min-width:420px}.indexgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gutter) var(--space-md)}.mediatypes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-md)}</style></head><body>
+<div id="root"></div>
+<script type="text/babel">
+const { ProjectPlate, ProjectMedia } = window.ArchitectureStudioDesignSystem_04f6f4;
+
+const kottayam = { title: 'House at Kottayam', typology: 'Residence', area: 2850, location: 'Kottayam, Kerala', year: 2025, status: 'ongoing', statusLabel: 'Under construction' };
+const aluva = { title: 'Villa at Aluva', typology: 'Villa', area: 4200, location: 'Aluva, Kerala', year: 2024 };
+const kochi = { title: 'Apartment at Marine Drive', typology: 'Apartment interior', area: 1450, location: 'Kochi, Kerala', year: 2024 };
+const thrissur = { title: 'Courtyard house', typology: 'Residence', area: 3100, location: 'Thrissur, Kerala', year: 2023 };
+
+const Card = () => (
+  <>
+    <div className="pad">
+      <p className="zf-label eyebrow">Domain</p>
+      <h1 className="zf-display">Project plate</h1>
+      <p className="note">The plate in the work index. Full-bleed image inside the hairline frame, no radius, status chip overlaid top left, then the title with typology, area and location written as one sentence — no middle dots. The year sits on the right of the same line, so plates align down a column whatever the title length.</p>
+      <div className="split">
+        <div className="phone">
+          <p className="phone__label">390px — index density, one per row</p>
+          <div style={{ display: 'grid', gap: 'var(--space-lg)' }}>
+            <ProjectPlate {...kottayam} href="#" media={{ kind: 'render' }} />
+            <ProjectPlate {...aluva} href="#" media={{ kind: 'photo' }} />
+          </div>
+        </div>
+        <div className="wide">
+          <p className="phone__label">Featured — the plate at the top of the index</p>
+          <ProjectPlate {...kottayam} density="featured" href="#" media={{ kind: 'render' }} />
+        </div>
+      </div>
+      <h2 className="zf-heading" style={{ margin: 'var(--space-xxl) 0 var(--space-md)' }}>Index density, three across</h2>
+      <div className="indexgrid">
+        <ProjectPlate {...aluva} href="#" media={{ kind: 'photo' }} />
+        <ProjectPlate {...kochi} href="#" media={{ kind: 'photo' }} />
+        <ProjectPlate {...thrissur} href="#" media={{ kind: 'drawing' }} />
+      </div>
+      <h2 className="zf-heading" style={{ margin: 'var(--space-xxl) 0 var(--space-md)' }}>Under pressure</h2>
+      <p className="note">A studio's real index has an unnamed project, a title nobody edited down, and an image that has not been uploaded yet. None of those should break the column.</p>
+      <div className="indexgrid">
+        <div>
+          <ProjectPlate title="Residence for the Varkey family at Vaikom, on the eastern bank of the backwater" typology="Residence" area={3400} location="Vaikom, Kottayam district, Kerala" year={2026} status="ongoing" statusLabel="Under construction" href="#" media={{ kind: 'render' }} />
+          <p className="caption">A long title wraps; the year holds its place on the first line.</p>
+        </div>
+        <div>
+          <ProjectPlate title="House at Kanjirappally" typology="Residence" area={1980} location="Kanjirappally, Kerala" year={2025} href="#" media={{ kind: 'photo', src: 'does-not-exist.jpg' }} />
+          <p className="caption">A missing or failed image falls back to the hatched placeholder instead of a broken-image glyph.</p>
+        </div>
+        <div>
+          <ProjectPlate title="Untitled residence" href="#" media={{ kind: 'drawing' }} />
+          <p className="caption">No typology, area, location or year: the meta line simply does not render.</p>
+        </div>
+      </div>
+      <h2 className="zf-heading" style={{ margin: 'var(--space-xxl) 0 var(--space-md)' }}>Three kinds of material</h2>
+      <p className="note">Not every project has professional photography. A render fills the frame; a site photo is held back slightly in saturation so a mixed grid reads evenly; a drawing sits contained on the light band, because a plan cropped to fill is a ruined plan.</p>
+      <div className="mediatypes">
+        <div><ProjectMedia kind="render" ratio="4 / 3" /><p className="caption">kind="render" — fills the frame</p></div>
+        <div><ProjectMedia kind="photo" ratio="4 / 3" /><p className="caption">kind="photo" — cover, held back in saturation</p></div>
+        <div><ProjectMedia kind="drawing" ratio="4 / 3" /><p className="caption">kind="drawing" — contained on light, never cropped</p></div>
+      </div>
+    </div>
+    <div className="band zf-light">
+      <h2 className="zf-heading">On the light band</h2>
+      <div className="indexgrid">
+        <ProjectPlate {...aluva} href="#" media={{ kind: 'photo' }} />
+        <ProjectPlate {...kochi} href="#" media={{ kind: 'photo' }} />
+        <ProjectPlate {...thrissur} href="#" media={{ kind: 'drawing' }} />
+      </div>
+    </div>
+  </>
+);
+
+ReactDOM.createRoot(document.getElementById('root')).render(<Card />);
+</script></body></html>

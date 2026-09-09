@@ -1,0 +1,33 @@
+<!-- @dsCard group="Foundations" viewport="1280x854" name="Spacing & geometry" subtitle="Ladder, gutter, near-square radii" -->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Zaraff — spacing</title><link rel="stylesheet" href="styles.css"><style>.wrap{padding:var(--space-xl) var(--gutter) var(--space-xxl)}.row{display:grid;grid-template-columns:190px minmax(0,1fr);gap:var(--space-md);align-items:center;padding:var(--space-xs) 0;border-top:var(--frame)}.spec{font-size:var(--fs-body-small);color:var(--body)}.spec b{color:var(--on-dark);font-size:var(--fs-label);font-weight:500;margin-right:var(--space-xs)}.bar{height:14px;background:var(--canvas-elevated);border-right:2px solid var(--primary)}.note{font-size:var(--fs-body-small);color:var(--body);max-width:62ch;margin:0 0 var(--space-lg)}h2{margin:var(--space-xl) 0 var(--space-sm)}.rad{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-sm)}.radcell{border:var(--frame);padding:var(--space-md);display:grid;gap:var(--space-sm);justify-items:start}.demo{background:var(--canvas-elevated);border:var(--frame);width:120px;height:44px}.btn{background:var(--primary);color:#fff;border:0;border-radius:var(--radius-sm);padding:15px 22px;font:500 var(--fs-label)/1 var(--font-core)}.gut{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--gutter)}.gut>div{border:var(--frame);height:72px}</style></head><body>
+<div class="wrap">
+<p class="zf-label" style="color:var(--muted);margin:0 0 var(--space-xs)">Foundations</p>
+<h1 class="zf-display" style="margin:0 0 var(--space-sm)">Spacing and geometry</h1>
+<p class="note">One ladder for everything, from label gaps to the space between sections. The gutter is fixed at 56px so columns line up with the hairline frames around imagery.</p>
+
+<div class="row"><div class="spec"><b>xxs</b>4px · --space-xxs</div><div class="bar" style="width:4px"></div></div>
+<div class="row"><div class="spec"><b>xs</b>8px · --space-xs</div><div class="bar" style="width:8px"></div></div>
+<div class="row"><div class="spec"><b>sm</b>16px · --space-sm</div><div class="bar" style="width:16px"></div></div>
+<div class="row"><div class="spec"><b>md</b>24px · --space-md</div><div class="bar" style="width:24px"></div></div>
+<div class="row"><div class="spec"><b>lg</b>40px · --space-lg</div><div class="bar" style="width:40px"></div></div>
+<div class="row"><div class="spec"><b>xl</b>64px · --space-xl</div><div class="bar" style="width:64px"></div></div>
+<div class="row"><div class="spec"><b>xxl</b>96px · --space-xxl</div><div class="bar" style="width:96px"></div></div>
+<div class="row"><div class="spec"><b>section</b>128px · --space-section</div><div class="bar" style="width:128px"></div></div>
+<div class="row" style="border-bottom:var(--frame)"><div class="spec"><b>gutter</b>56px · --gutter</div><div class="bar" style="width:56px"></div></div>
+
+<h2 class="zf-heading">Gutter, applied</h2>
+<div class="gut"><div></div><div></div><div></div><div></div></div>
+
+<h2 class="zf-heading">Radius</h2>
+<p class="note">Square-ish: 2px on buttons and chips, 0 everywhere else. Full round is reserved for status dots.</p>
+<div class="rad">
+<div class="radcell"><div class="demo" style="border-radius:0"></div><div class="spec"><b>none</b>0 · --radius-none<br>Images, panels, plates, frames.</div></div>
+<div class="radcell"><button class="btn">Send a WhatsApp message</button><div class="spec"><b>sm</b>2px · --radius-sm<br>Buttons and chips only.</div></div>
+<div class="radcell"><div style="display:flex;align-items:center;gap:var(--space-xs);font-size:var(--fs-body-small)"><span style="width:8px;height:8px;border-radius:var(--radius-full);background:var(--status-ongoing)"></span>Ongoing</div><div class="spec"><b>full</b>9999px · --radius-full<br>Status dots, nothing else.</div></div>
+</div>
+
+<h2 class="zf-heading">Frame inset</h2>
+<p class="note">The wordmark's rectangle as a layout token: <span style="color:var(--body)">--frame</span> for the rule, <span style="color:var(--body)">--frame-inset</span> (24px) for the breathing room inside it.</p>
+<div class="zf-frame-inset"><div class="zf-frame" style="height:120px;display:grid;place-items:center;background:var(--canvas-elevated)"><span class="zf-body-small">Hero imagery, project plates and section edges sit inside this frame</span></div></div>
+</div>
+</body></html>

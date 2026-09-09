@@ -1,0 +1,298 @@
+{
+  "plugins": [
+    "react",
+    "import"
+  ],
+  "rules": {
+    "react/forbid-elements": [
+      "warn",
+      {
+        "forbid": []
+      }
+    ],
+    "no-restricted-imports": [
+      "warn",
+      {
+        "patterns": [
+          {
+            "group": [
+              "components/Button/**",
+              "components/ComparisonHero/**",
+              "components/FactTable/**",
+              "components/Frame/**",
+              "components/Input/**",
+              "components/PackageTier/**",
+              "components/ProjectPlate/**",
+              "components/Rule/**",
+              "components/Select/**",
+              "components/StatusChip/**",
+              "components/TextLink/**",
+              "components/WhatsAppBar/**"
+            ],
+            "message": "Import design-system components from 'index.js', not component internals."
+          }
+        ]
+      }
+    ],
+    "no-restricted-syntax": [
+      "warn",
+      {
+        "selector": "Literal[value=/#[0-9a-fA-F]{3,8}\\b/]",
+        "message": "Raw hex color — use a design-system color token via var()."
+      },
+      {
+        "selector": "Literal[value=/\\b\\d+px\\b/]",
+        "message": "Raw px value — use a design-system spacing token via var()."
+      },
+      {
+        "selector": "Literal[value=/font-family\\s*:\\s*(?!['\\\"]?(?:Archivo))/i]",
+        "message": "Font not provided by the design system. Available: Archivo."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute > JSXIdentifier[name!=/^(?:variant|children|disabled|href|type|className|showMark|key|ref|className|style|children)$/]",
+        "message": "<Button> doesn't accept that prop. Declared props: variant, children, disabled, href, type, className, showMark."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute[name.name='variant'] > Literal[value!=/^(?:primary|whatsapp|secondary)$/]",
+        "message": "<Button> variant must be one of 'primary' | 'whatsapp' | 'secondary'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute[name.name='type'] > Literal[value!=/^(?:button|submit|reset)$/]",
+        "message": "<Button> type must be one of 'button' | 'submit' | 'reset'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='ComparisonHero'] > JSXAttribute > JSXIdentifier[name!=/^(?:render|photo|labelA|labelB|ratio|initial|mode|className|key|ref|className|style|children)$/]",
+        "message": "<ComparisonHero> doesn't accept that prop. Declared props: render, photo, labelA, labelB, ratio, initial, mode, className."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='ComparisonHero'] > JSXAttribute[name.name='mode'] > Literal[value!=/^(?:auto|drag|toggle)$/]",
+        "message": "<ComparisonHero> mode must be one of 'auto' | 'drag' | 'toggle'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='FactRow'] > JSXAttribute > JSXIdentifier[name!=/^(?:key|value|key|ref|className|style|children)$/]",
+        "message": "<FactRow> doesn't accept that prop. Declared props: key, value."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Frame'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|inset|elevated|as|className|key|ref|className|style|children)$/]",
+        "message": "<Frame> doesn't accept that prop. Declared props: children, inset, elevated, as, className."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Input'] > JSXAttribute > JSXIdentifier[name!=/^(?:label|hint|error|className|key|ref|className|style|children)$/]",
+        "message": "<Input> doesn't accept that prop. Declared props: label, hint, error, className."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='PackageTier'] > JSXAttribute > JSXIdentifier[name!=/^(?:name|rate|basis|summary|includes|excludes|phone|emphasis|actionLabel|className|key|ref|className|style|children)$/]",
+        "message": "<PackageTier> doesn't accept that prop. Declared props: name, rate, basis, summary, includes, excludes, phone, emphasis, actionLabel, className."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='ProjectMedia'] > JSXAttribute > JSXIdentifier[name!=/^(?:src|alt|kind|ratio|credit|className|key|ref|className|style|children)$/]",
+        "message": "<ProjectMedia> doesn't accept that prop. Declared props: src, alt, kind, ratio, credit, className."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='ProjectMedia'] > JSXAttribute[name.name='kind'] > Literal[value!=/^(?:render|drawing|photo)$/]",
+        "message": "<ProjectMedia> kind must be one of 'render' | 'drawing' | 'photo'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Rule'] > JSXAttribute > JSXIdentifier[name!=/^(?:className|key|ref|className|style|children)$/]",
+        "message": "<Rule> doesn't accept that prop. Declared props: className."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='SelectOption'] > JSXAttribute > JSXIdentifier[name!=/^(?:value|label|key|ref|className|style|children)$/]",
+        "message": "<SelectOption> doesn't accept that prop. Declared props: value, label."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='StatusChip'] > JSXAttribute > JSXIdentifier[name!=/^(?:status|children|bare|className|key|ref|className|style|children)$/]",
+        "message": "<StatusChip> doesn't accept that prop. Declared props: status, children, bare, className."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='StatusChip'] > JSXAttribute[name.name='status'] > Literal[value!=/^(?:ongoing|completed)$/]",
+        "message": "<StatusChip> status must be one of 'ongoing' | 'completed'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='TextLink'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|href|disabled|className|key|ref|className|style|children)$/]",
+        "message": "<TextLink> doesn't accept that prop. Declared props: children, href, disabled, className."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='WhatsAppBar'] > JSXAttribute > JSXIdentifier[name!=/^(?:title|subtitle|context|phone|label|staticPosition|className|key|ref|className|style|children)$/]",
+        "message": "<WhatsAppBar> doesn't accept that prop. Declared props: title, subtitle, context, phone, label, staticPosition, className."
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/index.js"
+      ],
+      "rules": {
+        "no-restricted-imports": "off"
+      }
+    }
+  ],
+  "x-omelette": {
+    "components": {
+      "Button": {
+        "replaces": []
+      },
+      "ComparisonHero": {
+        "replaces": []
+      },
+      "FactRow": {
+        "replaces": []
+      },
+      "Frame": {
+        "replaces": []
+      },
+      "Input": {
+        "replaces": []
+      },
+      "PackageTier": {
+        "replaces": []
+      },
+      "ProjectMedia": {
+        "replaces": []
+      },
+      "Rule": {
+        "replaces": []
+      },
+      "SelectOption": {
+        "replaces": []
+      },
+      "StatusChip": {
+        "replaces": []
+      },
+      "TextLink": {
+        "replaces": []
+      },
+      "WhatsAppBar": {
+        "replaces": []
+      }
+    },
+    "tokens": [
+      "--body",
+      "--body-on-light",
+      "--canvas",
+      "--canvas-elevated",
+      "--canvas-light",
+      "--chalk",
+      "--chalk-deep",
+      "--control-border",
+      "--control-border-on-light",
+      "--font-core",
+      "--frame",
+      "--frame-color",
+      "--frame-color-on-light",
+      "--frame-inset",
+      "--frame-on-light",
+      "--frame-width",
+      "--fs-body",
+      "--fs-body-small",
+      "--fs-display",
+      "--fs-display-large",
+      "--fs-heading",
+      "--fs-label",
+      "--fw-body",
+      "--fw-display",
+      "--fw-display-large",
+      "--fw-heading",
+      "--fw-label",
+      "--gutter",
+      "--hairline",
+      "--hairline-on-light",
+      "--ink",
+      "--lh-body",
+      "--lh-body-small",
+      "--lh-display",
+      "--lh-display-large",
+      "--lh-heading",
+      "--lh-label",
+      "--ls-display",
+      "--ls-display-large",
+      "--ls-heading",
+      "--muted",
+      "--on-dark",
+      "--primary",
+      "--primary-hover",
+      "--primary-lifted",
+      "--radius-full",
+      "--radius-none",
+      "--radius-sm",
+      "--space-lg",
+      "--space-md",
+      "--space-section",
+      "--space-sm",
+      "--space-xl",
+      "--space-xs",
+      "--space-xxl",
+      "--space-xxs",
+      "--status-completed",
+      "--status-ongoing",
+      "--whatsapp",
+      "--whatsapp-hover"
+    ],
+    "tokenKinds": {
+      "--primary": "color",
+      "--primary-hover": "color",
+      "--primary-lifted": "color",
+      "--whatsapp": "color",
+      "--whatsapp-hover": "color",
+      "--canvas": "color",
+      "--canvas-elevated": "color",
+      "--canvas-light": "color",
+      "--ink": "color",
+      "--on-dark": "color",
+      "--body": "color",
+      "--body-on-light": "color",
+      "--muted": "color",
+      "--hairline": "color",
+      "--hairline-on-light": "color",
+      "--control-border": "color",
+      "--control-border-on-light": "color",
+      "--chalk": "color",
+      "--chalk-deep": "color",
+      "--status-ongoing": "color",
+      "--status-completed": "color",
+      "--frame-width": "spacing",
+      "--frame-color": "color",
+      "--frame-color-on-light": "color",
+      "--frame": "color",
+      "--frame-on-light": "color",
+      "--frame-inset": "spacing",
+      "--font-core": "font",
+      "--fs-display-large": "spacing",
+      "--lh-display-large": "font",
+      "--ls-display-large": "spacing",
+      "--fw-display-large": "font",
+      "--fs-display": "spacing",
+      "--lh-display": "font",
+      "--ls-display": "spacing",
+      "--fw-display": "font",
+      "--fs-heading": "spacing",
+      "--lh-heading": "font",
+      "--ls-heading": "spacing",
+      "--fw-heading": "font",
+      "--fs-body": "spacing",
+      "--lh-body": "font",
+      "--fw-body": "font",
+      "--fs-body-small": "spacing",
+      "--lh-body-small": "font",
+      "--fs-label": "spacing",
+      "--lh-label": "font",
+      "--fw-label": "font",
+      "--space-xxs": "spacing",
+      "--space-xs": "spacing",
+      "--space-sm": "spacing",
+      "--space-md": "spacing",
+      "--space-lg": "spacing",
+      "--space-xl": "spacing",
+      "--space-xxl": "spacing",
+      "--space-section": "spacing",
+      "--gutter": "spacing",
+      "--radius-none": "radius",
+      "--radius-sm": "radius",
+      "--radius-full": "radius"
+    },
+    "fontFamilies": [
+      "Archivo"
+    ]
+  }
+}

@@ -1,0 +1,46 @@
+<!-- @dsCard group="Components" viewport="1280x720" name="Text link" subtitle="Underlined, red oxide on hover" -->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Zaraff — Text link</title><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>.pad{padding:var(--space-xl) var(--gutter)}.band{padding:var(--space-xl) var(--gutter)}h1{margin:0 0 var(--space-sm)}.eyebrow{color:var(--body);margin:0 0 var(--space-xs)}.note{font-size:var(--fs-body-small);color:var(--body);max-width:64ch;margin:0 0 var(--space-lg)}.zf-light .note{color:var(--body-on-light)}h2{margin:0 0 var(--space-md)}.grid{display:grid;grid-template-columns:150px repeat(4,max-content);gap:var(--space-md) var(--space-lg);align-items:center;justify-content:start}.colhead{font-size:12px;color:var(--body);font-weight:500}.zf-light .colhead{color:var(--body-on-light)}.rowlabel{font-size:var(--fs-label);font-weight:500;color:var(--on-dark)}.zf-light .rowlabel{color:var(--ink)}.stack{display:grid;gap:var(--space-lg)}.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--gutter)}</style></head><body>
+<div id="root"></div>
+<script type="text/babel">
+const { TextLink } = window.ArchitectureStudioDesignSystem_04f6f4;
+const R = React;
+
+const Specimen = () => (
+  <div className="grid">
+    <div></div>
+    {['Default', 'Hover', 'Focus visible', 'Disabled'].map((s) => <div className="colhead" key={s}>{s}</div>)}
+    <div className="rowlabel">Text link</div>
+    <div><TextLink href="#">Read the build process</TextLink></div>
+    <div><TextLink href="#" className="is-hover">Read the build process</TextLink></div>
+    <div><TextLink href="#" className="is-focus">Read the build process</TextLink></div>
+    <div><TextLink href="#" disabled>Read the build process</TextLink></div>
+  </div>
+);
+const Card = () => (
+  <>
+    <div className="pad">
+      <p className="zf-label eyebrow">Components</p>
+      <h1 className="zf-display">Text link</h1>
+      <p className="note">The only place a colour change carries meaning on hover. Inside body copy the underline stays on at rest, so the link reads as a link before the pointer arrives.</p>
+      <Specimen />
+      <div className="zf-body" style={{ maxWidth: '56ch', marginTop: 'var(--space-lg)' }}>
+        In prose it sits inline: we take a single drawing set from <TextLink href="#">sanction to handover</TextLink>, so the site team answers to the same people who drew the plan.
+      </div>
+    </div>
+    <div className="band zf-light">
+      <h2 className="zf-heading">On the light band</h2>
+      <Specimen />
+      <div style={{ maxWidth: '56ch', marginTop: 'var(--space-lg)', fontSize: 'var(--fs-body)', lineHeight: 'var(--lh-body)' }}>
+        Pricing and long-form reading live here, so links appear as ink with a grey underline — see <TextLink href="#">what each package covers</TextLink>.
+      </div>
+    </div>
+  </>
+);
+
+ReactDOM.createRoot(document.getElementById('root')).render(<Card />);
+</script></body></html>

@@ -1,0 +1,55 @@
+<!-- @dsCard group="Domain" viewport="1280x900" name="Fact table" subtitle="The case-study convention" -->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Zaraff — Fact table</title><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>.pad{padding:var(--space-xl) var(--gutter)}.band{padding:var(--space-xl) var(--gutter)}h1{margin:0 0 var(--space-sm)}.eyebrow{color:var(--body);margin:0 0 var(--space-xs)}.note{font-size:var(--fs-body-small);color:var(--body);max-width:64ch;margin:0 0 var(--space-lg)}.zf-light .note{color:var(--body-on-light)}h2{margin:0 0 var(--space-md)}.caption{font-size:var(--fs-body-small);color:var(--body);margin:var(--space-xs) 0 0}.phone{width:390px;flex:none}.phone__label{font-size:var(--fs-body-small);color:var(--body);margin:0 0 var(--space-xs)}.split{display:flex;gap:var(--gutter);align-items:flex-start;flex-wrap:wrap}.wide{flex:1;min-width:420px}</style></head><body>
+<div id="root"></div>
+<script type="text/babel">
+const { FactTable } = window.ArchitectureStudioDesignSystem_04f6f4;
+
+const project = {
+  location: 'Kottayam, Kerala',
+  year: 2025,
+  status: 'ongoing',
+  statusLabel: 'Under construction',
+  area: 2850,
+  typology: 'Residence',
+  credits: [
+    { role: 'Design', name: 'Zaraff Architects & Interiors' },
+    { role: 'Construction', name: 'Zaraff, in-house site team' },
+    { role: 'Structural consultant', name: 'S. Nair & Associates' },
+    { role: 'Photographs', name: 'To be shot on completion' },
+  ],
+};
+
+const Card = () => (
+  <>
+    <div className="pad">
+      <p className="zf-label eyebrow">Domain</p>
+      <h1 className="zf-display">Fact table</h1>
+      <p className="note">Location, year, status, area, typology, credits — the set every architecture case study carries, in that order. Keys are labels, values are prose; the status row reuses the bare status chip so a reader scanning the page sees the same dot they saw on the plate. Rows are separated by the hairline, never boxed.</p>
+      <div className="split">
+        <div className="phone">
+          <p className="phone__label">390px — key above value</p>
+          <FactTable {...project} className="zf-facts--stacked" />
+        </div>
+        <div className="wide">
+          <p className="phone__label">From 560px — key in a 150px column</p>
+          <FactTable {...project} rows={[{ key: 'Plot', value: '12 cents, north facing' }]} />
+          <p className="caption">Extra rows append after the standard set, so the convention holds and project-specific facts still fit.</p>
+        </div>
+      </div>
+    </div>
+    <div className="band zf-light">
+      <h2 className="zf-heading">On the light band</h2>
+      <div style={{ maxWidth: 620 }}>
+        <FactTable {...project} status="completed" statusLabel="Handed over, 2025" />
+      </div>
+    </div>
+  </>
+);
+
+ReactDOM.createRoot(document.getElementById('root')).render(<Card />);
+</script></body></html>
