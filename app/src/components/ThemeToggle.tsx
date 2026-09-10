@@ -85,11 +85,22 @@ export function ThemeToggle() {
 
     const inner = document.createElement('div');
     inner.className = 'theme-reveal__page';
-    // Non-fixed content sits at document coordinates; pull it up so the clone
-    // lines up with what is currently on screen. Fixed descendants anchor to
-    // the viewport on their own, which is why the layer must not create a
-    // containing block (no transform, no filter, no will-change on it).
-    inner.style.top = `${-window.scrollY}px`;
+    // Align the clone with the real page.
+    //
+    // The clone container is absolutely positioned inside the layer, so it
+    // does NOT inherit body's padding or margin the way the real flow
+    // content does. Ignoring that put every cloned element 26px high — the
+    // draft banner's padding-top — and as the hole grew, content swapped
+    // between two copies at different heights. That is the layout shift.
+    const bodyBox = getComputedStyle(document.body);
+    const offsetTop =
+      parseFloat(bodyBox.marginTop) + parseFloat(bodyBox.borderTopWidth) + parseFloat(bodyBox.paddingTop);
+    const offsetLeft =
+      parseFloat(bodyBox.marginLeft) + parseFloat(bodyBox.borderLeftWidth) + parseFloat(bodyBox.paddingLeft);
+    inner.style.top = `${offsetTop - window.scrollY}px`;
+    inner.style.left = `${offsetLeft - window.scrollX}px`;
+    inner.style.right = 'auto';
+    inner.style.width = `${document.body.clientWidth - parseFloat(bodyBox.paddingLeft) - parseFloat(bodyBox.paddingRight)}px`;
     for (const node of Array.from(document.body.children)) {
       if (node instanceof HTMLScriptElement) continue;
       inner.appendChild(node.cloneNode(true));

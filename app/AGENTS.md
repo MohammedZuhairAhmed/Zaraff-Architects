@@ -135,3 +135,9 @@ Consequences to respect:
   be mispositioned.
 - The clone is `inert`, `aria-hidden`, and has animations and transitions
   disabled so it behaves as a still image.
+- The clone container is absolutely positioned, so it does NOT inherit
+  body's margin, border or padding the way real flow content does. Offset it
+  by all three or every cloned element is misplaced — `body`'s 26px
+  padding-top for the draft banner put the whole clone 26px high, and content
+  visibly jumped as the hole crossed it. Verify with
+  `cloneRect.top - realRect.top === 0` on a flow element AND a fixed one.
