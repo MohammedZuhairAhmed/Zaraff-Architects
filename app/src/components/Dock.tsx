@@ -37,8 +37,7 @@ export function Dock({ whatsappNumber }: { whatsappNumber: string }) {
   useEffect(() => setOpen(false), [pathname]);
 
   useEffect(() => {
-    const marked = Array.from(document.querySelectorAll<HTMLElement>('[data-section]'));
-    if (marked.length === 0) { setSection(null); return; }
+    setSection(null);
 
     // Band across the middle of the viewport: whichever marked section is
     // crossing it is the one you are looking at.
@@ -50,8 +49,29 @@ export function Dock({ whatsappNumber }: { whatsappNumber: string }) {
       },
       { rootMargin: '-45% 0px -50% 0px' },
     );
-    marked.forEach(el => io.observe(el));
-    return () => io.disconnect();
+
+    // The dock lives in the root layout, so this effect can run before the
+    // page's sections are in the DOM — in which case a one-shot query finds
+    // nothing and the label never updates. Watch for them instead, and stop
+    // watching once they arrive.
+    const observed = new WeakSet<Element>();
+    const scan = () => {
+      const marked = document.querySelectorAll<HTMLElement>('[data-section]');
+      marked.forEach(el => {
+        if (observed.has(el)) return;
+        observed.add(el);
+        io.observe(el);
+      });
+      return marked.length > 0;
+    };
+
+    let mo: MutationObserver | null = null;
+    if (!scan()) {
+      mo = new MutationObserver(() => { if (scan()) { mo?.disconnect(); mo = null; } });
+      mo.observe(document.body, { childList: true, subtree: true });
+    }
+
+    return () => { io.disconnect(); mo?.disconnect(); };
   }, [pathname]);
 
   useEffect(() => {

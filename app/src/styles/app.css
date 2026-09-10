@@ -182,7 +182,7 @@ a.contact__card:hover{border-color:var(--text);transform:translateY(-3px)}
    sitting directly on the hero type with nothing behind it. */
 .dock{position:fixed;z-index:60;left:50%;transform:translateX(-50%);top:14px;
   width:auto;max-width:calc(100% - 2.5rem);display:grid;justify-items:stretch}
-.dock__inner{display:flex;align-items:center;gap:var(--space-md);min-width:0;
+.dock__inner{display:flex;align-items:center;gap:var(--space-md);
   padding:8px 8px 8px 6px;border:1px solid var(--glass-border);
   border-radius:var(--radius-full);
   background:var(--glass-bg);backdrop-filter:blur(16px) saturate(1.25);
@@ -244,6 +244,9 @@ a.contact__card:hover{border-color:var(--text);transform:translateY(-3px)}
      section label changed. */
   .dock{top:auto;bottom:calc(14px + env(safe-area-inset-bottom,0px));
     width:min(100% - 1.5rem,520px);max-width:none;align-content:end}
+  /* Only here: the pill is a fixed width on small screens, so the row has to
+     be allowed to shrink for the section label to truncate inside it. */
+  .dock__inner{min-width:0}
   .dock__inner{order:2;padding:8px 8px 8px 6px;
     background:var(--glass-bg);backdrop-filter:blur(16px) saturate(1.25);
     border-color:var(--glass-border);box-shadow:var(--glass-shadow)}
