@@ -59,26 +59,36 @@ export function ThemeToggle() {
     const y = rect ? rect.top + rect.height / 2 : 0;
 
     // Reach the furthest corner, or the reveal leaves an unlit wedge.
-    const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+    const r = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
 
     document.documentElement.dataset.themeAnim = next === 'dark' ? 'off' : 'on';
     const transition = document.startViewTransition(() => { apply(next); });
 
     try {
       await transition.ready;
-      const clip = [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`];
-      // Light on: the new theme grows out of the bulb.
-      // Light off: the old theme shrinks back into it, so darkness arrives
-      // from the far corners — which means animating the OUTGOING layer.
+
       const lightOn = next === 'light';
-      document.documentElement.animate(
-        { clipPath: lightOn ? clip : [...clip].reverse() },
-        {
-          duration: lightOn ? 620 : 520,
-          easing: lightOn ? 'cubic-bezier(.22,1,.36,1)' : 'cubic-bezier(.55,0,.68,.19)',
-          pseudoElement: lightOn ? '::view-transition-new(root)' : '::view-transition-old(root)',
-        },
-      );
+      const pseudo = lightOn ? '::view-transition-new(root)' : '::view-transition-old(root)';
+
+      // A hard clip-path circle reads as a wipe. A radial mask with a soft
+      // stop gives the leading edge a falloff, so it reads as light spreading.
+      // mask-size and mask-position animate together to keep the circle
+      // centred on the bulb as it grows.
+      const size = (n: number) => `${n * 2}px ${n * 2}px`;
+      const pos = (n: number) => `${x - n}px ${y - n}px`;
+      const frames: Keyframe[] = [
+        { maskSize: size(0), maskPosition: pos(0) },
+        { maskSize: size(r), maskPosition: pos(r) },
+      ];
+
+      document.documentElement.animate(lightOn ? frames : [...frames].reverse(), {
+        duration: lightOn ? 900 : 700,
+        // Fast out of the bulb, long settle — light floods then eases.
+        easing: lightOn ? 'cubic-bezier(.16,.84,.34,1)' : 'cubic-bezier(.5,0,.75,.2)',
+        fill: 'forwards',
+        pseudoElement: pseudo,
+      });
+
       await transition.finished;
     } finally {
       delete document.documentElement.dataset.themeAnim;

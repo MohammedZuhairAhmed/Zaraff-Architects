@@ -99,6 +99,9 @@
   --bulb-edge:#B98A3C;
   --bulb-filament:#C9761F;
   --bulb-halo:rgba(255,196,92,.55);
+  /* Theme-reveal mask. Alpha stops, not colour — the soft middle stop is what
+     gives the expanding edge a falloff instead of a hard wipe. */
+  --reveal-mask:radial-gradient(circle,#000 58%,rgba(0,0,0,.55) 76%,transparent 100%);
 
   /* ---- Status ---- */
   --status-ongoing:#8C2F22;

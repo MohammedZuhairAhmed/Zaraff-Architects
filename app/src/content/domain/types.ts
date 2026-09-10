@@ -62,6 +62,11 @@ export const PackageSchema = z.object({
   note: z.string().default(''),
   includes: z.array(z.string()).default([]),
   excludes: z.array(z.string()).default([]),
+  /**
+   * Marks a recommended tier. Off unless the studio explicitly wants one —
+   * a highlighted card reads as a selected state to people who did not ask
+   * for a recommendation, and then it has to be explained.
+   */
   emphasis: z.boolean().default(false),
   order: z.number().int().default(0),
 });

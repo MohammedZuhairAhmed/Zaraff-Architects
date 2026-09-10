@@ -326,10 +326,17 @@ body{padding-top:26px}
   @media (max-width:400px){.bulb{display:none}}
 }
 
-/* The reveal itself. The default cross-fade would fight the clip-path
-   animation, so both layers are held still and the circle does the work. */
+/* The reveal. The default cross-fade would fight the mask animation, so both
+   layers are held still and the expanding circle does all the work.
+   The soft stop on the gradient is what stops it reading as a hard wipe. */
 ::view-transition-old(root),
 ::view-transition-new(root){animation:none;mix-blend-mode:normal}
+:root[data-theme-anim] ::view-transition-new(root),
+:root[data-theme-anim] ::view-transition-old(root){will-change:mask-size,mask-position}
+:root[data-theme-anim='on']::view-transition-new(root),
+:root[data-theme-anim='off']::view-transition-old(root){
+  mask-image:var(--reveal-mask);
+  mask-repeat:no-repeat}
 /* Turning the light off animates the OUTGOING layer, so it must sit on top. */
 :root[data-theme-anim='off']::view-transition-old(root){z-index:2}
 :root[data-theme-anim='off']::view-transition-new(root){z-index:1}

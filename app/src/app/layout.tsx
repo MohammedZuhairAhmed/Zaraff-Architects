@@ -55,7 +55,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html lang="en-IN" className={archivo.variable} suppressHydrationWarning>
-      <body>
+      {/* Extensions (ColorZilla, Grammarly, password managers) inject
+          attributes onto <body> before React hydrates, which reads as a
+          mismatch React cannot patch. Scoped to this element's own
+          attributes — it does not hide mismatches in the tree below. */}
+      <body suppressHydrationWarning>
         {/* First child of <body> so the theme lands before anything paints. */}
         <ThemeScript />
         <a className="zf-skip" href="#main">Skip to content</a>
