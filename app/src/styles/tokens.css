@@ -1,0 +1,137 @@
+/* Design tokens only — nothing but custom properties.
+   Layer order is declared here once and governs the whole app: a rule in a
+   later layer beats an earlier one regardless of specificity, which is what
+   stopped the palette inversion from turning into a specificity fight.
+   Note: CSS Modules are intentionally unlayered, so page styles win over all
+   of the below. That is the desired precedence for page-specific overrides. */
+@layer tokens, base, components, domain;
+
+@layer tokens {
+/* Zaraff — Architects & Interiors. Monochrome foundations.
+   One accent (red oxide). WhatsApp green appears once per view at most. */
+
+:root{
+  /* ---- Accent: the only colour in the system ---- */
+  --primary:#7E2A1E;
+  --primary-hover:#621F16;
+  /* The same oxide hue lifted for type on near-black, where #8C2F22 reads 2.3:1.
+     Not a second accent — identical hue, oklch(.66 .115 33), 5.9:1 on canvas. */
+  --primary-lifted:#7E2A1E;
+  --whatsapp:#1FA855;
+  --whatsapp-hover:#188742;
+
+  /* ---- Ground ---- */
+  --canvas:#F7F4EE;
+  --canvas-elevated:#EDE7DB;
+  --canvas-light:#14120F;
+
+  /* ---- Ink / grey ladder ---- */
+  --ink:#F7F4EE;
+  --on-dark:#14120F;
+  --body:#57514A;
+  --body-on-light:#B5AEA2;
+  --muted:#7C7468;
+
+  /* ---- Hairline: the frame device ---- */
+  --hairline:#DBD4C6;
+  --hairline-on-light:#332E27;
+  /* Control boundaries, as opposed to the decorative frame: the hairline is
+     1.4:1 on canvas, which is right for a drawn rule and wrong for a button. */
+  --control-border:#8C8477;
+  --control-border-on-light:#6E665A;
+  /* Chalk fills on the light band. */
+  --chalk:#E8E1D4;
+  --chalk-deep:#F0EBE0;
+
+  /* ---- Warm neutrals: section grounds, drawn from lime plaster and sand ---- */
+  --limewash:#E8E2D6;
+  --sand:#CDBFA8;
+  --sand-deep:#B9A88D;
+  --warm-veil:rgba(120,100,70,.06);
+  /* Body copy on the sand and limewash bands. */
+  --body-on-warm:#4C4740;
+
+  /* ---- Over media: deliberately theme-independent ----
+     Chips and labels sitting on photography keep white-on-scrim in every
+     theme, because the photograph is the ground, not the page. */
+  --on-media:#FFFFFF;
+  --scrim-strong:rgba(14,14,13,.78);
+  --scrim-soft:rgba(14,14,13,.70);
+  --scrim-handle:rgba(14,14,13,.82);
+  --on-media-border:rgba(255,255,255,.6);
+  --on-media-border-soft:rgba(255,255,255,.18);
+
+  /* ---- Status ---- */
+  --status-ongoing:#8C2F22;
+  --status-completed:#7C7468;
+
+  /* ---- Frame device tokens (lifted from the wordmark lockup) ---- */
+  --frame-width:1px;
+  --frame-color:var(--hairline);
+  --frame-color-on-light:var(--hairline-on-light);
+  --frame:var(--frame-width) solid var(--frame-color);
+  --frame-on-light:var(--frame-width) solid var(--frame-color-on-light);
+  --frame-inset:var(--space-md);
+
+  /* ---- Type ---- */
+  --font-core:'Archivo',system-ui,sans-serif;
+  /* Fluid display. The gap between 132px and 13px is the hierarchy —
+     a 56/16 ratio reads as a document, not as a building. */
+  --fs-display-mega:clamp(4rem,11vw,10.5rem);
+  --lh-display-mega:0.92; /* @kind font */
+  --ls-display-mega:-0.05em;
+  --fw-display-mega:600; /* @kind font */
+  --fs-display-large:clamp(2.75rem,6.4vw,5.25rem);
+  --lh-display-large:1.02; /* @kind font */
+  --ls-display-large:-0.04em;
+  --fw-display-large:600; /* @kind font */
+  --fs-display:clamp(2rem,3.6vw,3rem);
+  --lh-display:1.08; /* @kind font */
+  --ls-display:-0.03em;
+  --fw-display:500; /* @kind font */
+  --fs-heading:clamp(1.35rem,2vw,1.75rem);
+  --lh-heading:1.2; /* @kind font */
+  --ls-heading:-0.4px;
+  --fw-heading:400; /* @kind font */
+  --fs-body:16px;
+  --lh-body:1.7; /* @kind font */
+  --fw-body:400; /* @kind font */
+  --fs-body-small:13.5px;
+  --lh-body-small:1.5; /* @kind font */
+  --fs-label:13px;
+  --lh-label:1.4; /* @kind font */
+  --fw-label:500; /* @kind font */
+
+  /* ---- Spacing ladder ---- */
+  --space-xxs:4px;
+  --space-xs:8px;
+  --space-sm:16px;
+  --space-md:24px;
+  --space-lg:40px;
+  --space-xl:64px;
+  --space-xxl:96px;
+  --space-section:128px;
+  --gutter:56px;
+
+  /* ---- Motion: spring easing, three durations ---- */
+  --ease-spring:cubic-bezier(.22,1,.36,1);
+  --ease-out:cubic-bezier(.33,1,.68,1);
+  --dur-fast:.22s;
+  --dur:.42s;
+  --dur-slow:.95s;
+
+  /* ---- Elevation: tinted to the ground, never generic black ---- */
+  --shadow-lift:0 20px 44px -28px rgba(40,30,18,.34),0 2px 6px -3px rgba(40,30,18,.14);
+
+  /* ---- Radius: near-square ---- */
+  /* Varied, not uniform: containers soften, the things inside them stay tight.
+     One radius on everything is the SaaS-kit tell. */
+  --radius-none:0;
+  --radius-xs:6px;
+  --radius-sm:10px;
+  --radius-md:16px;
+  --radius-lg:24px;
+  --radius-xl:34px;
+  --radius-full:9999px;
+}
+}

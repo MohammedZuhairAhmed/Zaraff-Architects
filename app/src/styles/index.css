@@ -1,0 +1,5 @@
+/* The single global stylesheet, imported once in the root layout. */
+@import './tokens.css';
+@import './base.css';
+@import './components.css';
+@import './domain.css';

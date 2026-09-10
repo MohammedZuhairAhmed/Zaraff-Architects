@@ -1,0 +1,67 @@
+/* Element defaults, the type ramp, and layout utilities.
+   Font family comes from next/font via the --font-core variable set on <html>. */
+@layer base {
+body{margin:0;background:var(--canvas);color:var(--body);font-family:var(--font-core);font-size:var(--fs-body);line-height:var(--lh-body);-webkit-font-smoothing:antialiased}
+
+/* Type roles. Sentence case everywhere — no tracked-out all-caps. */
+.zf-display-mega{font-family:var(--font-core);font-size:var(--fs-display-mega);font-weight:var(--fw-display-mega);line-height:var(--lh-display-mega);letter-spacing:var(--ls-display-mega);color:var(--on-dark);text-wrap:balance;margin:0}
+.zf-display-large{font-family:var(--font-core);font-size:var(--fs-display-large);font-weight:var(--fw-display-large);line-height:var(--lh-display-large);letter-spacing:var(--ls-display-large);color:var(--on-dark);text-wrap:balance}
+.zf-display{font-size:var(--fs-display);font-weight:var(--fw-display);line-height:var(--lh-display);letter-spacing:var(--ls-display);color:var(--on-dark);text-wrap:pretty}
+.zf-heading{font-size:var(--fs-heading);font-weight:var(--fw-heading);line-height:var(--lh-heading);letter-spacing:var(--ls-heading);color:var(--on-dark)}
+.zf-body{font-size:var(--fs-body);font-weight:var(--fw-body);line-height:var(--lh-body);color:var(--body)}
+.zf-body-small{font-size:var(--fs-body-small);line-height:var(--lh-body-small);color:var(--muted)}
+.zf-label{font-size:var(--fs-label);font-weight:var(--fw-label);line-height:var(--lh-label);text-transform:none;color:var(--body)}
+
+/* The connective device: a hairline rectangle, no radius. */
+.zf-frame{border:var(--frame);border-radius:0}
+.zf-frame-on-light{border:var(--frame-on-light);border-radius:0}
+.zf-frame-inset{border:var(--frame);border-radius:0;padding:var(--frame-inset)}
+.zf-rule{border:0;border-top:var(--frame);margin:0}
+
+/* Light band, e.g. pricing and long-form reading. */
+.zf-light{background:var(--canvas-light);color:var(--body-on-light)}
+.zf-light .zf-display-mega,.zf-light .zf-display-large,.zf-light .zf-display,.zf-light .zf-heading{color:var(--ink)}
+
+a{color:var(--on-dark);text-decoration:underline;text-decoration-color:var(--hairline);text-underline-offset:3px}
+a:hover{color:var(--primary);text-decoration-color:var(--primary)}
+.zf-light a{color:var(--ink);text-decoration-color:var(--hairline-on-light)}
+.zf-light a:hover{color:var(--primary);text-decoration-color:var(--primary)}
+
+/* ---------- Surface: grain breaks the digital flatness ---------- */
+.zf-grain{position:relative}
+.zf-grain::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;opacity:.16;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E")}
+
+/* ---------- Full bleed: imagery escapes the container ---------- */
+.zf-bleed{width:100vw;max-width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw)}
+
+/* ---------- Scroll-driven reveal, staggered ---------- */
+html{scroll-behavior:smooth}
+[data-reveal]{opacity:0;transform:translateY(18px);transition:opacity var(--dur-slow) var(--ease-out),transform var(--dur-slow) var(--ease-spring);transition-delay:var(--reveal-delay,0ms)}
+[data-reveal].is-in{opacity:1;transform:none}
+
+/* ---------- Press feedback: interfaces should feel physical ---------- */
+.zf-btn:active:not(:disabled):not([aria-disabled="true"]){transform:translateY(1px) scale(.985)}
+.zf-btn{transition:background-color var(--dur-fast) var(--ease-out),border-color var(--dur-fast) var(--ease-out),color var(--dur-fast) var(--ease-out),transform var(--dur-fast) var(--ease-spring)}
+
+/* ---------- Keyboard users get in ---------- */
+.zf-skip{position:absolute;left:var(--space-sm);top:-100px;z-index:100;background:var(--on-dark);color:var(--ink);padding:12px 18px;border-radius:var(--radius-sm);font-weight:500;transition:top var(--dur) var(--ease-spring)}
+.zf-skip:focus{top:var(--space-sm)}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  [data-reveal]{opacity:1;transform:none;transition:none}
+  .zf-btn:active:not(:disabled){transform:none}
+  *,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important}
+}
+
+/* ---------- Warm grounds ---------- */
+.zf-sand{background:var(--sand);color:var(--on-dark)}
+.zf-sand .zf-display-mega,.zf-sand .zf-display-large,.zf-sand .zf-display,.zf-sand .zf-heading{color:var(--on-dark)}
+.zf-sand .zf-body,.zf-sand .zf-body-small{color:var(--body-on-warm)}
+.zf-limewash{background:var(--limewash);color:var(--on-dark)}
+.zf-limewash .zf-display-mega,.zf-limewash .zf-display-large,.zf-limewash .zf-display,.zf-limewash .zf-heading{color:var(--on-dark)}
+.zf-limewash .zf-body{color:var(--body-on-warm)}
+/* A warm veil lifts a dark section off pure black without introducing a colour. */
+.zf-warm{background-image:linear-gradient(180deg,var(--warm-veil),transparent 70%)}
+}

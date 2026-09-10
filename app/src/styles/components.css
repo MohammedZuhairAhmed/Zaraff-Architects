@@ -1,0 +1,102 @@
+@layer components {
+/* Zaraff — core components. Square-ish, hairline, monochrome. */
+
+/* ---------- Buttons ---------- */
+.zf-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;box-sizing:border-box;white-space:nowrap;gap:var(--space-xs);font-family:var(--font-core);font-size:var(--fs-body);font-weight:500;line-height:1;letter-spacing:0;text-transform:none;text-decoration:none;padding:15px 22px;border:1px solid transparent;border-radius:var(--radius-sm);cursor:pointer;transition:background-color .15s ease,border-color .15s ease,color .15s ease}
+.zf-btn:focus{outline:none}
+.zf-btn:focus-visible{outline:1px solid var(--on-dark);outline-offset:2px}
+.zf-light .zf-btn:focus-visible{outline-color:var(--ink)}
+.zf-btn:disabled,.zf-btn[aria-disabled="true"]{cursor:not-allowed}
+
+.zf-btn--primary{background:var(--primary);color:var(--on-dark)}
+.zf-btn--primary:hover:not(:disabled):not([aria-disabled="true"]){background:var(--primary-hover)}
+.zf-btn--primary:disabled,.zf-btn--primary[aria-disabled="true"]{background:var(--canvas-elevated);color:var(--muted)}
+.zf-light .zf-btn--primary:disabled,.zf-light .zf-btn--primary[aria-disabled="true"]{background:var(--chalk-deep);color:var(--muted)}
+
+/* Label set at body size / 500 — the green is a brand fixture, so the type
+   carries the ratio. Never smaller than 16px on this variant. */
+.zf-btn--whatsapp{background:var(--whatsapp);color:var(--on-dark)}
+.zf-btn--whatsapp:hover:not(:disabled):not([aria-disabled="true"]){background:var(--whatsapp-hover)}
+.zf-btn--whatsapp:disabled,.zf-btn--whatsapp[aria-disabled="true"]{background:var(--canvas-elevated);color:var(--muted)}
+.zf-light .zf-btn--whatsapp:disabled,.zf-light .zf-btn--whatsapp[aria-disabled="true"]{background:var(--chalk-deep);color:var(--muted)}
+.zf-btn__mark{width:16px;height:16px;flex:none;display:block}
+
+.zf-btn--secondary{background:transparent;color:var(--on-dark);border-color:var(--control-border)}
+.zf-btn--secondary:hover:not(:disabled):not([aria-disabled="true"]){border-color:var(--on-dark)}
+.zf-btn--secondary:disabled,.zf-btn--secondary[aria-disabled="true"]{color:var(--muted);border-color:var(--hairline)}
+.zf-light .zf-btn--secondary{color:var(--ink);border-color:var(--control-border-on-light)}
+.zf-light .zf-btn--secondary:hover:not(:disabled):not([aria-disabled="true"]){border-color:var(--ink)}
+.zf-light .zf-btn--secondary:disabled,.zf-light .zf-btn--secondary[aria-disabled="true"]{color:var(--muted);border-color:var(--hairline-on-light)}
+
+/* ---------- Text link ---------- */
+.zf-link{display:inline;font-family:var(--font-core);font-size:inherit;font-weight:500;color:var(--on-dark);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-decoration-thickness:1px;text-decoration-color:var(--muted);text-underline-offset:3px;transition:color .15s ease,text-decoration-color .15s ease}
+.zf-link:hover:not([aria-disabled="true"]){color:var(--primary);text-decoration-color:var(--primary)}
+.zf-link:focus{outline:none}
+.zf-link:focus-visible{outline:1px solid var(--on-dark);outline-offset:3px}
+.zf-link[aria-disabled="true"],.zf-link:disabled{color:var(--muted);text-decoration-color:var(--hairline);cursor:not-allowed}
+.zf-light .zf-link{color:var(--ink);text-decoration-color:var(--body-on-light)}
+.zf-light .zf-link:focus-visible{outline-color:var(--ink)}
+.zf-light .zf-link[aria-disabled="true"],.zf-light .zf-link:disabled{color:var(--muted);text-decoration-color:var(--hairline-on-light)}
+
+/* ---------- Fields ---------- */
+.zf-field{display:grid;gap:var(--space-xs)}
+.zf-field__label{font-size:var(--fs-label);font-weight:500;color:var(--body);text-transform:none}
+.zf-light .zf-field__label{color:var(--body-on-light)}
+.zf-field__hint{font-size:var(--fs-body-small);line-height:var(--lh-body-small);color:var(--body)}
+.zf-light .zf-field__hint{color:var(--body-on-light)}
+.zf-field__hint--error{color:var(--primary-lifted)}
+.zf-light .zf-field__hint--error{color:var(--primary)}
+
+.zf-input,.zf-select{width:100%;box-sizing:border-box;font-family:var(--font-core);font-size:var(--fs-body);line-height:1.4;color:var(--on-dark);background:transparent;border:0;border-bottom:1px solid var(--control-border);border-radius:0;padding:12px 0;transition:border-color .15s ease}
+.zf-input::placeholder{color:var(--body)}
+.zf-input:hover:not(:disabled),.zf-select:hover:not(:disabled){border-bottom-color:var(--on-dark)}
+.zf-input:focus,.zf-select:focus{outline:none;border-bottom-color:var(--on-dark);box-shadow:0 1px 0 0 var(--on-dark)}
+.zf-input:focus-visible,.zf-select:focus-visible{outline:1px solid var(--on-dark);outline-offset:3px}
+.zf-input:disabled,.zf-select:disabled{color:var(--muted);border-bottom-color:var(--hairline);cursor:not-allowed}
+.zf-input[aria-invalid="true"],.zf-select[aria-invalid="true"]{border-bottom-color:var(--primary-lifted)}
+.zf-light .zf-input,.zf-light .zf-select{color:var(--ink);border-bottom-color:var(--control-border-on-light)}
+.zf-light .zf-input::placeholder{color:var(--body-on-light)}
+.zf-light .zf-input:hover:not(:disabled),.zf-light .zf-select:hover:not(:disabled){border-bottom-color:var(--ink)}
+.zf-light .zf-input:focus,.zf-light .zf-select:focus{border-bottom-color:var(--ink);box-shadow:0 1px 0 0 var(--ink)}
+.zf-light .zf-input:focus-visible,.zf-light .zf-select:focus-visible{outline-color:var(--ink)}
+.zf-light .zf-input:disabled,.zf-light .zf-select:disabled{color:var(--muted);border-bottom-color:var(--hairline-on-light)}
+.zf-light .zf-input[aria-invalid="true"],.zf-light .zf-select[aria-invalid="true"]{border-bottom-color:var(--primary)}
+
+.zf-select-wrap{position:relative;display:block}
+.zf-select{appearance:none;-webkit-appearance:none;padding-right:var(--space-md);cursor:pointer}
+.zf-select:disabled{cursor:not-allowed}
+.zf-select-wrap__caret{position:absolute;right:2px;top:50%;width:7px;height:7px;margin-top:-5px;border-right:1px solid var(--body);border-bottom:1px solid var(--body);transform:rotate(45deg);pointer-events:none}
+.zf-light .zf-select-wrap__caret{border-color:var(--body-on-light)}
+
+/* ---------- Status chip ---------- */
+.zf-chip{display:inline-flex;align-items:center;gap:var(--space-xs);font-family:var(--font-core);font-size:var(--fs-label);font-weight:500;line-height:1;text-transform:none;color:var(--on-dark);background:var(--canvas-elevated);border:1px solid var(--hairline);border-radius:var(--radius-full);padding:7px 13px}
+.zf-chip__dot{width:7px;height:7px;flex:none;border-radius:var(--radius-full);background:var(--status-completed)}
+.zf-chip--ongoing .zf-chip__dot{background:var(--status-ongoing)}
+.zf-chip--completed .zf-chip__dot{background:var(--status-completed)}
+.zf-chip--bare{background:transparent;border-color:transparent;padding:0}
+.zf-light .zf-chip{color:var(--ink);background:rgba(255,255,255,.09);border-color:var(--hairline-on-light)}
+.zf-light .zf-chip--bare{background:transparent;border-color:transparent}
+
+/* ---------- Frame container ---------- */
+.zf-frame-box{border:var(--frame);border-radius:var(--radius-md);background:transparent}
+.zf-frame-box--inset{padding:var(--frame-inset)}
+.zf-frame-box--elevated{background:var(--canvas-elevated)}
+.zf-light .zf-frame-box{border-color:var(--hairline-on-light)}
+.zf-light .zf-frame-box--elevated{background:var(--chalk)}
+
+/* ---------- Forced states, for specimen cards only ---------- */
+.zf-btn--primary.is-hover{background:var(--primary-hover)}
+.zf-btn--whatsapp.is-hover{background:var(--whatsapp-hover)}
+.zf-btn--secondary.is-hover{border-color:var(--on-dark)}
+.zf-light .zf-btn--secondary.is-hover{border-color:var(--ink)}
+.zf-btn.is-focus{outline:1px solid var(--on-dark);outline-offset:2px}
+.zf-light .zf-btn.is-focus{outline-color:var(--ink)}
+.zf-link.is-hover{color:var(--primary);text-decoration-color:var(--primary)}
+.zf-link.is-focus{outline:1px solid var(--on-dark);outline-offset:3px}
+.zf-light .zf-link.is-focus{outline-color:var(--ink)}
+.zf-input.is-hover,.zf-select.is-hover{border-bottom-color:var(--on-dark)}
+.zf-light .zf-input.is-hover,.zf-light .zf-select.is-hover{border-bottom-color:var(--ink)}
+.zf-input.is-focus,.zf-select.is-focus{border-bottom-color:var(--on-dark);box-shadow:0 1px 0 0 var(--on-dark);outline:1px solid var(--on-dark);outline-offset:3px}
+.zf-light .zf-input.is-focus,.zf-light .zf-select.is-focus{border-bottom-color:var(--ink);box-shadow:0 1px 0 0 var(--ink);outline-color:var(--ink)}
+
+}

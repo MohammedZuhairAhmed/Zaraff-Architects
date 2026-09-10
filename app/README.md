@@ -42,3 +42,35 @@ SSR that behaves like static.
 ## Checks
     npm run typecheck
     npx tsx smoke.ts     # exercises the port against the active source
+
+## Styling
+No CSS framework and no component library — deliberately. A component library's
+defaults are exactly the templated look this brand is trying to avoid, and the
+site has too few stateful widgets to justify one. Tailwind would duplicate the
+token layer that already exists in CSS custom properties.
+
+    src/styles/
+      tokens.css      custom properties only. Declares the layer order.
+      base.css        element defaults, type ramp, layout utilities
+      components.css  buttons, fields, chips, frame
+      domain.css      project plate, comparison, packages, facts, dock bar
+      index.css       the single import for the root layout
+
+**Layers:** `@layer tokens, base, components, domain`. Later layers win
+regardless of specificity. CSS Modules are intentionally *unlayered*, so
+page-specific styles beat everything above — the correct precedence.
+
+**Per-page styles:** CSS Modules (`Page.module.css`). Scoped, no collisions,
+unused CSS dropped per route.
+
+**Fonts:** `next/font` self-hosts Archivo. Do not reintroduce the Google Fonts
+`@import` — it render-blocks and adds a third-party request on every load.
+
+**Icons:** inline SVG, hand-picked. No icon library.
+
+**If we ever need a modal, menu or combobox:** use Radix primitives (unstyled)
+rather than hand-rolling focus management. Nothing needs it yet.
+
+**Enforcement:** `npm run lint:css`. Raw hex outside tokens.css is an error, as
+is reaching past the spacing ladder. Colours that must ignore the theme — text
+over photography — are tokens too (`--on-media`, `--scrim-*`).
