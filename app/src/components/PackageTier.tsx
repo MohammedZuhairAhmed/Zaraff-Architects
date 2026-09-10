@@ -9,6 +9,10 @@ import { waLink } from '@/lib/whatsapp';
 export function PackageTier({ pkg, whatsappNumber }: { pkg: Package; whatsappNumber: string }) {
   return (
     <div className={`zf-tier${pkg.emphasis ? ' zf-tier--emphasis' : ''}`}>
+      {/* A recommendation is information, so it gets words. Previously it was
+          signalled by a wash and a shadow alone, which is the same visual
+          language as hover — so a static card looked permanently selected. */}
+      {pkg.emphasis && <span className="zf-tier__flag">Most clients choose this</span>}
       <h3 className="zf-tier__name">{pkg.name}</h3>
       <div className="zf-tier__rate">{pkg.rate}</div>
       <div className="zf-tier__basis">{pkg.basis}</div>

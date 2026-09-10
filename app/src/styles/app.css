@@ -354,3 +354,16 @@ body{padding-top:26px}
     .zf-tier:hover{transform:none}
   }
 }
+
+@layer pages {
+  /* One item should not sit in a two-column grid leaving a hole. */
+  .grid--1{grid-template-columns:minmax(0,1fr)}
+  .zf-packages--single{grid-template-columns:minmax(0,1fr);max-width:560px}
+
+  /* Services in summary density: a stacked list, not the full alternating rows. */
+  .svc-summary{display:grid}
+
+  /* Empty states are a designed condition, not a blank area. */
+  .collection-empty{margin:0;padding:var(--space-lg) 0;color:var(--text-muted);
+    border-top:1px solid var(--hairline);max-width:52ch}
+}

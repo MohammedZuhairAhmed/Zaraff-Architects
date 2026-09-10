@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { getPackages, getSettings } from '@/content/cached';
-import { PackageTier } from '@/components/PackageTier';
+import { PackageTiers } from '@/components/collections/PackageTiers';
 import { waLink } from '@/lib/whatsapp';
 
 export const metadata: Metadata = {
@@ -22,10 +22,8 @@ export default async function PackagesPage() {
         </div>
       </section>
       <section className="sect sect--flush zf-limewash">
-        <div className="wrap zf-packages">
-          {packages.map(p => (
-            <PackageTier key={p.slug} pkg={p} whatsappNumber={settings.whatsappNumber} />
-          ))}
+        <div className="wrap">
+          <PackageTiers packages={packages} whatsappNumber={settings.whatsappNumber} />
         </div>
         <div className="wrap note">
           <p className="zf-body-small">

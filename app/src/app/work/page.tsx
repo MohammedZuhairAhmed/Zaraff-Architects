@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { getProjects } from '@/content/cached';
-import { ProjectPlate } from '@/components/ProjectPlate';
+import { ProjectGrid } from '@/components/collections/ProjectGrid';
 
 export const metadata: Metadata = {
   title: 'Work',
@@ -24,8 +24,8 @@ export default async function WorkPage() {
         </div>
       </section>
       <section className="sect sect--flush">
-        <div className="wrap grid grid--2">
-          {projects.map(p => <ProjectPlate key={p.slug} project={p} featured />)}
+        <div className="wrap">
+          <ProjectGrid projects={projects} density="featured" empty="The first projects are being photographed." />
         </div>
       </section>
     </>

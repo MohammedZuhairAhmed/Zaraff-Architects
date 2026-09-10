@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import { getProjects, getServices, getPackages, getSettings } from '@/content/cached';
-import { ProjectPlate } from '@/components/ProjectPlate';
-import { PackageTier } from '@/components/PackageTier';
+import { ProjectGrid } from '@/components/collections/ProjectGrid';
+import { PackageTiers } from '@/components/collections/PackageTiers';
+import { ServiceList } from '@/components/collections/ServiceList';
 import { waLink } from '@/lib/whatsapp';
 
 export default async function HomePage() {
@@ -39,24 +40,15 @@ export default async function HomePage() {
           <h2 className="zf-display-large">Selected work</h2>
           <Link className="zf-link" href="/work">All projects</Link>
         </div>
-        <div className="wrap grid grid--2">
-          {featured.map(p => <ProjectPlate key={p.slug} project={p} featured />)}
-        </div>
-        <div className="wrap grid grid--3 grid--tight">
-          {recent.map(p => <ProjectPlate key={p.slug} project={p} />)}
-        </div>
+        <div className="wrap"><ProjectGrid projects={featured} density="featured" /></div>
+        <div className="wrap grid--tight"><ProjectGrid projects={recent} density="index" /></div>
       </section>
 
       <section className="sect sect--split">
         <div className="wrap split">
           <h2 className="zf-display-large">What we do</h2>
           <div className="split__body">
-            {services.map(s => (
-              <div className="svc" key={s.slug}>
-                <h3>{s.title}</h3>
-                <p>{s.summary}</p>
-              </div>
-            ))}
+            <ServiceList services={services} density="summary" />
           </div>
         </div>
       </section>
@@ -66,10 +58,8 @@ export default async function HomePage() {
           <h2 className="zf-display-large">Two ways to work with us</h2>
           <Link className="zf-link" href="/packages">Compare in full</Link>
         </div>
-        <div className="wrap zf-packages">
-          {packages.map(p => (
-            <PackageTier key={p.slug} pkg={p} whatsappNumber={settings.whatsappNumber} />
-          ))}
+        <div className="wrap">
+          <PackageTiers packages={packages} whatsappNumber={settings.whatsappNumber} />
         </div>
       </section>
 

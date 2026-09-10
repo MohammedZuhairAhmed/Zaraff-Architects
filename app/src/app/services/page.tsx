@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { getServices, getSettings } from '@/content/cached';
+import { ServiceList } from '@/components/collections/ServiceList';
 import { waLink } from '@/lib/whatsapp';
 
 export const metadata: Metadata = {
@@ -20,26 +21,7 @@ export default async function ServicesPage() {
         </div>
       </section>
       <section className="sect sect--flush">
-        <div className="wrap svc-list">
-          {services.map(s => (
-            <article className="svc-full" key={s.slug}>
-              <div className="svc-full__media zf-media" style={{ aspectRatio: '3 / 2' }}>
-                <div className="ph"><span>{s.title}</span></div>
-              </div>
-              <div className="svc-full__body">
-                <h2 className="zf-display">{s.title}</h2>
-                <p className="zf-body">{s.summary}</p>
-                {s.includes.length > 0 && (
-                  <ul className="zf-tier__list">
-                    {s.includes.map(i => (
-                      <li key={i}><span className="zf-tier__tick" /><span>{i}</span></li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            </article>
-          ))}
-        </div>
+        <div className="wrap"><ServiceList services={services} density="full" /></div>
       </section>
       <section className="sect cta zf-grain">
         <div className="wrap cta__inner">

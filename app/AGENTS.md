@@ -81,3 +81,23 @@ Read `agent-browser skills get core` before using it — do not guess subcommand
   valid profiles will not typecheck.
 - Editing `content/*.json` does nothing until the cache expires. The dev
   profile in `src/content/cached.ts` exists solely so that edit loop works.
+
+## Component layering
+    page  ->  collection  ->  item
+Pages fetch and compose. Collections own layout and the empty/single-item
+cases. Items are presentational and take one domain object.
+
+- A page must never write `grid grid--2`, `zf-packages` or `svc-list`. If a
+  page needs a collection laid out, that belongs in `components/collections/`.
+- Never hand-roll an item's markup inline. The case study did exactly that for
+  project cards and the copy had already drifted from ProjectPlate.
+- Collections take shared context (e.g. the WhatsApp number) once and pass it
+  down, so pages stop threading site settings through every item.
+- Every collection handles zero items with written copy, and collapses to one
+  column when it has a single item.
+
+## Variant vs state
+Shadow, lift and opacity mean *interaction*. A data variant — a recommended
+package, a featured project — gets a marker and words, never the interaction
+vocabulary. Conflating them made a static package tier look permanently
+selected.

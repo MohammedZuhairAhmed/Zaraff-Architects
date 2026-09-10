@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getProject, getProjectSlugs, getProjects, getSettings } from '@/content/cached';
 import { FactTable } from '@/components/FactTable';
+import { ProjectGrid } from '@/components/collections/ProjectGrid';
+import { DrawingGrid } from '@/components/collections/DrawingGrid';
 import { waLink } from '@/lib/whatsapp';
 
 type Params = { params: Promise<{ slug: string }> };
@@ -57,13 +58,7 @@ export default async function ProjectPage({ params }: Params) {
 
       {project.drawings.length > 0 && (
         <section className="sect">
-          <div className="wrap grid grid--2">
-            {project.drawings.map(d => (
-              <div className="zf-media zf-media--drawing" style={{ aspectRatio: '4 / 3' }} key={d.url}>
-                <Image src={d.url} alt={d.alt} fill sizes="(max-width: 800px) 100vw, 50vw" style={{ objectFit: 'contain' }} />
-              </div>
-            ))}
-          </div>
+          <div className="wrap"><DrawingGrid drawings={project.drawings} /></div>
         </section>
       )}
 
@@ -77,19 +72,7 @@ export default async function ProjectPage({ params }: Params) {
       {others.length > 0 && (
         <section className="sect">
           <div className="wrap sect__head"><h2 className="zf-display-large">More work</h2></div>
-          <div className="wrap grid grid--2">
-            {others.map(p => (
-              <Link className="zf-plate zf-plate--index" href={`/work/${p.slug}`} key={p.slug}>
-                <div className="zf-plate__media zf-media" style={{ aspectRatio: '3 / 2' }}>
-                  <div className="ph"><span>{p.title}</span></div>
-                </div>
-                <div className="zf-plate__foot">
-                  <div><h3 className="zf-plate__title">{p.title}</h3></div>
-                  <span className="zf-plate__year">{p.year}</span>
-                </div>
-              </Link>
-            ))}
-          </div>
+          <div className="wrap"><ProjectGrid projects={others} density="index" columns={2} /></div>
         </section>
       )}
 

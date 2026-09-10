@@ -72,8 +72,12 @@ a.zf-plate:focus-visible{outline:1px solid var(--text);outline-offset:4px}
              opacity var(--dur) var(--ease-out),border-color var(--dur) var(--ease-out)}
 .zf-tier:hover{transform:translateY(-6px);box-shadow:var(--shadow-lift);border-color:var(--text-subtle)}
 .zf-tier--emphasis:hover{border-color:var(--primary)}
-.zf-tier--emphasis{border-color:var(--primary);background:var(--tier-emphasis-wash);box-shadow:var(--shadow-lift)}
-.zf-tier--emphasis::before{content:"";position:absolute;left:-1px;right:-1px;top:-1px;height:3px;background:var(--primary);border-radius:var(--radius-lg) var(--radius-lg) 0 0}
+.zf-tier--emphasis{border-color:var(--primary)}
+/* A hairline top bar, not a glow: enough to find, not enough to read as
+   "selected". */
+.zf-tier--emphasis::before{content:"";position:absolute;left:-1px;right:-1px;top:-1px;height:2px;background:var(--primary);border-radius:var(--radius-lg) var(--radius-lg) 0 0}
+.zf-tier__flag{justify-self:start;font-size:var(--fs-label);font-weight:500;line-height:1;
+  color:var(--primary-lifted);letter-spacing:0;margin-bottom:2px}
 .zf-tier__name{color:var(--text);font-size:var(--fs-heading);line-height:var(--lh-heading);letter-spacing:var(--ls-heading);margin:0}
 .zf-tier__rate{color:var(--text);font-size:var(--fs-display);font-weight:var(--fw-display);line-height:1.1;letter-spacing:var(--ls-display)}
 .zf-tier__basis{font-size:var(--fs-body-small);color:var(--text-muted)}
