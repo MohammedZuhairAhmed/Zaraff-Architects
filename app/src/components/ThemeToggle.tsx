@@ -95,7 +95,17 @@ export function ThemeToggle() {
     setBloom({ x, y, r, on: next === 'light' });
     window.setTimeout(() => setBloom(null), 1200);
 
-    document.documentElement.dataset.themeAnim = next === 'dark' ? 'off' : 'on';
+    // Publish the origin as custom properties BEFORE the transition starts.
+    // CSS then clips the incoming layer to a zero-radius circle from the very
+    // first frame. Without this the new layer is unclipped until the JS
+    // animation lands, and if `ready` resolves late the browser has already
+    // composited the finished theme — the full-screen flash on light-on. The
+    // outgoing layer starts unclipped by definition, which is why light-off
+    // never flashed and only one direction looked broken.
+    const root = document.documentElement;
+    root.style.setProperty('--vt-x', `${x}px`);
+    root.style.setProperty('--vt-y', `${y}px`);
+    root.dataset.themeAnim = next === 'dark' ? 'off' : 'on';
     const transition = document.startViewTransition(() => { apply(next); });
 
     try {
@@ -136,6 +146,8 @@ export function ThemeToggle() {
       logReveal('finished', { theme: document.documentElement.dataset.theme });
     } finally {
       delete document.documentElement.dataset.themeAnim;
+      document.documentElement.style.removeProperty('--vt-x');
+      document.documentElement.style.removeProperty('--vt-y');
     }
   };
 

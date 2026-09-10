@@ -321,7 +321,9 @@ body{padding-top:26px}
   @media (prefers-reduced-motion:reduce){
     .bulb__cord,.bulb__glass{transition:none}
   }
-  @media (max-width:400px){.bulb{display:none}}
+  /* Kept on the smallest screens: it is the only theme control there. */
+  @media (max-width:400px){.bulb{width:38px;height:38px}
+    .bulb__glass{width:22px;height:22px}}
 }
 
 /* The reveal. Every UA animation on the root transition is disabled so the
@@ -334,8 +336,15 @@ body{padding-top:26px}
 ::view-transition-image-pair(root){isolation:auto}
 ::view-transition-old(root),
 ::view-transition-new(root){animation:none;mix-blend-mode:normal}
-:root[data-theme-anim] ::view-transition-new(root),
-:root[data-theme-anim] ::view-transition-old(root){will-change:clip-path}
+/* No will-change here. It promotes a viewport-sized compositor surface on
+   every toggle, and repeated toggles accumulated until the renderer ran out
+   of memory (Chrome "Aw, Snap!", error code 5). */
+
+/* Clip the incoming layer from the first frame, before JS gets a chance to.
+   If `transition.ready` resolves late — which it does on the first switches
+   in dev — the layer would otherwise paint fully and flash. */
+:root[data-theme-anim='on']::view-transition-new(root){
+  clip-path:circle(0px at var(--vt-x, 50%) var(--vt-y, 0px))}
 
 /* Each snapshot paints its own ground. Without this the canvas — which the
    snapshot does not include — is already the incoming theme the instant the

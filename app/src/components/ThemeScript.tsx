@@ -1,31 +1,21 @@
-import Script from 'next/script';
-
 /**
  * Applies the saved theme before first paint.
  *
- * Uses next/script with `beforeInteractive` rather than a bare <script>:
- * React warns about script tags rendered inside components, and this strategy
- * puts it in the initial HTML ahead of any Next module.
+ * A plain inline <script>, deliberately NOT next/script. `beforeInteractive`
+ * renders the tag with async=true, so it does not block parsing and can run
+ * after the first paint — the stylesheet's prefers-color-scheme rule wins,
+ * paints, and then this corrects it. That is the reload flash.
  *
- * No stored choice means no attribute, which leaves the
- * `prefers-color-scheme` block in tokens.css in charge. That is deliberate —
- * "follow the system" is the default, not a third stored value.
+ * React hoists this into <head>; with no async or defer it blocks, which is
+ * the whole point.
  *
- * Because this mutates <html> before hydration, the root element carries
- * `suppressHydrationWarning`. That is scoped to that element's own attributes
- * and does not hide mismatches anywhere else in the tree.
+ * No stored choice means no attribute, leaving the prefers-color-scheme block
+ * in tokens.css in charge — "follow the system" is the default, not a third
+ * stored value. Because this mutates <html> before hydration, the root
+ * element carries suppressHydrationWarning.
  */
-const SCRIPT = `
-try {
-  var t = localStorage.getItem('zf-theme');
-  if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
-} catch (e) {}
-`.trim();
+const SCRIPT = `try{var t=localStorage.getItem('zf-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}`;
 
 export function ThemeScript() {
-  return (
-    <Script id="zf-theme" strategy="beforeInteractive">
-      {SCRIPT}
-    </Script>
-  );
+  return <script id="zf-theme" dangerouslySetInnerHTML={{ __html: SCRIPT }} />;
 }
