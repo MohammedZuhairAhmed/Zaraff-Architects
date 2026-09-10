@@ -106,12 +106,12 @@
   --status-ongoing:#8C2F22;
   --status-completed:#7C7468;
 
-  /* ---- Frame device tokens (lifted from the wordmark lockup) ---- */
+  /* ---- Frame device ----
+     Only primitives here. A composite like `--frame: 1px solid var(--hairline)`
+     resolves its nested var() where it is DECLARED, so the already-resolved
+     light colour inherits into dark subtrees and every bordered component
+     keeps a light border in dark mode. Compose at the use site instead. */
   --frame-width:1px;
-  --frame-color:var(--hairline);
-  --frame-color-on-light:var(--invert-hairline);
-  --frame:var(--frame-width) solid var(--frame-color);
-  --frame-on-light:var(--frame-width) solid var(--frame-color-on-light);
   --frame-inset:var(--space-md);
 
   /* ---- Type ---- */

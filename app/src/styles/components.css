@@ -78,7 +78,7 @@
 .zf-invert .zf-chip--bare{background:transparent;border-color:transparent}
 
 /* ---------- Frame container ---------- */
-.zf-frame-box{border:var(--frame);border-radius:var(--radius-md);background:transparent}
+.zf-frame-box{border:var(--frame-width) solid var(--hairline);border-radius:var(--radius-md);background:transparent}
 .zf-frame-box--inset{padding:var(--frame-inset)}
 .zf-frame-box--elevated{background:var(--canvas-elevated)}
 .zf-invert .zf-frame-box{border-color:var(--invert-hairline)}

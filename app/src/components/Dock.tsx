@@ -26,15 +26,18 @@ export function Dock({ whatsappNumber }: { whatsappNumber: string }) {
   const [open, setOpen] = useState(false);
   // Which section is on screen. Shown only on small screens, where the nav
   // links are behind the menu and this is the sole indication of place.
-  const [section, setSection] = useState<string | null>(null);
-  // Which way the label should travel when it changes: scrolling down sends
-  // the old label up and brings the new one in from below, and vice versa.
-  const [dir, setDir] = useState<'down' | 'up'>('down');
+  // The active section and the direction it arrived from, captured together
+  // at the moment it changes. Direction is deliberately NOT state: it moves
+  // on every scroll event, and having it in the className restarted the
+  // animation on any tiny scroll, even with the same section on screen.
+  const [active, setActive] = useState<{ name: string; dir: 'down' | 'up' } | null>(null);
+  const dirRef = useRef<'down' | 'up'>('down');
+  const activeRef = useRef<string | null>(null);
   const dockRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
 
   // The section wins once you are inside one; the page name is the fallback.
-  const here = section ?? NAV.find(n => n.href === pathname)?.label ?? 'Zaraff';
+  const here = active?.name ?? NAV.find(n => n.href === pathname)?.label ?? 'Zaraff';
 
   // Route change should never leave the panel hanging open.
   useEffect(() => setOpen(false), [pathname]);
@@ -43,7 +46,7 @@ export function Dock({ whatsappNumber }: { whatsappNumber: string }) {
     let last = window.scrollY;
     const onScroll = () => {
       const y = window.scrollY;
-      if (Math.abs(y - last) > 2) { setDir(y > last ? 'down' : 'up'); last = y; }
+      if (Math.abs(y - last) > 2) { dirRef.current = y > last ? 'down' : 'up'; last = y; }
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -60,15 +63,32 @@ export function Dock({ whatsappNumber }: { whatsappNumber: string }) {
   }, []);
 
   useEffect(() => {
-    setSection(null);
+    setActive(null);
+    activeRef.current = null;
 
     // Band across the middle of the viewport: whichever marked section is
     // crossing it is the one you are looking at.
     const io = new IntersectionObserver(
       entries => {
-        for (const e of entries) {
-          if (e.isIntersecting) setSection(e.target.getAttribute('data-section'));
-        }
+        const hits = entries.filter(e => e.isIntersecting);
+        if (hits.length === 0) return;
+
+        // A batch can contain more than one section, and entry order is not
+        // guaranteed, so taking the last one picked a section at random near
+        // a boundary. Choose the one nearest the middle of the viewport.
+        const middle = window.innerHeight / 2;
+        const winner = hits.reduce((best, e) => {
+          const d = Math.abs(e.boundingClientRect.top + e.boundingClientRect.height / 2 - middle);
+          const bd = Math.abs(best.boundingClientRect.top + best.boundingClientRect.height / 2 - middle);
+          return d < bd ? e : best;
+        });
+
+        const name = winner.target.getAttribute('data-section');
+        // Only a genuine change animates. Re-firing for the section already
+        // on screen is what made small scrolls jump.
+        if (!name || name === activeRef.current) return;
+        activeRef.current = name;
+        setActive({ name, dir: dirRef.current });
       },
       { rootMargin: '-45% 0px -50% 0px' },
     );
@@ -129,7 +149,15 @@ export function Dock({ whatsappNumber }: { whatsappNumber: string }) {
       <div className="dock__inner">
         <Link className="dock__mark" href="/"><span>Zaraff</span></Link>
         <span className="dock__where" aria-hidden="true">
-          <span key={here} className={`dock__where-text is-${dir}`}>{here}</span>
+          {/* Animated only when a section drives it — which is only the home
+              page. Other routes show a fixed page name, so a slide would be
+              motion with nothing to say. */}
+          <span
+            key={here}
+            className={`dock__where-text${active ? ` is-${active.dir}` : ''}`}
+          >
+            {here}
+          </span>
         </span>
         <nav className="dock__links" aria-label="Main">{links}</nav>
         <a

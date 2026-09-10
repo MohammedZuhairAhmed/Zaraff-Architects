@@ -13,10 +13,10 @@ body{margin:0;background:var(--canvas);color:var(--text-muted);font-family:var(-
 .zf-label{font-size:var(--fs-label);font-weight:var(--fw-label);line-height:var(--lh-label);text-transform:none;color:var(--text-muted)}
 
 /* The connective device: a hairline rectangle, no radius. */
-.zf-frame{border:var(--frame);border-radius:0}
-.zf-frame-on-light{border:var(--frame-on-light);border-radius:0}
-.zf-frame-inset{border:var(--frame);border-radius:0;padding:var(--frame-inset)}
-.zf-rule{border:0;border-top:var(--frame);margin:0}
+.zf-frame{border:var(--frame-width) solid var(--hairline);border-radius:0}
+.zf-frame-on-light{border:var(--frame-width) solid var(--invert-hairline);border-radius:0}
+.zf-frame-inset{border:var(--frame-width) solid var(--hairline);border-radius:0;padding:var(--frame-inset)}
+.zf-rule{border:0;border-top:var(--frame-width) solid var(--hairline);margin:0}
 
 /* Light band, e.g. pricing and long-form reading. */
 .zf-invert{background:var(--invert-bg);color:var(--invert-text-muted)}

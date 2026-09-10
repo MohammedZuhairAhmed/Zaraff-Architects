@@ -173,3 +173,14 @@ Static checks are not enough. Alignment held perfectly at every scroll depth
 and across all 204 elements, and the bug only appeared while the page was
 MOVING. Always test: scroll during the reveal, and toggle repeatedly while
 scrolling.
+
+## Never bake a colour into a composite token
+`--frame: var(--frame-width) solid var(--frame-color)` looked tidy and was a
+bug. Nested `var()` inside a custom property resolves where the property is
+DECLARED, so `--frame` computed once on `:root` with the light hairline and
+that resolved string inherited into every `[data-theme='dark']` subtree. Every
+bordered component kept a light border in dark mode — visible as a white
+border on the package cards.
+
+Tokens hold primitives. Compose at the use site:
+`border: var(--frame-width) solid var(--hairline)`.
