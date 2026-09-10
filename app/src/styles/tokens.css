@@ -101,7 +101,11 @@
   --bulb-halo:rgba(255,196,92,.55);
   /* Theme-reveal mask. Alpha stops, not colour — the soft middle stop is what
      gives the expanding edge a falloff instead of a hard wipe. */
-  --reveal-mask:radial-gradient(circle,#000 58%,rgba(0,0,0,.55) 76%,transparent 100%);
+  /* Bloom: the light itself. Warm on the way up, cool on the way down. */
+  --bloom-core-on:rgba(255,224,170,.55);
+  --bloom-mid-on:rgba(255,205,130,.20);
+  --bloom-core:rgba(20,18,15,.42);
+  --bloom-mid:rgba(20,18,15,.16);
 
   /* ---- Status ---- */
   --status-ongoing:#8C2F22;
@@ -242,6 +246,10 @@
       --bulb-edge:#E0A951;
       --bulb-filament:#F0B255;
       --bulb-halo:rgba(255,196,92,.45);
+      --bloom-core-on:rgba(255,224,170,.42);
+      --bloom-mid-on:rgba(255,205,130,.16);
+      --bloom-core:rgba(0,0,0,.5);
+      --bloom-mid:rgba(0,0,0,.2);
 
       /* Warm bands go dark too, or they punch holes in a night page. */
       --limewash:#1C1813;
@@ -305,6 +313,10 @@
       --bulb-edge:#E0A951;
       --bulb-filament:#F0B255;
       --bulb-halo:rgba(255,196,92,.45);
+      --bloom-core-on:rgba(255,224,170,.42);
+      --bloom-mid-on:rgba(255,205,130,.16);
+      --bloom-core:rgba(0,0,0,.5);
+      --bloom-mid:rgba(0,0,0,.2);
         --limewash:#1C1813;
         --sand:#2A2318;
         --sand-deep:#3A3122;

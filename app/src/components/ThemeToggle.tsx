@@ -22,6 +22,7 @@ type Theme = 'light' | 'dark';
 export function ThemeToggle() {
   const [theme, setTheme] = useState<Theme | null>(null);
   const [pulling, setPulling] = useState(false);
+  const [bloom, setBloom] = useState<{ x: number; y: number; r: number; on: boolean } | null>(null);
   const ref = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -45,50 +46,45 @@ export function ThemeToggle() {
   const flip = async () => {
     const next: Theme = theme === 'dark' ? 'light' : 'dark';
 
-    // The cord tugs regardless of whether the reveal is available.
-    setPulling(true);
-    window.setTimeout(() => setPulling(false), 420);
-
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    // A full-screen wipe is exactly the motion that causes trouble for some
-    // people, so reduced motion gets the switch with no animation at all.
-    if (reduced || !document.startViewTransition) { apply(next); return; }
-
     const rect = ref.current?.getBoundingClientRect();
     const x = rect ? rect.left + rect.width / 2 : innerWidth / 2;
     const y = rect ? rect.top + rect.height / 2 : 0;
 
+    // The cord tugs whether or not the reveal is available.
+    setPulling(true);
+    window.setTimeout(() => setPulling(false), 420);
+
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced || !document.startViewTransition) { apply(next); return; }
+
     // Reach the furthest corner, or the reveal leaves an unlit wedge.
     const r = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+
+    // The bloom is the softness. It is a plain element scaled by transform,
+    // so it composites on the GPU — unlike mask-size or clip-path, which
+    // repaint a full-viewport layer every frame. The clipped reveal below
+    // does the honest work; this makes the leading edge feel like light.
+    setBloom({ x, y, r, on: next === 'light' });
+    window.setTimeout(() => setBloom(null), 700);
 
     document.documentElement.dataset.themeAnim = next === 'dark' ? 'off' : 'on';
     const transition = document.startViewTransition(() => { apply(next); });
 
     try {
       await transition.ready;
-
       const lightOn = next === 'light';
-      const pseudo = lightOn ? '::view-transition-new(root)' : '::view-transition-old(root)';
-
-      // A hard clip-path circle reads as a wipe. A radial mask with a soft
-      // stop gives the leading edge a falloff, so it reads as light spreading.
-      // mask-size and mask-position animate together to keep the circle
-      // centred on the bulb as it grows.
-      const size = (n: number) => `${n * 2}px ${n * 2}px`;
-      const pos = (n: number) => `${x - n}px ${y - n}px`;
-      const frames: Keyframe[] = [
-        { maskSize: size(0), maskPosition: pos(0) },
-        { maskSize: size(r), maskPosition: pos(r) },
-      ];
-
-      document.documentElement.animate(lightOn ? frames : [...frames].reverse(), {
-        duration: lightOn ? 900 : 700,
-        // Fast out of the bulb, long settle — light floods then eases.
-        easing: lightOn ? 'cubic-bezier(.16,.84,.34,1)' : 'cubic-bezier(.5,0,.75,.2)',
-        fill: 'forwards',
-        pseudoElement: pseudo,
-      });
-
+      const clip = [`circle(0px at ${x}px ${y}px)`, `circle(${r}px at ${x}px ${y}px)`];
+      document.documentElement.animate(
+        { clipPath: lightOn ? clip : [...clip].reverse() },
+        {
+          // Inside the 300-500ms band for a view transition; exit faster than
+          // entrance. Longer than this reads as latency, not atmosphere.
+          duration: lightOn ? 480 : 380,
+          easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+          fill: 'forwards',
+          pseudoElement: lightOn ? '::view-transition-new(root)' : '::view-transition-old(root)',
+        },
+      );
       await transition.finished;
     } finally {
       delete document.documentElement.dataset.themeAnim;
@@ -99,6 +95,19 @@ export function ThemeToggle() {
     theme === null ? 'Switch theme' : theme === 'dark' ? 'Turn the light on' : 'Turn the light off';
 
   return (
+    <>
+      {bloom && (
+        <span
+          aria-hidden="true"
+          className={`bulb-bloom${bloom.on ? ' is-on' : ''}`}
+          style={{
+            left: bloom.x,
+            top: bloom.y,
+            width: bloom.r * 2,
+            height: bloom.r * 2,
+          }}
+        />
+      )}
     <button
       ref={ref}
       type="button"
@@ -120,5 +129,6 @@ export function ThemeToggle() {
         <path className="bulb__cap" d="M9.6 17.6h4.8M10.1 19.4h3.8" />
       </svg>
     </button>
+    </>
   );
 }

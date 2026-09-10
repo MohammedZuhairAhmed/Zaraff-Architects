@@ -182,7 +182,7 @@ a.contact__card:hover{border-color:var(--text);transform:translateY(-3px)}
 .dock__inner{display:flex;align-items:center;gap:var(--space-md);
   padding:10px 10px 10px 4px;border:1px solid transparent;border-radius:var(--radius-full);
   background:transparent;
-  transition:padding var(--dur) var(--ease-spring),background var(--dur) var(--ease-out),
+  transition:background var(--dur) var(--ease-out),
              border-color var(--dur) var(--ease-out),box-shadow var(--dur) var(--ease-out)}
 
 .dock__mark{text-decoration:none;flex:none;padding-left:14px}
@@ -190,10 +190,8 @@ a.contact__card:hover{border-color:var(--text);transform:translateY(-3px)}
 
 /* "Where you are" — only surfaces in the contracted state, like the island's
    at-a-glance line. Width animates so the morph reads as one object. */
-.dock__where{display:none;flex:none;max-width:0;overflow:hidden;white-space:nowrap;opacity:0;
-  font-size:13px;color:var(--text-subtle);
-  transition:max-width var(--dur) var(--ease-spring),opacity var(--dur-fast) var(--ease-out),
-             padding var(--dur) var(--ease-spring)}
+.dock__where{display:none;flex:none;overflow:hidden;white-space:nowrap;
+  font-size:13px;color:var(--text-subtle)}
 
 .dock__links{display:flex;gap:var(--space-md);margin-left:auto}
 .dock__link{position:relative;font-size:14.5px;color:var(--text-muted);text-decoration:none;padding:6px 0;
@@ -332,11 +330,7 @@ body{padding-top:26px}
 ::view-transition-old(root),
 ::view-transition-new(root){animation:none;mix-blend-mode:normal}
 :root[data-theme-anim] ::view-transition-new(root),
-:root[data-theme-anim] ::view-transition-old(root){will-change:mask-size,mask-position}
-:root[data-theme-anim='on']::view-transition-new(root),
-:root[data-theme-anim='off']::view-transition-old(root){
-  mask-image:var(--reveal-mask);
-  mask-repeat:no-repeat}
+:root[data-theme-anim] ::view-transition-old(root){will-change:clip-path}
 /* Turning the light off animates the OUTGOING layer, so it must sit on top. */
 :root[data-theme-anim='off']::view-transition-old(root){z-index:2}
 :root[data-theme-anim='off']::view-transition-new(root){z-index:1}
@@ -373,4 +367,23 @@ body{padding-top:26px}
   /* Empty states are a designed condition, not a blank area. */
   .collection-empty{margin:0;padding:var(--space-lg) 0;color:var(--text-muted);
     border-top:1px solid var(--hairline);max-width:52ch}
+}
+
+@layer pages {
+  /* The bloom. Scaled by transform only, so it composites on the GPU and
+     costs nothing per frame — the soft leading edge that a clip-path circle
+     cannot give on its own. Sits above the page, below the dock. */
+  .bulb-bloom{position:fixed;z-index:55;pointer-events:none;
+    translate:-50% -50%;border-radius:var(--radius-full);
+    background:radial-gradient(circle,var(--bloom-core) 0%,var(--bloom-mid) 42%,transparent 70%);
+    transform:scale(.04);opacity:0;
+    animation:bulb-bloom 620ms cubic-bezier(0.16,1,0.3,1) forwards}
+  .bulb-bloom.is-on{background:radial-gradient(circle,var(--bloom-core-on) 0%,var(--bloom-mid-on) 44%,transparent 70%)}
+
+  @keyframes bulb-bloom{
+    0%{transform:scale(.04);opacity:0}
+    22%{opacity:1}
+    100%{transform:scale(1);opacity:0}
+  }
+  @media (prefers-reduced-motion:reduce){.bulb-bloom{display:none}}
 }
