@@ -10,3 +10,6 @@ dist/
 app/.next/
 app/next-env.d.ts
 app/tsconfig.tsbuildinfo
+
+# Vercel
+.vercel
