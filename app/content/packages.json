@@ -1,0 +1,43 @@
+[
+  {
+    "slug": "design-and-drawings",
+    "name": "Design and drawings",
+    "rate": "On request",
+    "basis": "per square foot",
+    "note": "You hold the drawings and appoint your own contractor.",
+    "includes": [
+      "Site study and measured plot survey",
+      "Floor plans, elevations and sections",
+      "The municipal sanction set",
+      "Structural and electrical drawings",
+      "Two revisions at each stage"
+    ],
+    "excludes": [
+      "Construction",
+      "Material procurement",
+      "Site supervision"
+    ],
+    "emphasis": false,
+    "order": 1
+  },
+  {
+    "slug": "design-and-build",
+    "name": "Design and build",
+    "rate": "On request",
+    "basis": "per square foot, turnkey",
+    "note": "One drawing set, one team, from sanction to handover.",
+    "includes": [
+      "Everything in design and drawings",
+      "Construction with our own site team",
+      "Material procurement at our rates",
+      "Weekly progress reporting on WhatsApp",
+      "Fixed interiors"
+    ],
+    "excludes": [
+      "Loose furniture and soft furnishing",
+      "Landscaping beyond the plinth"
+    ],
+    "emphasis": true,
+    "order": 2
+  }
+]

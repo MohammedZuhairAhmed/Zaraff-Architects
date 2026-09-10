@@ -1,0 +1,19 @@
+{
+  "name": "Zaraff",
+  "tagline": "Architects & Interiors",
+  "intro": "A young practice that draws buildings and then stays to build them.",
+  "body": "",
+  "location": "Hyderabad, Telangana",
+  "foundedYear": 2024,
+  "stats": [
+    {
+      "label": "Founded",
+      "value": "2024"
+    },
+    {
+      "label": "Based in",
+      "value": "Hyderabad"
+    }
+  ],
+  "portrait": null
+}

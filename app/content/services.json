@@ -1,0 +1,54 @@
+[
+  {
+    "slug": "architectural-design",
+    "title": "Architectural design",
+    "summary": "Concept, planning, elevations and the full municipal drawing set. We handle the sanction process.",
+    "includes": [
+      "Measured site survey",
+      "Concept and massing",
+      "Plans, elevations, sections",
+      "Sanction drawings and liaison"
+    ],
+    "image": null,
+    "order": 1
+  },
+  {
+    "slug": "visualisation",
+    "title": "3D visualisation",
+    "summary": "Enscape renders and 360 degree walkthroughs from the working model, so you approve a house you have already walked through.",
+    "includes": [
+      "Exterior stills",
+      "Interior stills",
+      "360 panoramas",
+      "Material boards"
+    ],
+    "image": null,
+    "order": 2
+  },
+  {
+    "slug": "interiors",
+    "title": "Interiors and fitout",
+    "summary": "Joinery detailing at execution scale, material selection, and coordination with the vendors who build it.",
+    "includes": [
+      "Furniture layouts",
+      "Joinery details",
+      "Finish schedules",
+      "Vendor coordination"
+    ],
+    "image": null,
+    "order": 3
+  },
+  {
+    "slug": "construction",
+    "title": "Turnkey construction",
+    "summary": "Our own site team from foundation to handover. One bill, one number to call.",
+    "includes": [
+      "Structure and shell",
+      "Finishes and services",
+      "Procurement at our rates",
+      "Weekly progress reporting"
+    ],
+    "image": null,
+    "order": 4
+  }
+]

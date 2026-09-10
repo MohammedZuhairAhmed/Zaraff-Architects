@@ -1,0 +1,152 @@
+[
+  {
+    "slug": "courtyard-house",
+    "title": "Courtyard House",
+    "status": "completed",
+    "typology": "Private residence",
+    "location": "Kompally, Hyderabad",
+    "areaSqft": 3400,
+    "year": 2025,
+    "brief": "A narrow north-facing plot with a neighbour hard against the east wall. We pulled a courtyard through the centre of the plan so every room borrows light from the middle rather than the boundary.",
+    "role": "Design, drawings and construction \u2014 Zaraff",
+    "body": "",
+    "hero": {
+      "url": "/media/placeholder/courtyard-house.jpg",
+      "alt": "courtyard house"
+    },
+    "gallery": [
+      {
+        "url": "/media/placeholder/courtyard-house-1.jpg",
+        "alt": "courtyard house 1"
+      },
+      {
+        "url": "/media/placeholder/courtyard-house-2.jpg",
+        "alt": "courtyard house 2"
+      }
+    ],
+    "drawings": [
+      {
+        "url": "/media/placeholder/courtyard-house-plan.jpg",
+        "alt": "courtyard house plan"
+      }
+    ],
+    "panoramas": [],
+    "comparisonRender": {
+      "url": "/media/placeholder/courtyard-house-render.jpg",
+      "alt": "courtyard house render"
+    },
+    "featured": true,
+    "order": 1
+  },
+  {
+    "slug": "setback-villa",
+    "title": "The Setback Villa",
+    "status": "completed",
+    "typology": "Private residence",
+    "location": "Gachibowli",
+    "areaSqft": 5100,
+    "year": 2025,
+    "brief": "Setback rules left an awkward wedge at the front. Rather than fight it, the plan leans into the angle and makes the entry sequence out of it.",
+    "role": "Design, drawings and construction \u2014 Zaraff",
+    "body": "",
+    "hero": {
+      "url": "/media/placeholder/setback-villa.jpg",
+      "alt": "setback villa"
+    },
+    "gallery": [
+      {
+        "url": "/media/placeholder/setback-villa-1.jpg",
+        "alt": "setback villa 1"
+      },
+      {
+        "url": "/media/placeholder/setback-villa-2.jpg",
+        "alt": "setback villa 2"
+      }
+    ],
+    "drawings": [
+      {
+        "url": "/media/placeholder/setback-villa-plan.jpg",
+        "alt": "setback villa plan"
+      }
+    ],
+    "panoramas": [],
+    "comparisonRender": {
+      "url": "/media/placeholder/setback-villa-render.jpg",
+      "alt": "setback villa render"
+    },
+    "featured": true,
+    "order": 2
+  },
+  {
+    "slug": "amara-apartments",
+    "title": "Amara Apartments",
+    "status": "ongoing",
+    "typology": "G+4 residential",
+    "location": "Kondapur",
+    "areaSqft": null,
+    "year": 2026,
+    "brief": "Twelve units on a tight urban plot, with a shared deck on the top floor that gives every household somewhere outdoors.",
+    "role": "Design and construction documentation \u2014 Zaraff",
+    "body": "",
+    "hero": {
+      "url": "/media/placeholder/amara-apartments.jpg",
+      "alt": "amara apartments"
+    },
+    "gallery": [
+      {
+        "url": "/media/placeholder/amara-apartments-1.jpg",
+        "alt": "amara apartments 1"
+      },
+      {
+        "url": "/media/placeholder/amara-apartments-2.jpg",
+        "alt": "amara apartments 2"
+      }
+    ],
+    "drawings": [
+      {
+        "url": "/media/placeholder/amara-apartments-plan.jpg",
+        "alt": "amara apartments plan"
+      }
+    ],
+    "panoramas": [],
+    "comparisonRender": null,
+    "featured": false,
+    "order": 3
+  },
+  {
+    "slug": "studio-ekaant",
+    "title": "Studio Ekaant",
+    "status": "ongoing",
+    "typology": "Interior fitout",
+    "location": "Jubilee Hills",
+    "areaSqft": null,
+    "year": 2026,
+    "brief": "A working photography studio in a converted apartment. Blackout where it matters, daylight where it does not.",
+    "role": "Interior design and fitout \u2014 Zaraff",
+    "body": "",
+    "hero": {
+      "url": "/media/placeholder/studio-ekaant.jpg",
+      "alt": "studio ekaant"
+    },
+    "gallery": [
+      {
+        "url": "/media/placeholder/studio-ekaant-1.jpg",
+        "alt": "studio ekaant 1"
+      },
+      {
+        "url": "/media/placeholder/studio-ekaant-2.jpg",
+        "alt": "studio ekaant 2"
+      }
+    ],
+    "drawings": [
+      {
+        "url": "/media/placeholder/studio-ekaant-plan.jpg",
+        "alt": "studio ekaant plan"
+      }
+    ],
+    "panoramas": [],
+    "comparisonRender": null,
+    "featured": false,
+    "order": 4
+  }
+]
