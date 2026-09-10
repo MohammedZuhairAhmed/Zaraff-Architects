@@ -193,8 +193,12 @@ a.contact__card:hover{border-color:var(--text);transform:translateY(-3px)}
 
 /* "Where you are" — only surfaces in the contracted state, like the island's
    at-a-glance line. Width animates so the morph reads as one object. */
+/* Sized against the wordmark it sits beside, not as fine print. 13px next to
+   a 23px mark read as an afterthought. Weight and colour still keep it
+   secondary — it is orientation, not a heading. */
 .dock__where{display:none;flex:none;overflow:hidden;white-space:nowrap;
-  font-size:13px;color:var(--text-subtle)}
+  font-size:clamp(1rem,3.9vw,1.15rem);font-weight:500;letter-spacing:-.01em;
+  color:var(--text-muted)}
 
 .dock__links{display:flex;gap:var(--space-md);margin-left:auto}
 .dock__link{position:relative;font-size:14.5px;color:var(--text-muted);text-decoration:none;padding:6px 0;
@@ -262,7 +266,7 @@ a.contact__card:hover{border-color:var(--text);transform:translateY(-3px)}
     padding-inline:var(--space-sm);text-align:center;
     border-left:1px solid var(--hairline);
     /* Clip so the outgoing and incoming labels slide within the pill. */
-    overflow:hidden;height:1.35em}
+    overflow:hidden;height:1.4em}
   .dock__wa{padding:11px 13px}
   .dock__wa-glyph{width:19px;height:19px}
   .dock__wa-text{display:none}
