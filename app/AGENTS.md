@@ -141,3 +141,20 @@ Consequences to respect:
   padding-top for the draft banner put the whole clone 26px high, and content
   visibly jumped as the hole crossed it. Verify with
   `cloneRect.top - realRect.top === 0` on a flow element AND a fixed one.
+- Off-screen cloned sections get `content-visibility: hidden` so the browser
+  skips their layout, paint and compositing. This is what keeps the cost
+  proportional to the viewport instead of the page. Do NOT remove them
+  instead: removing shifts everything after it.
+- `contain-intrinsic-size` takes the CONTENT box; `getBoundingClientRect`
+  returns the BORDER box. Passing the latter adds each section's padding to
+  the reserved space — 240px per section here — and the error accumulates
+  down the page. Subtract padding and border.
+- Ids are stripped from the clone. Otherwise every id in the document is
+  duplicated for as long as the clone is mounted, breaking getElementById,
+  in-page anchors and aria-labelledby.
+
+### Verifying the clone
+Capture the real geometry BEFORE the clone is inserted. Once it is in the
+document, `document.querySelectorAll` matches both copies — that double-count
+produced a bogus "55% fewer nodes" measurement and a phantom section count of
+12 where there were 6.

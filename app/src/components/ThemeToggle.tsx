@@ -92,6 +92,7 @@ export function ThemeToggle() {
     // content does. Ignoring that put every cloned element 26px high — the
     // draft banner's padding-top — and as the hole grew, content swapped
     // between two copies at different heights. That is the layout shift.
+    const vh = window.innerHeight;
     const bodyBox = getComputedStyle(document.body);
     const offsetTop =
       parseFloat(bodyBox.marginTop) + parseFloat(bodyBox.borderTopWidth) + parseFloat(bodyBox.paddingTop);
@@ -107,17 +108,50 @@ export function ThemeToggle() {
       // A still image has no reason to fetch, decode or play. Images are
       // left alone: they come from cache and are part of what is revealed.
       copy.querySelectorAll?.('video, iframe, canvas, object, embed').forEach(el => el.remove());
+      // Strip ids so the clone does not duplicate every id in the document
+      // while it is mounted. Duplicates break getElementById, in-page
+      // anchors and aria-labelledby for the ~1s the clone exists.
+      if (copy.id) copy.removeAttribute('id');
+      copy.querySelectorAll?.('[id]').forEach(el => el.removeAttribute('id'));
       inner.appendChild(copy);
     }
 
-    // Deliberately NOT culling off-screen content. It sounds free but is not:
-    // the whole page sits inside one full-height wrapper that always
-    // intersects the viewport, so top-level culling reaches nothing, and
-    // dropping an in-flow section would shift everything after it and
-    // reintroduce the clone misalignment. If a page ever gets heavy enough
-    // to matter, replace off-screen sections with height-preserving spacers
-    // rather than removing them — and measure first. One clone is currently
-    // 242 nodes in under a millisecond.
+    // Keep the clone's rendering cost proportional to the viewport, not to
+    // the page.
+    //
+    // Every node is kept, because removing an off-screen section shifts
+    // everything after it and breaks alignment. Instead, sections that are
+    // fully off-screen are marked `content-visibility: hidden`, so the
+    // browser skips their layout, paint and compositing entirely — they are
+    // never visible through the hole, so there is nothing to lose.
+    //
+    // `contain-intrinsic-size` is pinned to each section's MEASURED size, so
+    // a skipped section still occupies exactly the space it did. Without
+    // that, containment would collapse it and every later section would
+    // slide up — the misalignment bug again, by another route.
+    const SECTIONS = 'main > section, footer';
+    const realSections = document.querySelectorAll<HTMLElement>(SECTIONS);
+    const clonedSections = inner.querySelectorAll<HTMLElement>(SECTIONS);
+    for (let i = 0; i < realSections.length && i < clonedSections.length; i++) {
+      const el = realSections[i];
+      const box = el.getBoundingClientRect();
+      if (box.bottom >= 0 && box.top <= vh) continue; // on screen, render it
+
+      // contain-intrinsic-size describes the CONTENT box, while
+      // getBoundingClientRect returns the BORDER box. Feeding it the border
+      // box adds the element's padding on top of the reserved space — 240px
+      // per section here — and the error accumulates down the page. Subtract
+      // padding and border to get the content box.
+      const cs = getComputedStyle(el);
+      const px = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight)
+               + parseFloat(cs.borderLeftWidth) + parseFloat(cs.borderRightWidth);
+      const py = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom)
+               + parseFloat(cs.borderTopWidth) + parseFloat(cs.borderBottomWidth);
+
+      const clone = clonedSections[i];
+      clone.style.containIntrinsicSize = `${box.width - px}px ${box.height - py}px`;
+      clone.style.contentVisibility = 'hidden';
+    }
     layer.appendChild(inner);
     layer.style.setProperty('--ux', `${x}px`);
     layer.style.setProperty('--uy', `${y}px`);
