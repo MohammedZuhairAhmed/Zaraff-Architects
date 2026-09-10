@@ -7,46 +7,46 @@
 
 :root{
   /* ---- Accent: the only colour in the system ---- */
-  --primary:#7E2A1E;
-  --primary-hover:#621F16;
+  --primary:#8C2F22;
+  --primary-hover:#6E241A;
   /* The same oxide hue lifted for type on near-black, where #8C2F22 reads 2.3:1.
      Not a second accent — identical hue, oklch(.66 .115 33), 5.9:1 on canvas. */
-  --primary-lifted:#7E2A1E;
+  --primary-lifted:#CF7663;
   --whatsapp:#1FA855;
   --whatsapp-hover:#188742;
 
   /* ---- Ground ---- */
-  --canvas:#F7F4EE;
-  --canvas-elevated:#EDE7DB;
-  --canvas-light:#14120F;
+  --canvas:#12100D;
+  --canvas-elevated:#1D1A16;
+  --canvas-light:#EFEAE1;
 
   /* ---- Ink / grey ladder ---- */
-  --ink:#F7F4EE;
-  --on-dark:#14120F;
-  --body:#57514A;
-  --body-on-light:#B5AEA2;
-  --muted:#7C7468;
+  --ink:#12100D;
+  --on-dark:#FFFFFF;
+  --body:#A8A196;
+  --body-on-light:#4C4740;
+  --muted:#736C61;
 
   /* ---- Hairline: the frame device ---- */
-  --hairline:#DBD4C6;
-  --hairline-on-light:#332E27;
+  --hairline:#332E27;
+  --hairline-on-light:#D6CFC2;
   /* Control boundaries, as opposed to the decorative frame: the hairline is
      1.4:1 on canvas, which is right for a drawn rule and wrong for a button. */
-  --control-border:#8C8477;
-  --control-border-on-light:#6E665A;
+  --control-border:#736C61;
+  --control-border-on-light:#837B6E;
   /* Chalk fills on the light band. */
-  --chalk:#E8E1D4;
-  --chalk-deep:#F0EBE0;
+  --chalk:#E4DDD1;
+  --chalk-deep:#EAE4D9;
 
   /* ---- Warm neutrals: section grounds, drawn from lime plaster and sand ---- */
   --limewash:#E8E2D6;
   --sand:#CDBFA8;
   --sand-deep:#B9A88D;
-  --warm-veil:rgba(120,100,70,.06);
+  --warm-veil:rgba(205,191,168,.07);
 
   /* ---- Status ---- */
   --status-ongoing:#8C2F22;
-  --status-completed:#7C7468;
+  --status-completed:#A3A29D;
 
   /* ---- Frame device tokens (lifted from the wordmark lockup) ---- */
   --frame-width:1px;
@@ -104,7 +104,7 @@
   --dur-slow:.95s;
 
   /* ---- Elevation: tinted to the ground, never generic black ---- */
-  --shadow-lift:0 20px 44px -28px rgba(40,30,18,.34),0 2px 6px -3px rgba(40,30,18,.14);
+  --shadow-lift:0 18px 40px -24px rgba(0,0,0,.9),0 2px 8px -4px rgba(0,0,0,.6);
 
   /* ---- Radius: near-square ---- */
   /* Varied, not uniform: containers soften, the things inside them stay tight.
@@ -146,7 +146,7 @@ a:hover{color:var(--primary);text-decoration-color:var(--primary)}
 
 /* ---------- Surface: grain breaks the digital flatness ---------- */
 .zf-grain{position:relative}
-.zf-grain::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;opacity:.16;mix-blend-mode:multiply;
+.zf-grain::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;opacity:.4;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E")}
 
 /* ---------- Full bleed: imagery escapes the container ---------- */
@@ -173,11 +173,11 @@ html{scroll-behavior:smooth}
 }
 
 /* ---------- Warm grounds ---------- */
-.zf-sand{background:var(--sand);color:var(--on-dark)}
-.zf-sand .zf-display-mega,.zf-sand .zf-display-large,.zf-sand .zf-display,.zf-sand .zf-heading{color:var(--on-dark)}
+.zf-sand{background:var(--sand);color:var(--ink)}
+.zf-sand .zf-display-mega,.zf-sand .zf-display-large,.zf-sand .zf-display,.zf-sand .zf-heading{color:var(--ink)}
 .zf-sand .zf-body,.zf-sand .zf-body-small{color:#4C4740}
-.zf-limewash{background:var(--limewash);color:var(--on-dark)}
-.zf-limewash .zf-display-mega,.zf-limewash .zf-display-large,.zf-limewash .zf-display,.zf-limewash .zf-heading{color:var(--on-dark)}
+.zf-limewash{background:var(--limewash);color:var(--ink)}
+.zf-limewash .zf-display-mega,.zf-limewash .zf-display-large,.zf-limewash .zf-display,.zf-limewash .zf-heading{color:var(--ink)}
 .zf-limewash .zf-body{color:#4C4740}
 /* A warm veil lifts a dark section off pure black without introducing a colour. */
 .zf-warm{background-image:linear-gradient(180deg,var(--warm-veil),transparent 70%)}

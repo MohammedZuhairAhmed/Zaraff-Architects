@@ -73,7 +73,7 @@
 .zf-chip--ongoing .zf-chip__dot{background:var(--status-ongoing)}
 .zf-chip--completed .zf-chip__dot{background:var(--status-completed)}
 .zf-chip--bare{background:transparent;border-color:transparent;padding:0}
-.zf-light .zf-chip{color:var(--ink);background:var(--chalk);border-color:var(--hairline-on-light)}
+.zf-light .zf-chip{color:var(--ink);background:rgba(255,255,255,.09);border-color:var(--hairline-on-light)}
 .zf-light .zf-chip--bare{background:transparent;border-color:transparent}
 
 /* ---------- Frame container ---------- */

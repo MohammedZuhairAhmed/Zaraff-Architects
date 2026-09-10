@@ -4,7 +4,7 @@
 .zf-media{position:relative;display:block;overflow:hidden;background:var(--canvas-elevated);border-radius:var(--radius-lg)}
 .zf-media img{display:block;width:100%;height:100%;object-fit:cover;object-position:center;transition:transform var(--dur-slow) var(--ease-spring)}
 a.zf-plate:hover .zf-media img,a.zf-plate:focus-visible .zf-media img{transform:scale(1.035)}
-.zf-media--drawing{background:var(--canvas-light)}
+.zf-media--drawing{background:var(--chalk)}
 .zf-media--drawing img{object-fit:contain;padding:var(--space-sm);box-sizing:border-box}
 .zf-media--photo img{filter:saturate(.82) contrast(1.04)}
 .zf-media__ph{position:absolute;inset:0;display:grid;place-items:center;background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 1px,transparent 1px 7px)}
