@@ -402,8 +402,11 @@ body{padding-top:26px}
      brings the next one in from below. A static swap reads as a glitch. */
   .dock__where-text{display:block;grid-area:1/1;white-space:nowrap;
     overflow:hidden;text-overflow:ellipsis;max-width:100%}
-  .dock__where-text.is-down{animation:where-up var(--dur) var(--ease-spring)}
-  .dock__where-text.is-up{animation:where-down var(--dur) var(--ease-spring)}
+  /* Plain ease-out, not the spring curve: a short label slide wants a clean
+     arrival, and it keeps the motion vocabulary honest — spring easing is
+     reserved for things that actually have weight. */
+  .dock__where-text.is-down{animation:where-up var(--dur) var(--ease-out)}
+  .dock__where-text.is-up{animation:where-down var(--dur) var(--ease-out)}
 
   @keyframes where-up{
     from{transform:translateY(90%);opacity:0}
