@@ -14,14 +14,6 @@ import { ContentSourceError } from '../../ports/ContentSource';
 import type { Project, Service, Package, Studio, SiteSettings } from '../../domain/types';
 import { toProject, toService, toPackage, toStudio, toSettings } from './mappers';
 
-/**
- * Next augments RequestInit with `next`. Typing it locally keeps this file
- * compilable outside a Next project and avoids clashing with that augmentation.
- */
-type CachedRequestInit = RequestInit & {
-  next?: { tags?: string[]; revalidate?: number | false };
-};
-
 interface ContentstackConfig {
   apiKey: string;
   deliveryToken: string;
@@ -35,9 +27,9 @@ export class ContentstackContentSource implements ContentSource {
   constructor(private readonly config: ContentstackConfig) {}
 
   /**
-   * Single transport chokepoint. Next's fetch cache does the heavy lifting:
-   * tagged so a CMS webhook can call revalidateTag('content') and invalidate
-   * everything without a redeploy. That is what makes SSR behave like static.
+   * Single transport chokepoint. Deliberately uncached: callers wrap these
+   * reads in a `use cache` scope (src/content/cached.ts), so caching policy is
+   * app-owned and identical whichever adapter is active.
    */
   private async query<T>(contentType: string, params: Record<string, string> = {}): Promise<T[]> {
     const host = this.config.region === 'eu' ? 'eu-cdn.contentstack.com' : 'cdn.contentstack.io';
@@ -48,14 +40,12 @@ export class ContentstackContentSource implements ContentSource {
 
     let res: Response;
     try {
-      const init: CachedRequestInit = {
+      res = await fetch(url, {
         headers: {
           api_key: this.config.apiKey,
           access_token: this.config.deliveryToken,
         },
-        next: { tags: ['content', `content:${contentType}`], revalidate: 3600 },
-      };
-      res = await fetch(url, init);
+      });
     } catch (err) {
       throw new ContentSourceError(this.name, `network failure for ${contentType}`, err);
     }

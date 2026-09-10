@@ -7,3 +7,6 @@ app/node_modules/
 dist/
 .env
 .env.local
+app/.next/
+app/next-env.d.ts
+app/tsconfig.tsbuildinfo

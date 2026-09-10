@@ -4,7 +4,7 @@
    stopped the palette inversion from turning into a specificity fight.
    Note: CSS Modules are intentionally unlayered, so page styles win over all
    of the below. That is the desired precedence for page-specific overrides. */
-@layer tokens, base, components, domain;
+@layer tokens, base, components, domain, pages;
 
 @layer tokens {
 /* Zaraff — Architects & Interiors. Monochrome foundations.
