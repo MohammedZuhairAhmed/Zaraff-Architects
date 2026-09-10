@@ -1,0 +1,6 @@
+# Only app/ is built (rootDirectory=app). These are the static mockups and
+# design references — no reason to upload them on every deploy.
+mockup
+design-system
+design-refs
+index.html
