@@ -7,6 +7,7 @@
 @layer tokens, base, components, domain, pages;
 
 @layer tokens {
+  :root { color-scheme: light; }
 /* Zaraff — Architects & Interiors. Monochrome foundations.
    One accent (red oxide). WhatsApp green appears once per view at most. */
 
@@ -135,3 +136,76 @@
   --radius-full:9999px;
 }
 }
+
+  /* ---------- Dark ----------
+     Not an inversion of the light theme but the studio's original palette:
+     warm near-black ground, oxide lifted so it stays readable on it. Applied
+     from <html data-theme="dark">, set in the layout before first paint. */
+  @layer tokens {
+    :root[data-theme='dark'] { color-scheme: dark; }
+    :root[data-theme='dark'],
+    :root[data-theme='dark'] ::backdrop {
+      --primary:#8C2F22;
+      --primary-hover:#6E241A;
+      /* On a dark ground the base oxide reads 2.3:1, so type uses the lifted
+         hue. Same colour, corrected for the background it sits on. */
+      --primary-lifted:#CF7663;
+
+      --canvas:#12100D;
+      --canvas-elevated:#1D1A16;
+      --canvas-light:#EFEAE1;
+
+      --ink:#12100D;
+      --on-dark:#FFFFFF;
+      --body:#A8A196;
+      --body-on-light:#4C4740;
+      --muted:#8A8175;
+
+      --hairline:#332E27;
+      --hairline-on-light:#D6CFC2;
+      --control-border:#8A8175;
+      --control-border-on-light:#837B6E;
+      --chalk:#E4DDD1;
+      --chalk-deep:#EAE4D9;
+
+      --status-completed:#A3A29D;
+
+      /* Warm bands go dark too, or they punch holes in a night page. */
+      --limewash:#1C1813;
+      --sand:#2A2318;
+      --sand-deep:#3A3122;
+      --body-on-warm:#B5AEA2;
+      --warm-veil:rgba(205,191,168,.07);
+
+      --shadow-lift:0 18px 40px -24px rgba(0,0,0,.9),0 2px 8px -4px rgba(0,0,0,.6);
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    @layer tokens {
+      :root:not([data-theme='light']) { color-scheme: dark; }
+      :root:not([data-theme='light']),
+      :root:not([data-theme='light']) ::backdrop {
+        --primary-lifted:#CF7663;
+        --canvas:#12100D;
+        --canvas-elevated:#1D1A16;
+        --canvas-light:#EFEAE1;
+        --ink:#12100D;
+        --on-dark:#FFFFFF;
+        --body:#A8A196;
+        --body-on-light:#4C4740;
+        --muted:#8A8175;
+        --hairline:#332E27;
+        --hairline-on-light:#D6CFC2;
+        --control-border:#8A8175;
+        --control-border-on-light:#837B6E;
+        --status-completed:#A3A29D;
+        --limewash:#1C1813;
+        --sand:#2A2318;
+        --sand-deep:#3A3122;
+        --body-on-warm:#B5AEA2;
+        --warm-veil:rgba(205,191,168,.07);
+        --shadow-lift:0 18px 40px -24px rgba(0,0,0,.9),0 2px 8px -4px rgba(0,0,0,.6);
+      }
+    }
+  }

@@ -3,6 +3,7 @@ import { Archivo } from 'next/font/google';
 import { getSettings, getStudio } from '@/content/cached';
 import { Dock } from '@/components/Dock';
 import { SiteFooter } from '@/components/SiteFooter';
+import { ThemeScript } from '@/components/ThemeScript';
 import '@/styles/index.css';
 
 /**
@@ -30,8 +31,11 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#F7F4EE',
-  colorScheme: 'light',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#F7F4EE' },
+    { media: '(prefers-color-scheme: dark)', color: '#12100D' },
+  ],
+  colorScheme: 'light dark',
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
@@ -50,8 +54,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   };
 
   return (
-    <html lang="en-IN" className={archivo.variable}>
+    <html lang="en-IN" className={archivo.variable} suppressHydrationWarning>
       <body>
+        {/* First child of <body> so the theme lands before anything paints. */}
+        <ThemeScript />
         <a className="zf-skip" href="#main">Skip to content</a>
         {settings.draftNotice && <div className="draft-flag">{settings.draftNotice}</div>}
 
