@@ -111,23 +111,27 @@ the browser is actually running — a UA animation creeping back in is
 otherwise invisible.
 
 
-## The theme toggle does not use View Transitions
-It did, and it was removed after four rounds of environment-specific
-failures: `ready` rejecting with InvalidStateError, snapshot geometry
-confusion, the canvas not being part of the snapshot, and behaviour that
-differed between Chrome 152 and 153. None of it was reproducible on demand.
 
-What ships instead: the theme is applied immediately, an overlay painted in
-the OUTGOING ground colour hides it, and a hole opens at the bulb and grows.
-The new page is revealed through the hole, so the animation is the reveal.
-The hole radius is a registered `@property` — a plain custom property cannot
-be interpolated and the mask would jump.
+## The theme reveal clones the page
+The circular reveal keeps every component visible, which means the OLD
+rendering has to stay on screen while the DOM already carries the new theme.
+That needs a copy of the page. View Transitions provides one but was
+unreliable across Chrome versions here, so the copy is explicit:
 
-An earlier attempt scaled a disc of the INCOMING colour over the page. It was
-reliable but wrong: it painted a flat colour over everything, which reads as
-the canvas changing instantly and then something animating on top.
+1. clone `document.body`'s children into `.theme-reveal` (scripts skipped)
+2. set `data-theme` on that layer to the OUTGOING theme
+3. apply the new theme to `:root` — hidden behind the clone
+4. grow `--hole` in the layer's radial mask from the bulb
+5. remove the layer
 
-Known trade: outside the hole is flat outgoing colour, not the old page. A
-snapshot would fix that, and snapshots are exactly what made the View
-Transitions version unpredictable. Do not reintroduce it without a
-reproducible test.
+Consequences to respect:
+- Theme tokens are on `[data-theme='light'] / [data-theme='dark']`, NOT
+  `:root[...]`. They must resolve on any element or the clone cannot carry a
+  theme.
+- `--hole` is a registered `@property`; a plain custom property cannot be
+  interpolated and the mask would jump.
+- `.theme-reveal` must not get `transform`, `filter` or `will-change`. Any of
+  them makes it a containing block and the cloned `position:fixed` dock would
+  be mispositioned.
+- The clone is `inert`, `aria-hidden`, and has animations and transitions
+  disabled so it behaves as a still image.

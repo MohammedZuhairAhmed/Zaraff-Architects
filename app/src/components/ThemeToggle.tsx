@@ -15,20 +15,19 @@ type Theme = 'light' | 'dark';
  * This is one absolutely-positioned circle, animated with `transform` only,
  * so it composites on the GPU and behaves identically everywhere:
  *
- *   1. the theme is applied immediately, so the page below is already new
- *   2. an overlay painted in the OUTGOING ground colour hides it
- *   3. a hole opens in that overlay at the bulb and grows
+ * A circular reveal from the bulb that keeps every component on screen.
  *
- * The new page is revealed THROUGH the hole, so the animation is the reveal
- * rather than a flat colour being painted over everything. Going dark, this
- * reads as darkness spreading from the bulb; going light, as light flooding
- * in. Outside the hole is flat outgoing colour rather than the old page,
- * which is the one thing a snapshot would buy — and snapshots are what made
- * the View Transitions version unpredictable.
+ * The old rendering has to stay visible outside the circle while the DOM
+ * already carries the new theme, which needs a copy of the page. View
+ * Transitions provides one but proved unreliable across Chrome versions
+ * here, so the copy is made explicitly: clone the page, force the OUTGOING
+ * theme on the clone, lay it over the top, and open a hole in it at the
+ * bulb. Real old content outside the hole, real new content inside.
+ *
+ * The clone is inert, aria-hidden, and has its animations disabled, so it is
+ * a still image as far as the user and assistive tech are concerned.
  */
-const GROUND: Record<Theme, string> = { light: '#F7F4EE', dark: '#12100D' };
-
-const GROW = { light: 820, dark: 640 } as const;
+const GROW = { light: 620, dark: 520 } as const;
 
 export function ThemeToggle() {
   const [theme, setTheme] = useState<Theme | null>(null);
@@ -67,41 +66,51 @@ export function ThemeToggle() {
     }
 
     const rect = ref.current?.getBoundingClientRect();
-    // No rect means no bulb on screen; switch without the flourish rather
-    // than guessing an origin.
     if (!rect) { apply(next); return; }
-
     const x = rect.left + rect.width / 2;
     const y = rect.top + rect.height / 2;
-    // Reach the furthest corner so the disc covers the viewport completely.
-    const r = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+    // Reach the furthest corner, or the reveal leaves an unrevealed wedge.
+    const r = Math.ceil(Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y)));
 
     const outgoing: Theme = theme === 'dark' ? 'dark' : 'light';
     busy.current = true;
+    const root = document.documentElement;
 
-    // Cover the viewport in the colour we are leaving, then change the theme
-    // underneath it. Nothing visibly happens yet.
-    const veil = document.createElement('div');
-    veil.className = 'theme-unveil';
-    veil.style.background = GROUND[outgoing];
-    veil.style.setProperty('--ux', `${x}px`);
-    veil.style.setProperty('--uy', `${y}px`);
-    veil.style.setProperty('--ur', `${Math.ceil(r)}px`);
-    document.body.appendChild(veil);
-    // Force a frame so the veil paints before the theme flips beneath it.
-    void veil.offsetWidth;
+    // Copy the page BEFORE the theme changes, so the clone shows the old one.
+    const layer = document.createElement('div');
+    layer.className = 'theme-reveal';
+    layer.setAttribute('data-theme', outgoing);
+    layer.setAttribute('aria-hidden', 'true');
+    layer.inert = true;
+
+    const inner = document.createElement('div');
+    inner.className = 'theme-reveal__page';
+    // Non-fixed content sits at document coordinates; pull it up so the clone
+    // lines up with what is currently on screen. Fixed descendants anchor to
+    // the viewport on their own, which is why the layer must not create a
+    // containing block (no transform, no filter, no will-change on it).
+    inner.style.top = `${-window.scrollY}px`;
+    for (const node of Array.from(document.body.children)) {
+      if (node instanceof HTMLScriptElement) continue;
+      inner.appendChild(node.cloneNode(true));
+    }
+    layer.appendChild(inner);
+    layer.style.setProperty('--ux', `${x}px`);
+    layer.style.setProperty('--uy', `${y}px`);
+    document.body.appendChild(layer);
+
+    // Now flip the real page. It is hidden behind the clone.
     apply(next);
 
     try {
-      // Open a hole at the bulb and grow it. The new page shows through.
-      await veil.animate(
-        [{ ['--hole' as string]: '0px' }, { ['--hole' as string]: `${Math.ceil(r)}px` }],
+      await layer.animate(
+        [{ ['--hole' as string]: '0px' }, { ['--hole' as string]: `${r}px` }],
         { duration: GROW[next], easing: 'cubic-bezier(0.4, 0, 0.2, 1)', fill: 'forwards' },
       ).finished;
     } catch {
-      // Interruption must never strand a veil over the page.
+      // An interrupted reveal must never strand a clone over the page.
     } finally {
-      veil.remove();
+      layer.remove();
       busy.current = false;
     }
   };

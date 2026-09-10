@@ -7,11 +7,11 @@
 @layer tokens, base, components, domain, pages;
 
 @layer tokens {
-  :root { color-scheme: light; }
+  :root, [data-theme='light'] { color-scheme: light; }
 /* Zaraff — Architects & Interiors. Monochrome foundations.
    One accent (red oxide). WhatsApp green appears once per view at most. */
 
-:root{
+:root, [data-theme='light']{
   /* ---- Accent: the only colour in the system ---- */
   --primary:#7E2A1E;
   --primary-hover:#621F16;
@@ -191,9 +191,9 @@
      warm near-black ground, oxide lifted so it stays readable on it. Applied
      from <html data-theme="dark">, set in the layout before first paint. */
   @layer tokens {
-    :root[data-theme='dark'] { color-scheme: dark; }
-    :root[data-theme='dark'],
-    :root[data-theme='dark'] ::backdrop {
+    [data-theme='dark'] { color-scheme: dark; }
+    [data-theme='dark'],
+    [data-theme='dark'] ::backdrop {
       --primary:#8C2F22;
       --primary-hover:#6E241A;
       /* On a dark ground the base oxide reads 2.3:1, so type uses the lifted

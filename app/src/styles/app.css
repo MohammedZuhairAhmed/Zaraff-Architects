@@ -362,8 +362,8 @@ body{padding-top:26px}
 @layer pages {
 }
 
-/* The hole radius has to be a registered property, or it cannot be
-   interpolated and the mask would jump rather than grow. */
+/* The hole radius must be a registered property or it cannot be
+   interpolated, and the mask would jump instead of growing. */
 @property --hole {
   syntax: '<length>';
   inherits: false;
@@ -371,13 +371,24 @@ body{padding-top:26px}
 }
 
 @layer pages {
-  /* The veil. Painted in the colour we are leaving, covering the whole
-     viewport, with a hole at the bulb that grows to expose the already-
-     switched page underneath. The animation IS the reveal — nothing is
-     painted over the new page. */
-  .theme-unveil{position:fixed;inset:0;z-index:90;pointer-events:none;
+  /* The reveal layer holds a clone of the page in the OUTGOING theme, laid
+     over the real page which already carries the new one. A hole opens at
+     the bulb and grows, so old content is visible outside it and new content
+     inside — nothing is erased.
+
+     No transform, filter or will-change here: any of them would make this a
+     containing block, and the cloned dock is position:fixed. */
+  .theme-reveal{position:fixed;inset:0;z-index:90;overflow:hidden;pointer-events:none;
+    background:var(--canvas);
     -webkit-mask-image:radial-gradient(circle at var(--ux) var(--uy),
       transparent var(--hole), var(--mask-opaque) calc(var(--hole) + 2px));
     mask-image:radial-gradient(circle at var(--ux) var(--uy),
       transparent var(--hole), var(--mask-opaque) calc(var(--hole) + 2px))}
+
+  .theme-reveal__page{position:absolute;left:0;right:0}
+
+  /* The clone is a still image. Running its animations again would double
+     the work and desynchronise from the live page behind it. */
+  .theme-reveal *,.theme-reveal *::before,.theme-reveal *::after{
+    animation:none !important;transition:none !important}
 }
