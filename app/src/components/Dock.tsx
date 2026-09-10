@@ -24,21 +24,35 @@ const NAV = [
 export function Dock({ whatsappNumber }: { whatsappNumber: string }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const [compact, setCompact] = useState(false);
+  // Which section is on screen. Shown only on small screens, where the nav
+  // links are behind the menu and this is the sole indication of place.
+  const [section, setSection] = useState<string | null>(null);
   const dockRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
 
-  const here = NAV.find(n => n.href === pathname)?.label ?? 'Zaraff';
+  // The section wins once you are inside one; the page name is the fallback.
+  const here = section ?? NAV.find(n => n.href === pathname)?.label ?? 'Zaraff';
 
   // Route change should never leave the panel hanging open.
   useEffect(() => setOpen(false), [pathname]);
 
   useEffect(() => {
-    const onScroll = () => setCompact(window.scrollY > window.innerHeight * 0.6);
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+    const marked = Array.from(document.querySelectorAll<HTMLElement>('[data-section]'));
+    if (marked.length === 0) { setSection(null); return; }
+
+    // Band across the middle of the viewport: whichever marked section is
+    // crossing it is the one you are looking at.
+    const io = new IntersectionObserver(
+      entries => {
+        for (const e of entries) {
+          if (e.isIntersecting) setSection(e.target.getAttribute('data-section'));
+        }
+      },
+      { rootMargin: '-45% 0px -50% 0px' },
+    );
+    marked.forEach(el => io.observe(el));
+    return () => io.disconnect();
+  }, [pathname]);
 
   useEffect(() => {
     if (!open) return;
@@ -68,7 +82,7 @@ export function Dock({ whatsappNumber }: { whatsappNumber: string }) {
   ));
 
   return (
-    <div ref={dockRef} className={`dock${compact ? ' is-compact' : ''}${open ? ' is-open' : ''}`}>
+    <div ref={dockRef} className={`dock${open ? ' is-open' : ''}`}>
       <div className="dock__inner">
         <Link className="dock__mark" href="/"><span>Zaraff</span></Link>
         <span className="dock__where" aria-hidden="true">{here}</span>

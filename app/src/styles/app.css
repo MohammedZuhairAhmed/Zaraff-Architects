@@ -177,13 +177,16 @@ a.contact__card:hover{border-color:var(--text);transform:translateY(-3px)}
    full-width bar, contracts into a floating pill once you leave the hero, and
    on small screens lives in the thumb zone and expands upward on tap. */
 
+/* The dock is always a floating pill. It used to start as a full-width
+   transparent bar and only become a pill on scroll, which left the nav
+   sitting directly on the hero type with nothing behind it. */
 .dock{position:fixed;z-index:60;left:50%;transform:translateX(-50%);top:14px;
-  width:min(100% - 2.5rem,1400px);display:grid;justify-items:stretch}
-.dock__inner{display:flex;align-items:center;gap:var(--space-md);
-  padding:10px 10px 10px 4px;border:1px solid transparent;border-radius:var(--radius-full);
-  background:transparent;
-  transition:background var(--dur) var(--ease-out),
-             border-color var(--dur) var(--ease-out),box-shadow var(--dur) var(--ease-out)}
+  width:auto;max-width:calc(100% - 2.5rem);display:grid;justify-items:stretch}
+.dock__inner{display:flex;align-items:center;gap:var(--space-md);min-width:0;
+  padding:8px 8px 8px 6px;border:1px solid var(--glass-border);
+  border-radius:var(--radius-full);
+  background:var(--glass-bg);backdrop-filter:blur(16px) saturate(1.25);
+  box-shadow:var(--glass-shadow)}
 
 .dock__mark{text-decoration:none;flex:none;padding-left:14px}
 .dock__mark span{font-size:23px;font-weight:600;letter-spacing:-.035em;color:var(--text)}
@@ -222,14 +225,6 @@ a.contact__card:hover{border-color:var(--text);transform:translateY(-3px)}
 .dock.is-open .dock__bars::before{transform:translateY(5px) rotate(45deg)}
 .dock.is-open .dock__bars::after{transform:translateY(-5px) rotate(-45deg)}
 
-/* ---- Contracted: the bar becomes a floating pill ---- */
-.dock.is-compact{width:auto}
-.dock.is-compact .dock__inner{padding:8px 8px 8px 6px;
-  background:var(--glass-bg);backdrop-filter:blur(16px) saturate(1.25);
-  border-color:var(--glass-border);box-shadow:var(--glass-shadow)}
-
-.dock.is-compact .dock__links{margin-left:var(--space-xs)}
-.dock.no-motion .dock__inner,.dock.no-motion .dock__where{transition:none}
 
 /* ---- Panel (small screens) ---- */
 .dock__panel{margin-top:var(--space-xs);padding:var(--space-md);
@@ -244,8 +239,11 @@ a.contact__card:hover{border-color:var(--text);transform:translateY(-3px)}
 
 /* ---- Small screens: thumb zone, and it carries WhatsApp permanently ---- */
 @media (max-width:860px){
+  /* Fixed width on purpose. The pill used to hug its contents, so it changed
+     size between the top of the page and scrolled, and again whenever the
+     section label changed. */
   .dock{top:auto;bottom:calc(14px + env(safe-area-inset-bottom,0px));
-    width:min(100% - 1.5rem,520px);align-content:end}
+    width:min(100% - 1.5rem,520px);max-width:none;align-content:end}
   .dock__inner{order:2;padding:8px 8px 8px 6px;
     background:var(--glass-bg);backdrop-filter:blur(16px) saturate(1.25);
     border-color:var(--glass-border);box-shadow:var(--glass-shadow)}
@@ -253,8 +251,9 @@ a.contact__card:hover{border-color:var(--text);transform:translateY(-3px)}
   .dock__toggle{display:flex}
   /* Mobile only: the nav links are behind the menu, so this is the only
      indication of where you are. */
-  .dock__where{display:block;max-width:12ch;opacity:1;margin-left:auto;padding-left:var(--space-sm);
-    border-left:1px solid var(--hairline)}
+  .dock__where{display:block;flex:1 1 auto;min-width:0;opacity:1;margin-left:auto;
+    padding-left:var(--space-sm);text-align:right;
+    text-overflow:ellipsis;border-left:1px solid var(--hairline)}
   .dock__wa{padding:11px 13px}
   .dock__wa-glyph{width:19px;height:19px}
   .dock__wa-text{display:none}

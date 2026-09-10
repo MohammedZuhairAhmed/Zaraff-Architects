@@ -17,7 +17,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <section className="film">
+      <section className="film" data-section="Home">
         <div className="film__media">
           <div className="film__stand-in" aria-hidden="true" />
         </div>
@@ -35,7 +35,7 @@ export default async function HomePage() {
         <div className="film__cue" aria-hidden="true"><span /></div>
       </section>
 
-      <section className="sect">
+      <section className="sect" data-section="Work">
         <div className="wrap sect__head">
           <h2 className="zf-display-large">Selected work</h2>
           <Link className="zf-link" href="/work">All projects</Link>
@@ -44,7 +44,7 @@ export default async function HomePage() {
         <div className="wrap grid--tight"><ProjectGrid projects={recent} density="index" /></div>
       </section>
 
-      <section className="sect sect--split">
+      <section className="sect sect--split" data-section="Services">
         <div className="wrap split">
           <h2 className="zf-display-large">What we do</h2>
           <div className="split__body">
@@ -53,7 +53,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="sect zf-limewash">
+      <section className="sect zf-limewash" data-section="Packages">
         <div className="wrap sect__head">
           <h2 className="zf-display-large">Two ways to work with us</h2>
           <Link className="zf-link" href="/packages">Compare in full</Link>
@@ -63,7 +63,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="sect cta zf-grain">
+      <section className="sect cta zf-grain" data-section="Contact">
         <div className="wrap cta__inner">
           <h2 className="zf-display-large">Tell us the plot size.<br />We will tell you the number.</h2>
           <p className="zf-body">Most conversations start on WhatsApp and take about a minute.</p>
