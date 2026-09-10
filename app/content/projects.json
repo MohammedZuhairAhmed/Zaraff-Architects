@@ -10,31 +10,11 @@
     "brief": "A narrow north-facing plot with a neighbour hard against the east wall. We pulled a courtyard through the centre of the plan so every room borrows light from the middle rather than the boundary.",
     "role": "Design, drawings and construction \u2014 Zaraff",
     "body": "",
-    "hero": {
-      "url": "/media/placeholder/courtyard-house.jpg",
-      "alt": "courtyard house"
-    },
-    "gallery": [
-      {
-        "url": "/media/placeholder/courtyard-house-1.jpg",
-        "alt": "courtyard house 1"
-      },
-      {
-        "url": "/media/placeholder/courtyard-house-2.jpg",
-        "alt": "courtyard house 2"
-      }
-    ],
-    "drawings": [
-      {
-        "url": "/media/placeholder/courtyard-house-plan.jpg",
-        "alt": "courtyard house plan"
-      }
-    ],
+    "hero": null,
+    "gallery": [],
+    "drawings": [],
     "panoramas": [],
-    "comparisonRender": {
-      "url": "/media/placeholder/courtyard-house-render.jpg",
-      "alt": "courtyard house render"
-    },
+    "comparisonRender": null,
     "featured": true,
     "order": 1
   },
@@ -49,31 +29,11 @@
     "brief": "Setback rules left an awkward wedge at the front. Rather than fight it, the plan leans into the angle and makes the entry sequence out of it.",
     "role": "Design, drawings and construction \u2014 Zaraff",
     "body": "",
-    "hero": {
-      "url": "/media/placeholder/setback-villa.jpg",
-      "alt": "setback villa"
-    },
-    "gallery": [
-      {
-        "url": "/media/placeholder/setback-villa-1.jpg",
-        "alt": "setback villa 1"
-      },
-      {
-        "url": "/media/placeholder/setback-villa-2.jpg",
-        "alt": "setback villa 2"
-      }
-    ],
-    "drawings": [
-      {
-        "url": "/media/placeholder/setback-villa-plan.jpg",
-        "alt": "setback villa plan"
-      }
-    ],
+    "hero": null,
+    "gallery": [],
+    "drawings": [],
     "panoramas": [],
-    "comparisonRender": {
-      "url": "/media/placeholder/setback-villa-render.jpg",
-      "alt": "setback villa render"
-    },
+    "comparisonRender": null,
     "featured": true,
     "order": 2
   },
@@ -88,26 +48,9 @@
     "brief": "Twelve units on a tight urban plot, with a shared deck on the top floor that gives every household somewhere outdoors.",
     "role": "Design and construction documentation \u2014 Zaraff",
     "body": "",
-    "hero": {
-      "url": "/media/placeholder/amara-apartments.jpg",
-      "alt": "amara apartments"
-    },
-    "gallery": [
-      {
-        "url": "/media/placeholder/amara-apartments-1.jpg",
-        "alt": "amara apartments 1"
-      },
-      {
-        "url": "/media/placeholder/amara-apartments-2.jpg",
-        "alt": "amara apartments 2"
-      }
-    ],
-    "drawings": [
-      {
-        "url": "/media/placeholder/amara-apartments-plan.jpg",
-        "alt": "amara apartments plan"
-      }
-    ],
+    "hero": null,
+    "gallery": [],
+    "drawings": [],
     "panoramas": [],
     "comparisonRender": null,
     "featured": false,
@@ -124,26 +67,9 @@
     "brief": "A working photography studio in a converted apartment. Blackout where it matters, daylight where it does not.",
     "role": "Interior design and fitout \u2014 Zaraff",
     "body": "",
-    "hero": {
-      "url": "/media/placeholder/studio-ekaant.jpg",
-      "alt": "studio ekaant"
-    },
-    "gallery": [
-      {
-        "url": "/media/placeholder/studio-ekaant-1.jpg",
-        "alt": "studio ekaant 1"
-      },
-      {
-        "url": "/media/placeholder/studio-ekaant-2.jpg",
-        "alt": "studio ekaant 2"
-      }
-    ],
-    "drawings": [
-      {
-        "url": "/media/placeholder/studio-ekaant-plan.jpg",
-        "alt": "studio ekaant plan"
-      }
-    ],
+    "hero": null,
+    "gallery": [],
+    "drawings": [],
     "panoramas": [],
     "comparisonRender": null,
     "featured": false,

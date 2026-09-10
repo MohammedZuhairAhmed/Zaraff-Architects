@@ -44,3 +44,40 @@ Fonts come from `next/font`. Never reintroduce a Google Fonts `@import`.
     npm run lint:css
     npm run build
     npm run smoke
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->
+
+## Runtime verification
+`next dev` must be running. Verify changes at runtime, not just via build:
+
+    npx skills add vercel/next.js --skill next-dev-loop   # already installed
+    # framework view
+    curl -s -X POST http://localhost:3000/_next/mcp -H 'Content-Type: application/json' \
+      -H 'Accept: application/json, text/event-stream' \
+      -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"get_errors","arguments":{}}}'
+    # browser view
+    agent-browser --session "$(agent-browser session id --scope worktree --prefix next-dev-loop)" \
+      --restore --headed --enable react-devtools open http://localhost:3000
+    agent-browser console
+    agent-browser network requests
+
+Read `agent-browser skills get core` before using it — do not guess subcommands.
+
+## Cache gotchas learned the hard way
+- `cacheLife('seconds')` is *short-lived*: excluded from prerendering, turns
+  cached reads into dynamic holes, and trips blocking-prerender in the layout.
+- `stale: 0` keeps content out of the App Shell and trips "uncached data
+  during prerendering".
+- Next generates one `cacheLife` overload per profile name, so the argument
+  must be a **literal at the call site**. A variable holding a union of two
+  valid profiles will not typecheck.
+- Editing `content/*.json` does nothing until the cache expires. The dev
+  profile in `src/content/cached.ts` exists solely so that edit loop works.
