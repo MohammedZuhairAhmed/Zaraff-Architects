@@ -21,7 +21,7 @@ export default async function PackagesPage() {
           </p>
         </div>
       </section>
-      <section className="sect sect--flush zf-light">
+      <section className="sect sect--flush zf-limewash">
         <div className="wrap zf-packages">
           {packages.map(p => (
             <PackageTier key={p.slug} pkg={p} whatsappNumber={settings.whatsappNumber} />

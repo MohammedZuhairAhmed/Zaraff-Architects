@@ -24,22 +24,22 @@
   /* ---- Ground ---- */
   --canvas:#F7F4EE;
   --canvas-elevated:#EDE7DB;
-  --canvas-light:#14120F;
+  --invert-bg:#14120F;
 
   /* ---- Ink / grey ladder ---- */
-  --ink:#F7F4EE;
-  --on-dark:#14120F;
-  --body:#57514A;
-  --body-on-light:#B5AEA2;
-  --muted:#7C7468;
+  --invert-text:#F7F4EE;
+  --text:#14120F;
+  --text-muted:#57514A;
+  --invert-text-muted:#B5AEA2;
+  --text-subtle:#7C7468;
 
   /* ---- Hairline: the frame device ---- */
   --hairline:#DBD4C6;
-  --hairline-on-light:#332E27;
+  --invert-hairline:#332E27;
   /* Control boundaries, as opposed to the decorative frame: the hairline is
      1.4:1 on canvas, which is right for a drawn rule and wrong for a button. */
   --control-border:#8C8477;
-  --control-border-on-light:#6E665A;
+  --invert-control-border:#6E665A;
   /* Chalk fills on the light band. */
   --chalk:#E8E1D4;
   --chalk-deep:#F0EBE0;
@@ -62,6 +62,44 @@
   --on-media-border:rgba(255,255,255,.6);
   --on-media-border-soft:rgba(255,255,255,.18);
 
+
+  /* ---- Theme-reactive surfaces ----
+     These were literal rgba() in the page CSS, which is why the hero washed
+     out and the dock stayed a pale pill in dark mode: literals do not switch.
+     Gradients are held whole in a custom property so the stops move too. */
+  --glass-bg:rgba(247,244,238,.78);
+  --glass-bg-solid:rgba(247,244,238,.97);
+  --glass-border:rgba(20,18,15,.10);
+  --glass-shadow:0 18px 40px -28px rgba(40,30,18,.42);
+  --glass-shadow-lg:0 26px 60px -34px rgba(40,30,18,.5);
+
+  --ghost-border:rgba(20,18,15,.16);
+  --ghost-bg:rgba(20,18,15,.03);
+  --ghost-border-hover:rgba(20,18,15,.45);
+  --ghost-bg-hover:rgba(20,18,15,.06);
+
+  --rule-warm:rgba(120,100,70,.22);
+  --hatch:rgba(40,30,18,.06);
+  --hatch-strong:rgba(40,30,18,.10);
+  --cue:rgba(20,18,15,.9);
+  --cue-track:rgba(20,18,15,.45);
+
+  --hero-scrim:linear-gradient(180deg,rgba(247,244,238,.80) 0%,rgba(247,244,238,.34) 30%,rgba(247,244,238,.94) 100%);
+  --film-wash:
+    radial-gradient(120% 80% at 25% 20%,rgba(160,140,105,.30),transparent 62%),
+    radial-gradient(90% 70% at 80% 90%,rgba(126,42,30,.16),transparent 66%),
+    repeating-linear-gradient(122deg,rgba(40,30,18,.04) 0 1px,transparent 1px 11px);
+  --wa-tint:linear-gradient(180deg,rgba(31,168,85,.10),transparent 60%);
+  --chip-on-invert:rgba(20,18,15,.06);
+  --hatch-drawing:rgba(14,14,13,.07);
+  --tier-emphasis-wash:linear-gradient(180deg,rgba(140,47,34,.08),transparent 220px);
+  --divider-outline:rgba(0,0,0,.35);
+  /* Bulb. Unlit in light mode is the resting state — the room is already lit. */
+  --bulb-glow:rgba(255,214,140,.30);
+  --bulb-edge:#B98A3C;
+  --bulb-filament:#C9761F;
+  --bulb-halo:rgba(255,196,92,.55);
+
   /* ---- Status ---- */
   --status-ongoing:#8C2F22;
   --status-completed:#7C7468;
@@ -69,7 +107,7 @@
   /* ---- Frame device tokens (lifted from the wordmark lockup) ---- */
   --frame-width:1px;
   --frame-color:var(--hairline);
-  --frame-color-on-light:var(--hairline-on-light);
+  --frame-color-on-light:var(--invert-hairline);
   --frame:var(--frame-width) solid var(--frame-color);
   --frame-on-light:var(--frame-width) solid var(--frame-color-on-light);
   --frame-inset:var(--space-md);
@@ -153,22 +191,54 @@
 
       --canvas:#12100D;
       --canvas-elevated:#1D1A16;
-      --canvas-light:#EFEAE1;
+      --invert-bg:#EFEAE1;
 
-      --ink:#12100D;
-      --on-dark:#FFFFFF;
-      --body:#A8A196;
-      --body-on-light:#4C4740;
-      --muted:#8A8175;
+      --invert-text:#12100D;
+      --text:#FFFFFF;
+      --text-muted:#A8A196;
+      --invert-text-muted:#4C4740;
+      --text-subtle:#8A8175;
 
       --hairline:#332E27;
-      --hairline-on-light:#D6CFC2;
+      --invert-hairline:#D6CFC2;
       --control-border:#8A8175;
-      --control-border-on-light:#837B6E;
+      --invert-control-border:#837B6E;
       --chalk:#E4DDD1;
       --chalk-deep:#EAE4D9;
 
       --status-completed:#A3A29D;
+
+      --glass-bg:rgba(24,21,17,.72);
+      --glass-bg-solid:rgba(20,18,14,.96);
+      --glass-border:rgba(255,255,255,.12);
+      --glass-shadow:0 18px 40px -28px rgba(0,0,0,.9);
+      --glass-shadow-lg:0 26px 60px -34px rgba(0,0,0,.95);
+
+      --ghost-border:rgba(255,255,255,.22);
+      --ghost-bg:rgba(255,255,255,.05);
+      --ghost-border-hover:rgba(255,255,255,.55);
+      --ghost-bg-hover:rgba(255,255,255,.10);
+
+      --rule-warm:rgba(205,191,168,.18);
+      --hatch:rgba(255,255,255,.05);
+      --hatch-strong:rgba(40,30,18,.10);
+      --cue:rgba(255,255,255,.92);
+      --cue-track:rgba(255,255,255,.42);
+
+      --hero-scrim:linear-gradient(180deg,rgba(18,16,13,.74) 0%,rgba(18,16,13,.30) 30%,rgba(18,16,13,.94) 100%);
+      --film-wash:
+        radial-gradient(120% 80% at 25% 20%,rgba(205,191,168,.16),transparent 62%),
+        radial-gradient(90% 70% at 80% 90%,rgba(140,47,34,.20),transparent 66%),
+        repeating-linear-gradient(122deg,rgba(255,255,255,.035) 0 1px,transparent 1px 11px);
+      --wa-tint:linear-gradient(180deg,rgba(31,168,85,.14),transparent 60%);
+      --chip-on-invert:rgba(255,255,255,.09);
+      --hatch-drawing:rgba(14,14,13,.07);
+      --tier-emphasis-wash:linear-gradient(180deg,rgba(140,47,34,.14),transparent 220px);
+      --divider-outline:rgba(0,0,0,.55);
+      --bulb-glow:rgba(255,214,140,.22);
+      --bulb-edge:#E0A951;
+      --bulb-filament:#F0B255;
+      --bulb-halo:rgba(255,196,92,.45);
 
       /* Warm bands go dark too, or they punch holes in a night page. */
       --limewash:#1C1813;
@@ -189,17 +259,49 @@
         --primary-lifted:#CF7663;
         --canvas:#12100D;
         --canvas-elevated:#1D1A16;
-        --canvas-light:#EFEAE1;
-        --ink:#12100D;
-        --on-dark:#FFFFFF;
-        --body:#A8A196;
-        --body-on-light:#4C4740;
-        --muted:#8A8175;
+        --invert-bg:#EFEAE1;
+        --invert-text:#12100D;
+        --text:#FFFFFF;
+        --text-muted:#A8A196;
+        --invert-text-muted:#4C4740;
+        --text-subtle:#8A8175;
         --hairline:#332E27;
-        --hairline-on-light:#D6CFC2;
+        --invert-hairline:#D6CFC2;
         --control-border:#8A8175;
-        --control-border-on-light:#837B6E;
+        --invert-control-border:#837B6E;
         --status-completed:#A3A29D;
+
+      --glass-bg:rgba(24,21,17,.72);
+      --glass-bg-solid:rgba(20,18,14,.96);
+      --glass-border:rgba(255,255,255,.12);
+      --glass-shadow:0 18px 40px -28px rgba(0,0,0,.9);
+      --glass-shadow-lg:0 26px 60px -34px rgba(0,0,0,.95);
+
+      --ghost-border:rgba(255,255,255,.22);
+      --ghost-bg:rgba(255,255,255,.05);
+      --ghost-border-hover:rgba(255,255,255,.55);
+      --ghost-bg-hover:rgba(255,255,255,.10);
+
+      --rule-warm:rgba(205,191,168,.18);
+      --hatch:rgba(255,255,255,.05);
+      --hatch-strong:rgba(40,30,18,.10);
+      --cue:rgba(255,255,255,.92);
+      --cue-track:rgba(255,255,255,.42);
+
+      --hero-scrim:linear-gradient(180deg,rgba(18,16,13,.74) 0%,rgba(18,16,13,.30) 30%,rgba(18,16,13,.94) 100%);
+      --film-wash:
+        radial-gradient(120% 80% at 25% 20%,rgba(205,191,168,.16),transparent 62%),
+        radial-gradient(90% 70% at 80% 90%,rgba(140,47,34,.20),transparent 66%),
+        repeating-linear-gradient(122deg,rgba(255,255,255,.035) 0 1px,transparent 1px 11px);
+      --wa-tint:linear-gradient(180deg,rgba(31,168,85,.14),transparent 60%);
+      --chip-on-invert:rgba(255,255,255,.09);
+      --hatch-drawing:rgba(14,14,13,.07);
+      --tier-emphasis-wash:linear-gradient(180deg,rgba(140,47,34,.14),transparent 220px);
+      --divider-outline:rgba(0,0,0,.55);
+      --bulb-glow:rgba(255,214,140,.22);
+      --bulb-edge:#E0A951;
+      --bulb-filament:#F0B255;
+      --bulb-halo:rgba(255,196,92,.45);
         --limewash:#1C1813;
         --sand:#2A2318;
         --sand-deep:#3A3122;

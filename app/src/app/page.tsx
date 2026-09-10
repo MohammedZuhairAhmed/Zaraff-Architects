@@ -61,7 +61,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="sect zf-light">
+      <section className="sect zf-limewash">
         <div className="wrap sect__head">
           <h2 className="zf-display-large">Two ways to work with us</h2>
           <Link className="zf-link" href="/packages">Compare in full</Link>

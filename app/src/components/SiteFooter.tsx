@@ -26,7 +26,7 @@ async function currentYear(): Promise<number> {
 export async function SiteFooter({ studio, settings }: { studio: Studio; settings: SiteSettings }) {
   const year = await currentYear();
   return (
-    <footer className="foot zf-light">
+    <footer className="foot zf-limewash">
       <div className="wrap foot__grid">
         <div>
           <p className="foot__mark">{studio.name}</p>

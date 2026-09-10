@@ -16,20 +16,20 @@ img{max-width:100%}
 .sect__head{display:flex;align-items:flex-end;justify-content:space-between;gap:var(--space-lg);
   flex-wrap:wrap;margin-bottom:clamp(2.5rem,5vw,4.5rem)}
 .page-head{padding-top:clamp(3rem,7vw,7rem)}
-.page-head__lead{max-width:56ch;margin-top:var(--space-md);color:var(--body)}
+.page-head__lead{max-width:56ch;margin-top:var(--space-md);color:var(--text-muted)}
 
 /* ---------- Hero ---------- */
 .hero{padding-top:clamp(2rem,5vw,5rem);padding-bottom:clamp(3rem,6vw,6rem)}
 .hero__grid{display:grid;gap:clamp(2rem,5vw,var(--space-xxl));grid-template-columns:1fr;
   align-items:end;margin-bottom:clamp(2.5rem,5vw,4.5rem)}
 @media (min-width:1000px){.hero__grid{grid-template-columns:1.55fr .85fr}}
-.hero__lead{max-width:46ch;margin:var(--space-md) 0 0;color:var(--body)}
+.hero__lead{max-width:46ch;margin:var(--space-md) 0 0;color:var(--text-muted)}
 .hero__cta{display:flex;gap:var(--space-xs);flex-wrap:wrap;margin-top:var(--space-lg)}
 .hero__stats{display:grid;gap:var(--space-md);margin:0}
 .hero__stats div{display:grid;gap:2px;padding-top:var(--space-sm);border-top:1px solid var(--hairline)}
-.hero__stats dt{font-size:13px;color:var(--muted);order:2}
+.hero__stats dt{font-size:13px;color:var(--text-subtle);order:2}
 .hero__stats dd{margin:0;font-size:clamp(1.6rem,2.4vw,2.1rem);font-weight:500;letter-spacing:-.03em;
-  color:var(--on-dark);font-variant-numeric:tabular-nums;order:1}
+  color:var(--text);font-variant-numeric:tabular-nums;order:1}
 
 /* ---------- Grids ---------- */
 .grid{display:grid;gap:clamp(1.5rem,3vw,var(--gutter))}
@@ -46,8 +46,8 @@ img{max-width:100%}
 @media (min-width:900px){.split{grid-template-columns:.8fr 1.2fr}}
 .svc{padding-top:var(--space-md);border-top:1px solid var(--hairline)}
 .svc + .svc{margin-top:var(--space-lg)}
-.svc h3{margin:0 0 6px;font-size:clamp(1.25rem,1.8vw,1.6rem);font-weight:500;letter-spacing:-.02em;color:var(--on-dark)}
-.svc p{margin:0;color:var(--body);max-width:60ch}
+.svc h3{margin:0 0 6px;font-size:clamp(1.25rem,1.8vw,1.6rem);font-weight:500;letter-spacing:-.02em;color:var(--text)}
+.svc p{margin:0;color:var(--text-muted);max-width:60ch}
 
 /* ---------- Services page ---------- */
 .svc-list{display:grid;gap:clamp(3rem,7vw,7rem)}
@@ -65,7 +65,7 @@ img{max-width:100%}
 .case-intro{display:grid;gap:var(--space-lg);grid-template-columns:1fr;padding-top:clamp(2rem,4vw,4rem)}
 @media (min-width:900px){.case-intro{grid-template-columns:1fr 1fr;gap:var(--space-xxl)}}
 .case-intro h1{margin:var(--space-sm) 0 0}
-.case-intro p{max-width:58ch;color:var(--body)}
+.case-intro p{max-width:58ch;color:var(--text-muted)}
 .case-facts{max-width:760px}
 .case-facts h2{margin:0 0 var(--space-md)}
 
@@ -73,7 +73,7 @@ img{max-width:100%}
 .studio__grid{display:grid;gap:clamp(2rem,5vw,var(--space-xl));grid-template-columns:1fr}
 @media (min-width:900px){.studio__grid{grid-template-columns:.75fr 1.25fr}}
 .studio__body > p{max-width:60ch}
-.studio__body .zf-display{margin:0 0 var(--space-md);color:var(--on-dark)}
+.studio__body .zf-display{margin:0 0 var(--space-md);color:var(--text)}
 .studio__body .hero__stats{margin-top:var(--space-xl);grid-template-columns:repeat(3,1fr)}
 
 /* ---------- Contact ---------- */
@@ -84,18 +84,18 @@ img{max-width:100%}
   transition:border-color var(--dur) var(--ease-out),transform var(--dur) var(--ease-spring)}
 .contact__card h2{margin:0}
 .contact__card p{margin:0}
-a.contact__card:hover{border-color:var(--on-dark);transform:translateY(-3px)}
-.contact__card--wa{background:linear-gradient(180deg,rgba(31,168,85,.10),transparent 60%)}
+a.contact__card:hover{border-color:var(--text);transform:translateY(-3px)}
+.contact__card--wa{background:var(--wa-tint)}
 .contact__card .zf-btn{justify-self:start;margin-top:var(--space-xs)}
 
 /* ---------- Tabs ---------- */
 .tabs{display:flex;gap:var(--space-xs);margin-top:var(--space-lg);flex-wrap:wrap}
-.tab{min-height:44px;padding:11px 20px;font:500 14px/1 var(--font-core);color:var(--body);
+.tab{min-height:44px;padding:11px 20px;font:500 14px/1 var(--font-core);color:var(--text-muted);
   background:transparent;border:1px solid var(--hairline);border-radius:var(--radius-full);
   cursor:pointer;transition:all var(--dur-fast) var(--ease-out)}
-.tab:hover{color:var(--on-dark);border-color:var(--control-border)}
-.tab.is-on{background:var(--on-dark);color:var(--ink);border-color:var(--on-dark)}
-.tab:focus-visible{outline:1px solid var(--on-dark);outline-offset:2px}
+.tab:hover{color:var(--text);border-color:var(--control-border)}
+.tab.is-on{background:var(--text);color:var(--invert-text);border-color:var(--text)}
+.tab:focus-visible{outline:1px solid var(--text);outline-offset:2px}
 
 /* ---------- CTA ---------- */
 .cta{background:var(--canvas-elevated);border-radius:var(--radius-xl);
@@ -105,26 +105,26 @@ a.contact__card:hover{border-color:var(--on-dark);transform:translateY(-3px)}
 .cta__inner h2{margin:0}
 
 /* ---------- Footer ---------- */
-.foot{margin-top:clamp(4rem,8vw,8rem);padding-block:clamp(3rem,5vw,5rem);background:var(--canvas-light)}
+.foot{margin-top:clamp(4rem,8vw,8rem);padding-block:clamp(3rem,5vw,5rem)}
 .foot__grid{display:grid;gap:var(--space-lg);grid-template-columns:repeat(2,1fr)}
 @media (min-width:800px){.foot__grid{grid-template-columns:1.6fr repeat(3,1fr)}}
-.foot__mark{margin:0 0 4px;font-size:28px;font-weight:600;letter-spacing:-.035em;color:var(--ink)}
-.foot__h{margin:0 0 var(--space-xs);font-size:13px;font-weight:500;color:var(--ink)}
-.foot .zf-body-small{color:var(--body-on-light)}
+.foot__mark{margin:0 0 4px;font-size:28px;font-weight:600;letter-spacing:-.035em;color:var(--text)}
+.foot__h{margin:0 0 var(--space-xs);font-size:13px;font-weight:500;color:var(--text)}
+.foot .zf-body-small{color:var(--body-on-warm)}
 .foot__base{display:flex;justify-content:space-between;gap:var(--space-md);flex-wrap:wrap;
-  margin-top:var(--space-xl);padding-top:var(--space-md);border-top:1px solid var(--hairline-on-light);
-  color:var(--body-on-light)}
+  margin-top:var(--space-xl);padding-top:var(--space-md);border-top:1px solid var(--rule-warm);
+  color:var(--body-on-warm)}
 
 /* ---------- Placeholders (stand in for renders and photographs) ---------- */
 .ph{position:absolute;inset:0;display:grid;place-items:center;
-  background-image:repeating-linear-gradient(135deg,rgba(40,30,18,.06) 0 1px,transparent 1px 9px)}
+  background-image:repeating-linear-gradient(135deg,var(--hatch) 0 1px,transparent 1px 9px)}
 .ph--alt{background-color:var(--chalk);
-  background-image:repeating-linear-gradient(135deg,rgba(40,30,18,.10) 0 1px,transparent 1px 9px)}
-.ph span{font-size:13px;color:var(--muted)}
-.ph--alt span{color:var(--body-on-light)}
+  background-image:repeating-linear-gradient(135deg,var(--hatch-strong) 0 1px,transparent 1px 9px)}
+.ph span{font-size:13px;color:var(--text-subtle)}
+.ph--alt span{color:var(--invert-text-muted)}
 .zf-media > .ph{will-change:transform}
 .note{margin-top:var(--space-lg);max-width:70ch}
-.note p{color:var(--body-on-light)}
+.note p{color:var(--invert-text-muted)}
 
 /* ================= Film hero ================= */
 .film{position:relative;height:100dvh;min-height:600px;overflow:hidden;display:grid;align-items:end}
@@ -132,37 +132,33 @@ a.contact__card:hover{border-color:var(--on-dark);transform:translateY(-3px)}
 .film__media video{width:100%;height:100%;object-fit:cover;display:block}
 /* Stand-in for footage: a slow warm drift, so the hero reads as film not as a flat box. */
 .film__stand-in{position:absolute;inset:0;
-  background:
-    radial-gradient(120% 80% at 25% 20%,rgba(160,140,105,.30),transparent 62%),
-    radial-gradient(90% 70% at 80% 90%,rgba(126,42,30,.16),transparent 66%),
-    repeating-linear-gradient(122deg,rgba(40,30,18,.04) 0 1px,transparent 1px 11px),
-    var(--canvas-elevated);
+  background:var(--film-wash),var(--canvas-elevated);
   animation:drift 26s ease-in-out infinite alternate;transform-origin:60% 40%}
 @keyframes drift{from{transform:scale(1.06) translate3d(0,0,0)}to{transform:scale(1.16) translate3d(-2%,-1.5%,0)}}
 .film__scrim{position:absolute;inset:0;z-index:1;
-  background:linear-gradient(180deg,rgba(247,244,238,.80) 0%,rgba(247,244,238,.34) 30%,rgba(247,244,238,.94) 100%)}
+  background:var(--hero-scrim)}
 .film__copy{position:relative;z-index:2;padding-bottom:clamp(4.5rem,9vh,8rem)}
 .film__copy h1{margin:0;max-width:16ch}
-.film__lead{margin:var(--space-md) 0 0;max-width:38ch;font-size:clamp(1.05rem,1.5vw,1.3rem);color:var(--body)}
+.film__lead{margin:var(--space-md) 0 0;max-width:38ch;font-size:clamp(1.05rem,1.5vw,1.3rem);color:var(--text-muted)}
 .film__cta{display:flex;gap:var(--space-xs);flex-wrap:wrap;margin-top:var(--space-lg)}
 .film__cue{position:absolute;left:50%;bottom:var(--space-md);z-index:2;transform:translateX(-50%);
-  width:1px;height:54px;background:linear-gradient(180deg,transparent,rgba(20,18,15,.45));overflow:hidden}
-.film__cue span{position:absolute;inset:0;background:rgba(20,18,15,.9);animation:cue 2.6s var(--ease-out) infinite}
+  width:1px;height:54px;background:linear-gradient(180deg,transparent,var(--cue-track));overflow:hidden}
+.film__cue span{position:absolute;inset:0;background:var(--cue);animation:cue 2.6s var(--ease-out) infinite}
 @keyframes cue{0%{transform:translateY(-100%)}60%,100%{transform:translateY(100%)}}
 @media (prefers-reduced-motion:reduce){.film__stand-in,.film__cue span{animation:none}}
 
 .lede{font-size:clamp(1.25rem,2.1vw,1.85rem);line-height:1.5;letter-spacing:-.015em;
-  color:var(--on-dark);max-width:34ch;margin:0;text-wrap:pretty}
-.caption{margin:var(--space-md) 0 0;max-width:60ch;font-size:13.5px;color:var(--muted)}
+  color:var(--text);max-width:34ch;margin:0;text-wrap:pretty}
+.caption{margin:var(--space-md) 0 0;max-width:60ch;font-size:13.5px;color:var(--text-subtle)}
 
 /* ================= Process steps ================= */
 .steps{list-style:none;margin:0;padding:0;display:grid;gap:0;counter-reset:step}
 .step{display:grid;grid-template-columns:auto 1fr;gap:var(--space-md);align-items:start;
-  padding-block:clamp(1.5rem,3vw,2.4rem);border-top:1px solid rgba(40,30,18,.16)}
-.step:last-child{border-bottom:1px solid rgba(40,30,18,.16)}
+  padding-block:clamp(1.5rem,3vw,2.4rem);border-top:1px solid var(--rule-warm)}
+.step:last-child{border-bottom:1px solid var(--rule-warm)}
 @media (min-width:800px){.step{grid-template-columns:5rem 1fr;gap:var(--space-xl)}}
 .step__n{font-size:13px;font-weight:500;color:var(--primary);font-variant-numeric:tabular-nums;padding-top:.55em}
-.step h3{margin:0 0 6px;font-size:clamp(1.3rem,2.2vw,1.9rem);font-weight:500;letter-spacing:-.025em;color:var(--on-dark)}
+.step h3{margin:0 0 6px;font-size:clamp(1.3rem,2.2vw,1.9rem);font-weight:500;letter-spacing:-.025em;color:var(--text)}
 .step p{margin:0;max-width:62ch;color:var(--body-on-warm)}
 
 
@@ -180,36 +176,36 @@ a.contact__card:hover{border-color:var(--on-dark);transform:translateY(-3px)}
              border-color var(--dur) var(--ease-out),box-shadow var(--dur) var(--ease-out)}
 
 .dock__mark{text-decoration:none;flex:none;padding-left:14px}
-.dock__mark span{font-size:23px;font-weight:600;letter-spacing:-.035em;color:var(--on-dark)}
+.dock__mark span{font-size:23px;font-weight:600;letter-spacing:-.035em;color:var(--text)}
 
 /* "Where you are" — only surfaces in the contracted state, like the island's
    at-a-glance line. Width animates so the morph reads as one object. */
-.dock__where{flex:none;max-width:0;overflow:hidden;white-space:nowrap;opacity:0;
-  font-size:13px;color:var(--muted);
+.dock__where{display:none;flex:none;max-width:0;overflow:hidden;white-space:nowrap;opacity:0;
+  font-size:13px;color:var(--text-subtle);
   transition:max-width var(--dur) var(--ease-spring),opacity var(--dur-fast) var(--ease-out),
              padding var(--dur) var(--ease-spring)}
 
 .dock__links{display:flex;gap:var(--space-md);margin-left:auto}
-.dock__link{position:relative;font-size:14.5px;color:var(--body);text-decoration:none;padding:6px 0;
+.dock__link{position:relative;font-size:14.5px;color:var(--text-muted);text-decoration:none;padding:6px 0;
   transition:color var(--dur-fast) var(--ease-out)}
-.dock__link:hover,.dock__link.is-active{color:var(--on-dark)}
+.dock__link:hover,.dock__link.is-active{color:var(--text)}
 .dock__link.is-active::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--primary-lifted)}
-.dock__link:focus-visible{outline:1px solid var(--on-dark);outline-offset:3px;border-radius:2px}
+.dock__link:focus-visible{outline:1px solid var(--text);outline-offset:3px;border-radius:2px}
 
 .dock__wa{display:inline-flex;align-items:center;gap:9px;flex:none;min-height:44px;padding:11px 20px;
-  font:500 14px/1 var(--font-core);color:var(--on-dark);text-decoration:none;white-space:nowrap;
-  border:1px solid rgba(20,18,15,.16);border-radius:var(--radius-full);
-  background:rgba(20,18,15,.03);backdrop-filter:blur(8px);
+  font:500 14px/1 var(--font-core);color:var(--text);text-decoration:none;white-space:nowrap;
+  border:1px solid var(--ghost-border);border-radius:var(--radius-full);
+  background:var(--ghost-bg);backdrop-filter:blur(8px);
   transition:border-color var(--dur-fast) var(--ease-out),background var(--dur-fast) var(--ease-out)}
-.dock__wa:hover{border-color:rgba(20,18,15,.45);background:rgba(20,18,15,.06)}
-.dock__wa:focus-visible{outline:1px solid var(--on-dark);outline-offset:2px}
+.dock__wa:hover{border-color:var(--ghost-border-hover);background:var(--ghost-bg-hover)}
+.dock__wa:focus-visible{outline:1px solid var(--text);outline-offset:2px}
 .dock__wa-glyph{width:17px;height:17px;flex:none;fill:var(--whatsapp)}
 
 .dock__toggle{display:none;width:44px;height:44px;flex:none;align-items:center;justify-content:center;
-  background:transparent;border:1px solid rgba(20,18,15,.16);border-radius:var(--radius-full);cursor:pointer}
-.dock__toggle:focus-visible{outline:1px solid var(--on-dark);outline-offset:2px}
+  background:transparent;border:1px solid var(--ghost-border);border-radius:var(--radius-full);cursor:pointer}
+.dock__toggle:focus-visible{outline:1px solid var(--text);outline-offset:2px}
 .dock__bars,.dock__bars::before,.dock__bars::after{display:block;width:16px;height:1.5px;
-  background:var(--on-dark);border-radius:2px;transition:transform var(--dur) var(--ease-spring),opacity var(--dur-fast) linear}
+  background:var(--text);border-radius:2px;transition:transform var(--dur) var(--ease-spring),opacity var(--dur-fast) linear}
 .dock__bars{position:relative}
 .dock__bars::before,.dock__bars::after{content:"";position:absolute;left:0}
 .dock__bars::before{top:-5px}
@@ -221,18 +217,17 @@ a.contact__card:hover{border-color:var(--on-dark);transform:translateY(-3px)}
 /* ---- Contracted: the bar becomes a floating pill ---- */
 .dock.is-compact{width:auto}
 .dock.is-compact .dock__inner{padding:8px 8px 8px 6px;
-  background:rgba(247,244,238,.78);backdrop-filter:blur(16px) saturate(1.25);
-  border-color:rgba(20,18,15,.10);box-shadow:0 18px 40px -28px rgba(40,30,18,.42)}
-.dock.is-compact .dock__where{max-width:14ch;opacity:1;padding-right:var(--space-xs);
-  border-left:1px solid var(--hairline);padding-left:var(--space-sm)}
+  background:var(--glass-bg);backdrop-filter:blur(16px) saturate(1.25);
+  border-color:var(--glass-border);box-shadow:var(--glass-shadow)}
+
 .dock.is-compact .dock__links{margin-left:var(--space-xs)}
 .dock.no-motion .dock__inner,.dock.no-motion .dock__where{transition:none}
 
 /* ---- Panel (small screens) ---- */
 .dock__panel{margin-top:var(--space-xs);padding:var(--space-md);
-  background:rgba(247,244,238,.97);backdrop-filter:blur(18px);
-  border:1px solid rgba(20,18,15,.10);border-radius:var(--radius-lg);
-  box-shadow:0 26px 60px -34px rgba(40,30,18,.5);display:grid;gap:var(--space-sm)}
+  background:var(--glass-bg-solid);backdrop-filter:blur(18px);
+  border:1px solid var(--glass-border);border-radius:var(--radius-lg);
+  box-shadow:var(--glass-shadow-lg);display:grid;gap:var(--space-sm)}
 .dock__panel[hidden]{display:none}
 .dock__panel-links{display:grid;gap:2px}
 .dock__panel-links .dock__link{font-size:20px;font-weight:500;letter-spacing:-.02em;padding:12px 0;
@@ -244,17 +239,19 @@ a.contact__card:hover{border-color:var(--on-dark);transform:translateY(-3px)}
   .dock{top:auto;bottom:calc(14px + env(safe-area-inset-bottom,0px));
     width:min(100% - 1.5rem,520px);align-content:end}
   .dock__inner{order:2;padding:8px 8px 8px 6px;
-    background:rgba(247,244,238,.86);backdrop-filter:blur(16px) saturate(1.25);
-    border-color:rgba(20,18,15,.10);box-shadow:0 18px 40px -28px rgba(40,30,18,.42)}
+    background:var(--glass-bg);backdrop-filter:blur(16px) saturate(1.25);
+    border-color:var(--glass-border);box-shadow:var(--glass-shadow)}
   .dock__links{display:none}
   .dock__toggle{display:flex}
-  .dock__where{max-width:12ch;opacity:1;margin-left:auto;padding-left:var(--space-sm);
+  /* Mobile only: the nav links are behind the menu, so this is the only
+     indication of where you are. */
+  .dock__where{display:block;max-width:12ch;opacity:1;margin-left:auto;padding-left:var(--space-sm);
     border-left:1px solid var(--hairline)}
   .dock__wa{padding:11px 13px}
   .dock__wa-glyph{width:19px;height:19px}
   .dock__wa-text{display:none}
   .dock__panel{order:1;margin:0 0 var(--space-xs)}
-  .dock.is-compact .dock__where{max-width:12ch}
+
 }
 @media (max-width:400px){.dock__mark span{font-size:20px}}
 
@@ -269,7 +266,7 @@ section:has(.zf-compare.is-toggle) .zf-compare__toggle{display:flex}
 /* Draft flag — every number on this preview is invented. It must be impossible
    to mistake this for the live site while it is on a public URL. */
 .draft-flag{position:fixed;z-index:80;left:0;right:0;top:0;padding:6px 12px;text-align:center;
-  font:500 11.5px/1.4 var(--font-core);letter-spacing:.01em;color:var(--on-dark);background:var(--sand)}
+  font:500 11.5px/1.4 var(--font-core);letter-spacing:.01em;color:var(--text);background:var(--sand)}
 body{padding-top:26px}
 .dock{top:40px}
 @media (max-width:860px){.dock{top:auto}}
@@ -277,15 +274,54 @@ body{padding-top:26px}
 }
 
 @layer pages {
-  /* Theme toggle. Sits in the dock beside the WhatsApp action; the icon is a
-     glyph rather than an SVG because two characters do not warrant an asset. */
-  .dock__theme{display:inline-flex;align-items:center;justify-content:center;flex:none;
-    width:44px;height:44px;font-size:15px;line-height:1;color:var(--on-dark);
-    background:transparent;border:1px solid rgba(128,120,108,.32);
-    border-radius:var(--radius-full);cursor:pointer;
-    transition:border-color var(--dur-fast) var(--ease-out),background var(--dur-fast) var(--ease-out)}
-  .dock__theme:hover{border-color:var(--on-dark);background:rgba(128,120,108,.10)}
-  .dock__theme:focus-visible{outline:1px solid var(--on-dark);outline-offset:2px}
-  .dock__theme-icon{display:block;transform:translateY(-.5px)}
-  @media (max-width:400px){.dock__theme{display:none}}
+  /* ---- Pull-cord bulb ----
+     The control is the metaphor: a cord you tug, a bulb that lights. The
+     screen-wide reveal is done by the View Transitions API in ThemeToggle. */
+  .bulb{position:relative;display:inline-flex;align-items:flex-end;justify-content:center;
+    flex:none;width:44px;height:44px;padding:0 0 4px;background:transparent;border:0;
+    cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .bulb:focus-visible{outline:1px solid var(--text);outline-offset:2px;border-radius:var(--radius-sm)}
+
+  /* The cord runs up out of the button and off the top of the dock. */
+  .bulb__cord{position:absolute;left:50%;bottom:30px;width:1px;height:14px;
+    background:var(--ghost-border-hover);transform-origin:top center;
+    transition:transform var(--dur) var(--ease-spring)}
+  .bulb__cord::after{content:"";position:absolute;left:50%;bottom:-3px;width:5px;height:5px;
+    margin-left:-2.5px;border-radius:var(--radius-full);background:var(--ghost-border-hover)}
+
+  .bulb__glass{width:26px;height:26px;overflow:visible;
+    transition:transform var(--dur) var(--ease-spring)}
+  .bulb__bowl{fill:none;stroke:var(--text-subtle);stroke-width:1.4;
+    transition:fill var(--dur) var(--ease-out),stroke var(--dur) var(--ease-out)}
+  .bulb__filament{fill:none;stroke:var(--text-subtle);stroke-width:1.2;stroke-linecap:round;
+    transition:stroke var(--dur) var(--ease-out)}
+  .bulb__cap{fill:none;stroke:var(--text-subtle);stroke-width:1.4;stroke-linecap:round;
+    transition:stroke var(--dur) var(--ease-out)}
+
+  /* Lit: warm glass, hot filament, and a halo around the bulb. */
+  .bulb.is-lit .bulb__bowl{fill:var(--bulb-glow);stroke:var(--bulb-edge)}
+  .bulb.is-lit .bulb__filament{stroke:var(--bulb-filament)}
+  .bulb.is-lit .bulb__cap{stroke:var(--bulb-edge)}
+  .bulb.is-lit .bulb__glass{filter:drop-shadow(0 0 7px var(--bulb-halo))}
+
+  /* The tug: cord stretches, bulb dips, both spring back. */
+  .bulb.is-pulling .bulb__cord{transform:scaleY(1.55)}
+  .bulb.is-pulling .bulb__glass{transform:translateY(3px)}
+
+  .bulb:hover .bulb__bowl,.bulb:hover .bulb__cap{stroke:var(--text)}
+
+  @media (prefers-reduced-motion:reduce){
+    .bulb__cord,.bulb__glass{transition:none}
+  }
+  @media (max-width:400px){.bulb{display:none}}
 }
+
+/* The reveal itself. The default cross-fade would fight the clip-path
+   animation, so both layers are held still and the circle does the work. */
+::view-transition-old(root),
+::view-transition-new(root){animation:none;mix-blend-mode:normal}
+/* Turning the light off animates the OUTGOING layer, so it must sit on top. */
+:root[data-theme-anim='off']::view-transition-old(root){z-index:2}
+:root[data-theme-anim='off']::view-transition-new(root){z-index:1}
+:root[data-theme-anim='on']::view-transition-new(root){z-index:2}
+:root[data-theme-anim='on']::view-transition-old(root){z-index:1}

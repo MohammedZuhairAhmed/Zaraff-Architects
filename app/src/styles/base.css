@@ -1,16 +1,16 @@
 /* Element defaults, the type ramp, and layout utilities.
    Font family comes from next/font via the --font-core variable set on <html>. */
 @layer base {
-body{margin:0;background:var(--canvas);color:var(--body);font-family:var(--font-core);font-size:var(--fs-body);line-height:var(--lh-body);-webkit-font-smoothing:antialiased}
+body{margin:0;background:var(--canvas);color:var(--text-muted);font-family:var(--font-core);font-size:var(--fs-body);line-height:var(--lh-body);-webkit-font-smoothing:antialiased}
 
 /* Type roles. Sentence case everywhere — no tracked-out all-caps. */
-.zf-display-mega{font-family:var(--font-core);font-size:var(--fs-display-mega);font-weight:var(--fw-display-mega);line-height:var(--lh-display-mega);letter-spacing:var(--ls-display-mega);color:var(--on-dark);text-wrap:balance;margin:0}
-.zf-display-large{font-family:var(--font-core);font-size:var(--fs-display-large);font-weight:var(--fw-display-large);line-height:var(--lh-display-large);letter-spacing:var(--ls-display-large);color:var(--on-dark);text-wrap:balance}
-.zf-display{font-size:var(--fs-display);font-weight:var(--fw-display);line-height:var(--lh-display);letter-spacing:var(--ls-display);color:var(--on-dark);text-wrap:pretty}
-.zf-heading{font-size:var(--fs-heading);font-weight:var(--fw-heading);line-height:var(--lh-heading);letter-spacing:var(--ls-heading);color:var(--on-dark)}
-.zf-body{font-size:var(--fs-body);font-weight:var(--fw-body);line-height:var(--lh-body);color:var(--body)}
-.zf-body-small{font-size:var(--fs-body-small);line-height:var(--lh-body-small);color:var(--muted)}
-.zf-label{font-size:var(--fs-label);font-weight:var(--fw-label);line-height:var(--lh-label);text-transform:none;color:var(--body)}
+.zf-display-mega{font-family:var(--font-core);font-size:var(--fs-display-mega);font-weight:var(--fw-display-mega);line-height:var(--lh-display-mega);letter-spacing:var(--ls-display-mega);color:var(--text);text-wrap:balance;margin:0}
+.zf-display-large{font-family:var(--font-core);font-size:var(--fs-display-large);font-weight:var(--fw-display-large);line-height:var(--lh-display-large);letter-spacing:var(--ls-display-large);color:var(--text);text-wrap:balance}
+.zf-display{font-size:var(--fs-display);font-weight:var(--fw-display);line-height:var(--lh-display);letter-spacing:var(--ls-display);color:var(--text);text-wrap:pretty}
+.zf-heading{font-size:var(--fs-heading);font-weight:var(--fw-heading);line-height:var(--lh-heading);letter-spacing:var(--ls-heading);color:var(--text)}
+.zf-body{font-size:var(--fs-body);font-weight:var(--fw-body);line-height:var(--lh-body);color:var(--text-muted)}
+.zf-body-small{font-size:var(--fs-body-small);line-height:var(--lh-body-small);color:var(--text-subtle)}
+.zf-label{font-size:var(--fs-label);font-weight:var(--fw-label);line-height:var(--lh-label);text-transform:none;color:var(--text-muted)}
 
 /* The connective device: a hairline rectangle, no radius. */
 .zf-frame{border:var(--frame);border-radius:0}
@@ -19,13 +19,13 @@ body{margin:0;background:var(--canvas);color:var(--body);font-family:var(--font-
 .zf-rule{border:0;border-top:var(--frame);margin:0}
 
 /* Light band, e.g. pricing and long-form reading. */
-.zf-light{background:var(--canvas-light);color:var(--body-on-light)}
-.zf-light .zf-display-mega,.zf-light .zf-display-large,.zf-light .zf-display,.zf-light .zf-heading{color:var(--ink)}
+.zf-invert{background:var(--invert-bg);color:var(--invert-text-muted)}
+.zf-invert .zf-display-mega,.zf-invert .zf-display-large,.zf-invert .zf-display,.zf-invert .zf-heading{color:var(--invert-text)}
 
-a{color:var(--on-dark);text-decoration:underline;text-decoration-color:var(--hairline);text-underline-offset:3px}
+a{color:var(--text);text-decoration:underline;text-decoration-color:var(--hairline);text-underline-offset:3px}
 a:hover{color:var(--primary);text-decoration-color:var(--primary)}
-.zf-light a{color:var(--ink);text-decoration-color:var(--hairline-on-light)}
-.zf-light a:hover{color:var(--primary);text-decoration-color:var(--primary)}
+.zf-invert a{color:var(--invert-text);text-decoration-color:var(--invert-hairline)}
+.zf-invert a:hover{color:var(--primary);text-decoration-color:var(--primary)}
 
 /* ---------- Surface: grain breaks the digital flatness ---------- */
 .zf-grain{position:relative}
@@ -45,7 +45,7 @@ html{scroll-behavior:smooth}
 .zf-btn{transition:background-color var(--dur-fast) var(--ease-out),border-color var(--dur-fast) var(--ease-out),color var(--dur-fast) var(--ease-out),transform var(--dur-fast) var(--ease-spring)}
 
 /* ---------- Keyboard users get in ---------- */
-.zf-skip{position:absolute;left:var(--space-sm);top:-100px;z-index:100;background:var(--on-dark);color:var(--ink);padding:12px 18px;border-radius:var(--radius-sm);font-weight:500;transition:top var(--dur) var(--ease-spring)}
+.zf-skip{position:absolute;left:var(--space-sm);top:-100px;z-index:100;background:var(--text);color:var(--invert-text);padding:12px 18px;border-radius:var(--radius-sm);font-weight:500;transition:top var(--dur) var(--ease-spring)}
 .zf-skip:focus{top:var(--space-sm)}
 
 @media (prefers-reduced-motion:reduce){
@@ -56,11 +56,11 @@ html{scroll-behavior:smooth}
 }
 
 /* ---------- Warm grounds ---------- */
-.zf-sand{background:var(--sand);color:var(--on-dark)}
-.zf-sand .zf-display-mega,.zf-sand .zf-display-large,.zf-sand .zf-display,.zf-sand .zf-heading{color:var(--on-dark)}
+.zf-sand{background:var(--sand);color:var(--text)}
+.zf-sand .zf-display-mega,.zf-sand .zf-display-large,.zf-sand .zf-display,.zf-sand .zf-heading{color:var(--text)}
 .zf-sand .zf-body,.zf-sand .zf-body-small{color:var(--body-on-warm)}
-.zf-limewash{background:var(--limewash);color:var(--on-dark)}
-.zf-limewash .zf-display-mega,.zf-limewash .zf-display-large,.zf-limewash .zf-display,.zf-limewash .zf-heading{color:var(--on-dark)}
+.zf-limewash{background:var(--limewash);color:var(--text)}
+.zf-limewash .zf-display-mega,.zf-limewash .zf-display-large,.zf-limewash .zf-display,.zf-limewash .zf-heading{color:var(--text)}
 .zf-limewash .zf-body{color:var(--body-on-warm)}
 /* A warm veil lifts a dark section off pure black without introducing a colour. */
 .zf-warm{background-image:linear-gradient(180deg,var(--warm-veil),transparent 70%)}

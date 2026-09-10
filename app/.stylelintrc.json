@@ -17,6 +17,17 @@
       {
         "message": "Class names are lowercase kebab or BEM (block__element--modifier). No camelCase."
       }
+    ],
+    "function-disallowed-list": [
+      [
+        "rgb",
+        "rgba",
+        "hsl",
+        "hsla"
+      ],
+      {
+        "message": "Colour literals belong in tokens.css. A literal here will not switch with the theme \u2014 this is what washed out the hero and left the dock pale in dark mode."
+      }
     ]
   },
   "ignoreFiles": [
