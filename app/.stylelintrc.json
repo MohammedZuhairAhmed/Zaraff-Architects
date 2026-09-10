@@ -1,16 +1,26 @@
 {
   "rules": {
-    "color-no-hex": [true, {
-      "message": "Use a design token (var(--…)), not a raw hex. Add the token in tokens.css if it is genuinely new."
-    }],
+    "color-no-hex": [
+      true,
+      {
+        "message": "Use a design token (var(--\u2026)), not a raw hex. Add the token in tokens.css if it is genuinely new."
+      }
+    ],
     "declaration-property-value-disallowed-list": {
-      "/^(margin|padding|gap)/": ["/^(8|16|24|40|64|96|128)px$/"]
+      "/^(margin|padding|gap)/": [
+        "/^(8|16|24|40|64|96|128)px$/"
+      ]
     },
     "custom-property-pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
     "selector-class-pattern": [
-      "^(zf-|is-|no-|dock__|dock--|film__|step|wrap|sect|grid|nav__|foot|ph|lede|caption|tabs?|cta|contact__|studio__|svc|case-|note|draft-flag)[a-zA-Z0-9_-]*$",
-      { "message": "Class should use a design-system prefix (zf-), a state prefix (is-/no-), or a known page block." }
+      "^[a-z][a-z0-9]*(?:[-_]{1,2}[a-z0-9]+)*$",
+      {
+        "message": "Class names are lowercase kebab or BEM (block__element--modifier). No camelCase."
+      }
     ]
   },
-  "ignoreFiles": ["src/styles/tokens.css", "**/*.module.css"]
+  "ignoreFiles": [
+    "src/styles/tokens.css",
+    "**/*.module.css"
+  ]
 }

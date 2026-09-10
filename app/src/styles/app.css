@@ -163,7 +163,7 @@ a.contact__card:hover{border-color:var(--on-dark);transform:translateY(-3px)}
 @media (min-width:800px){.step{grid-template-columns:5rem 1fr;gap:var(--space-xl)}}
 .step__n{font-size:13px;font-weight:500;color:var(--primary);font-variant-numeric:tabular-nums;padding-top:.55em}
 .step h3{margin:0 0 6px;font-size:clamp(1.3rem,2.2vw,1.9rem);font-weight:500;letter-spacing:-.025em;color:var(--on-dark)}
-.step p{margin:0;max-width:62ch;color:#4C4740}
+.step p{margin:0;max-width:62ch;color:var(--body-on-warm)}
 
 
 /* ================= The dock =================
@@ -269,7 +269,7 @@ section:has(.zf-compare.is-toggle) .zf-compare__toggle{display:flex}
 /* Draft flag — every number on this preview is invented. It must be impossible
    to mistake this for the live site while it is on a public URL. */
 .draft-flag{position:fixed;z-index:80;left:0;right:0;top:0;padding:6px 12px;text-align:center;
-  font:500 11.5px/1.4 var(--font-core);letter-spacing:.01em;color:#12100D;background:var(--sand)}
+  font:500 11.5px/1.4 var(--font-core);letter-spacing:.01em;color:var(--on-dark);background:var(--sand)}
 body{padding-top:26px}
 .dock{top:40px}
 @media (max-width:860px){.dock{top:auto}}
