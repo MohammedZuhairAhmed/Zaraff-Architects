@@ -101,3 +101,11 @@ Shadow, lift and opacity mean *interaction*. A data variant — a recommended
 package, a featured project — gets a marker and words, never the interaction
 vocabulary. Conflating them made a static package tier look permanently
 selected.
+
+## View Transitions gotcha
+Disabling the UA animation on `::view-transition-old/new(root)` is not enough.
+`::view-transition-group(root)` also carries a UA animation that morphs the
+snapshot's geometry. It is a no-op when before/after geometry matches, so it
+only shows on the first transition after a load — which reads as the reveal
+starting from the wrong place. Disable the group animation too, and set
+`isolation:auto` on the image pair.

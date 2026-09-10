@@ -65,7 +65,7 @@ export function ThemeToggle() {
     // repaint a full-viewport layer every frame. The clipped reveal below
     // does the honest work; this makes the leading edge feel like light.
     setBloom({ x, y, r, on: next === 'light' });
-    window.setTimeout(() => setBloom(null), 700);
+    window.setTimeout(() => setBloom(null), 950);
 
     document.documentElement.dataset.themeAnim = next === 'dark' ? 'off' : 'on';
     const transition = document.startViewTransition(() => { apply(next); });
@@ -77,10 +77,14 @@ export function ThemeToggle() {
       document.documentElement.animate(
         { clipPath: lightOn ? clip : [...clip].reverse() },
         {
-          // Inside the 300-500ms band for a view transition; exit faster than
-          // entrance. Longer than this reads as latency, not atmosphere.
-          duration: lightOn ? 480 : 380,
-          easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+          // This is the surface's one authored moment, so it sits in the
+          // 500-800ms band rather than the routine-transition band. Exit
+          // still faster than entrance.
+          duration: lightOn ? 780 : 640,
+          // A hard ease-out front-loads the distance, which is why the light
+          // read as "too fast" even at a longer duration. This distributes
+          // the movement more evenly.
+          easing: 'cubic-bezier(0.45, 0, 0.25, 1)',
           fill: 'forwards',
           pseudoElement: lightOn ? '::view-transition-new(root)' : '::view-transition-old(root)',
         },
