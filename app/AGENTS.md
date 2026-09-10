@@ -102,24 +102,7 @@ package, a featured project — gets a marker and words, never the interaction
 vocabulary. Conflating them made a static package tier look permanently
 selected.
 
-## View Transitions gotcha
-Disabling the UA animation on `::view-transition-old/new(root)` is not enough.
-`::view-transition-group(root)` also carries a UA animation that morphs the
-snapshot's geometry. It is a no-op when before/after geometry matches, so it
-only shows on the first transition after a load — which reads as the reveal
-starting from the wrong place. Disable the group animation too, and set
-`isolation:auto` on the image pair.
 
-## View Transitions: the canvas is not in the snapshot
-The root background propagates from `body` to the *canvas*, and the canvas is
-not captured in `::view-transition-old/new(root)`. Both layers are therefore
-transparent-backed, and the canvas already shows the INCOMING theme the
-instant the transition starts — so the destination colour arrives before the
-reveal does and the animation is invisible.
-
-Fix: give each snapshot its own opaque ground from `--ground-light` /
-`--ground-dark`, which are deliberately not theme-swapped. Without this,
-light-on looks like an instant white flash.
 
 ## Debugging the reveal
 Append `?vtdebug=1` and open the console. Logs origin, viewport, scrollY,
@@ -127,17 +110,18 @@ dock state, radius, which layer animates, and every view-transition animation
 the browser is actually running — a UA animation creeping back in is
 otherwise invisible.
 
-## transition.ready rejects, and you must handle it
-`document.startViewTransition(...).ready` rejects with InvalidStateError when
-the transition is aborted — the tab is hidden, or a second transition
-supersedes the first. `finished` still resolves. Unhandled, the custom
-animation never runs and any CSS start-state is left applied, hiding the
-incoming layer for the whole transition.
 
-Two rules that follow:
-- Guard against overlapping transitions with a ref; ignore clicks while one
-  is in flight.
-- Never clear the origin custom properties in cleanup. A late `finally` from
-  the previous transition strips them out from under the next one, which then
-  falls back to `50% 0px` — top-centre. They are seeded on mount and
-  overwritten per click, so leaving them is safe.
+## The theme toggle does not use View Transitions
+It did, and it was removed after four rounds of environment-specific
+failures: `ready` rejecting with InvalidStateError, snapshot geometry
+confusion, the canvas not being part of the snapshot, and behaviour that
+differed between Chrome 152 and 153. None of it was reproducible on demand.
+
+What ships instead: one absolutely-positioned disc of the DESTINATION ground
+colour, scaled from the bulb with `transform` only. When it covers the
+viewport the theme is applied beneath it — invisible, because the disc is
+already that colour — then the disc fades and is removed.
+
+Trade-off, on purpose: the flood is a flat colour rather than a reveal of the
+new page's content. It is far less impressive and completely predictable.
+Do not reintroduce View Transitions here without a reproducible test.

@@ -326,39 +326,6 @@ body{padding-top:26px}
     .bulb__glass{width:22px;height:22px}}
 }
 
-/* The reveal. Every UA animation on the root transition is disabled so the
-   clipped circle does all the work.
-   The group animation matters: it morphs the snapshot's geometry, and on the
-   first transition after a load the before/after geometry differs enough that
-   it reads as movement from the centre. On later swaps the geometry matches
-   and it is a no-op — which is why only the first swap looked wrong. */
-::view-transition-group(root){animation:none}
-::view-transition-image-pair(root){isolation:auto}
-::view-transition-old(root),
-::view-transition-new(root){animation:none;mix-blend-mode:normal}
-/* No will-change here. It promotes a viewport-sized compositor surface on
-   every toggle, and repeated toggles accumulated until the renderer ran out
-   of memory (Chrome "Aw, Snap!", error code 5). */
-
-/* Clip the incoming layer from the first frame, before JS gets a chance to.
-   If `transition.ready` resolves late — which it does on the first switches
-   in dev — the layer would otherwise paint fully and flash. */
-:root[data-theme-anim='on']::view-transition-new(root){
-  clip-path:circle(0px at var(--vt-x, 50%) var(--vt-y, 0px))}
-
-/* Each snapshot paints its own ground. Without this the canvas — which the
-   snapshot does not include — is already the incoming theme the instant the
-   transition begins, so the destination colour arrives before the circle
-   does and the reveal is invisible. This is what made light-on look instant. */
-:root[data-theme-anim='on']::view-transition-old(root){background-color:var(--ground-dark)}
-:root[data-theme-anim='on']::view-transition-new(root){background-color:var(--ground-light)}
-:root[data-theme-anim='off']::view-transition-old(root){background-color:var(--ground-light)}
-:root[data-theme-anim='off']::view-transition-new(root){background-color:var(--ground-dark)}
-/* Turning the light off animates the OUTGOING layer, so it must sit on top. */
-:root[data-theme-anim='off']::view-transition-old(root){z-index:2}
-:root[data-theme-anim='off']::view-transition-new(root){z-index:1}
-:root[data-theme-anim='on']::view-transition-new(root){z-index:2}
-:root[data-theme-anim='on']::view-transition-old(root){z-index:1}
 
 @layer pages {
   /* Warm bands are plates: hairline top and bottom so a band abutting another
@@ -393,21 +360,13 @@ body{padding-top:26px}
 }
 
 @layer pages {
-  /* The bloom. Scaled by transform only, so it composites on the GPU and
-     costs nothing per frame — the soft leading edge that a clip-path circle
-     cannot give on its own. Sits above the page, below the dock. */
-  .bulb-bloom{position:fixed;z-index:55;pointer-events:none;
-    translate:-50% -50%;border-radius:var(--radius-full);
-    background:radial-gradient(circle,var(--bloom-core) 0%,var(--bloom-mid) 42%,transparent 70%);
-    transform:scale(.04);opacity:0;
-    animation:bulb-bloom 1100ms cubic-bezier(0.45,0,0.25,1) forwards}
-  .bulb-bloom.is-on{background:radial-gradient(circle,var(--bloom-core-on) 0%,var(--bloom-mid-on) 44%,transparent 70%)}
-
-  @keyframes bulb-bloom{
-    0%{transform:scale(.04);opacity:0}
-    26%{opacity:1}
-    100%{transform:scale(1);opacity:0}
-  }
-  @media (prefers-reduced-motion:reduce){.bulb-bloom{display:none}}
 }
 
+@layer pages {
+  /* The flood. One element, transform only, so it composites on the GPU and
+     behaves the same in every browser. Sits above everything while it grows;
+     it is already the incoming ground colour, so the theme swapping beneath
+     it is invisible. */
+  .theme-flood{position:fixed;z-index:90;pointer-events:none;border-radius:50%;
+    transform:translate(-50%,-50%) scale(0);will-change:transform,opacity}
+}

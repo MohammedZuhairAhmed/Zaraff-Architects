@@ -5,60 +5,33 @@ import { useEffect, useRef, useState } from 'react';
 type Theme = 'light' | 'dark';
 
 /**
- * Diagnostics for the reveal. Off unless ?vtdebug=1 is on the URL, so it
- * costs nothing in normal use. Logs the origin, the radius, which layer is
- * animated, and what the browser actually ended up running — the last one
- * matters because a UA animation sneaking back in is invisible otherwise.
+ * A pull-cord bulb that floods the screen with light.
+ *
+ * Deliberately NOT the View Transitions API. That version failed in ways I
+ * could not control or reproduce: `ready` rejecting with InvalidStateError,
+ * snapshot geometry, and behaviour differing between Chrome versions. For a
+ * decorative flourish that is a bad trade.
+ *
+ * This is one absolutely-positioned circle, animated with `transform` only,
+ * so it composites on the GPU and behaves identically everywhere:
+ *
+ *   1. a disc of the DESTINATION colour scales up from the bulb
+ *   2. once it covers the viewport, the theme is applied underneath it
+ *   3. the disc fades, revealing the newly themed page
+ *
+ * Because the disc is already the incoming ground colour, step 2 is
+ * invisible — there is no flash, and the origin cannot drift.
  */
-const vtDebug = () =>
-  typeof window !== 'undefined' && new URLSearchParams(location.search).has('vtdebug');
+const GROUND: Record<Theme, string> = { light: '#F7F4EE', dark: '#12100D' };
 
-function logReveal(stage: string, data: Record<string, unknown>) {
-  if (!vtDebug()) return;
-  // eslint-disable-next-line no-console
-  console.log(`[vt] ${stage}`, data);
-}
+const GROW = { light: 820, dark: 640 } as const;
+const SETTLE = 220;
 
-/**
- * A pull-cord bulb.
- *
- * Turning the light ON reveals the new theme through a circle expanding from
- * the bulb itself. Turning it OFF runs the same circle in reverse, so darkness
- * closes in from the far corners back to the bulb.
- *
- * Implemented with the View Transitions API — no library. The browser paints
- * the outgoing and incoming states as layers we can clip; the circle is a real
- * reveal of the new theme, not a fade of a fake overlay.
- *
- * Three states exist (light, dark, follow-the-system) but the control only
- * ever offers the opposite of what you are looking at. Following the system
- * is the default; picking either value opts out of it.
- */
 export function ThemeToggle() {
   const [theme, setTheme] = useState<Theme | null>(null);
   const [pulling, setPulling] = useState(false);
-  const [bloom, setBloom] = useState<{ x: number; y: number; r: number; on: boolean } | null>(null);
   const ref = useRef<HTMLButtonElement>(null);
-  // A transition already running. Starting a second one supersedes the first,
-  // whose `ready` then rejects and whose cleanup strips the origin variables
-  // out from under the new transition — dropping it to the CSS fallback,
-  // which is top-centre. That is the "sometimes from the middle" bug.
   const busy = useRef(false);
-
-  // Seed the origin from the bulb's real position on mount and keep it
-  // current on resize, so the CSS fallback is never the value in play.
-  useEffect(() => {
-    const sync = () => {
-      const r = ref.current?.getBoundingClientRect();
-      if (!r) return;
-      const root = document.documentElement;
-      root.style.setProperty('--vt-x', `${Math.round(r.left + r.width / 2)}px`);
-      root.style.setProperty('--vt-y', `${Math.round(r.top + r.height / 2)}px`);
-    };
-    sync();
-    window.addEventListener('resize', sync);
-    return () => window.removeEventListener('resize', sync);
-  }, []);
 
   useEffect(() => {
     const stored = localStorage.getItem('zf-theme');
@@ -82,104 +55,51 @@ export function ThemeToggle() {
     if (busy.current) return;
     const next: Theme = theme === 'dark' ? 'light' : 'dark';
 
-    const rect = ref.current?.getBoundingClientRect();
-    const x = rect ? rect.left + rect.width / 2 : innerWidth / 2;
-    const y = rect ? rect.top + rect.height / 2 : 0;
-
-    // The cord tugs whether or not the reveal is available.
     setPulling(true);
     window.setTimeout(() => setPulling(false), 420);
 
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    logReveal('click', {
-      from: theme, to: next,
-      origin: [Math.round(x), Math.round(y)],
-      viewport: [innerWidth, innerHeight],
-      scrollY: Math.round(scrollY),
-      dockCompact: document.querySelector('.dock')?.classList.contains('is-compact'),
-      reducedMotion: reduced,
-      supportsViewTransitions: !!document.startViewTransition,
-    });
-    if (reduced || !document.startViewTransition) {
-      logReveal('skipped', { why: reduced ? 'prefers-reduced-motion' : 'no View Transitions' });
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       apply(next);
       return;
     }
 
-    // Reach the furthest corner, or the reveal leaves an unlit wedge.
+    const rect = ref.current?.getBoundingClientRect();
+    // No rect means no bulb on screen; switch without the flourish rather
+    // than guessing an origin.
+    if (!rect) { apply(next); return; }
+
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
+    // Reach the furthest corner so the disc covers the viewport completely.
     const r = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
 
-    // The bloom is the softness. It is a plain element scaled by transform,
-    // so it composites on the GPU — unlike mask-size or clip-path, which
-    // repaint a full-viewport layer every frame. The clipped reveal below
-    // does the honest work; this makes the leading edge feel like light.
-    setBloom({ x, y, r, on: next === 'light' });
-    window.setTimeout(() => setBloom(null), 1200);
-
-    // Publish the origin as custom properties BEFORE the transition starts.
-    // CSS then clips the incoming layer to a zero-radius circle from the very
-    // first frame. Without this the new layer is unclipped until the JS
-    // animation lands, and if `ready` resolves late the browser has already
-    // composited the finished theme — the full-screen flash on light-on. The
-    // outgoing layer starts unclipped by definition, which is why light-off
-    // never flashed and only one direction looked broken.
-    const root = document.documentElement;
-    root.style.setProperty('--vt-x', `${x}px`);
-    root.style.setProperty('--vt-y', `${y}px`);
-    root.dataset.themeAnim = next === 'dark' ? 'off' : 'on';
     busy.current = true;
-    const transition = document.startViewTransition(() => { apply(next); });
+    const disc = document.createElement('div');
+    disc.className = 'theme-flood';
+    disc.style.left = `${x}px`;
+    disc.style.top = `${y}px`;
+    disc.style.width = disc.style.height = `${r * 2}px`;
+    disc.style.background = GROUND[next];
+    document.body.appendChild(disc);
 
     try {
-      await transition.ready;
-      const lightOn = next === 'light';
-      const clip = [`circle(0px at ${x}px ${y}px)`, `circle(${r}px at ${x}px ${y}px)`];
-      document.documentElement.animate(
-        { clipPath: lightOn ? clip : [...clip].reverse() },
-        {
-          // Light-on runs materially longer than light-off. A bright area
-          // expanding over a dark ground reads faster than darkness closing
-          // in, so matching the numbers does not match the perception.
-          // Above the usual 500-800ms band by choice: this is the one
-          // authored moment on the surface and it was asked to be slower.
-          duration: lightOn ? 1050 : 700,
-          // A hard ease-out front-loads the distance, which is why the light
-          // read as "too fast" even at a longer duration. This distributes
-          // the movement more evenly.
-          easing: 'cubic-bezier(0.45, 0, 0.25, 1)',
-          fill: 'forwards',
-          pseudoElement: lightOn ? '::view-transition-new(root)' : '::view-transition-old(root)',
-        },
-      );
-      logReveal('running', {
-        layer: lightOn ? 'new(root)' : 'old(root)',
-        radius: Math.round(r),
-        duration: lightOn ? 1050 : 700,
-        // If anything other than our own animation appears here, a UA
-        // animation is back and will fight the reveal.
-        // pseudoElement lives on KeyframeEffect, not the AnimationEffect base.
-        animations: document.getAnimations()
-          .map(a => a.effect as KeyframeEffect | null)
-          .filter((e): e is KeyframeEffect => !!e?.pseudoElement?.includes('view-transition'))
-          .map(e => ({ pseudo: e.pseudoElement, ms: e.getTiming().duration })),
-      });
+      // Grow the destination colour out of the bulb.
+      await disc.animate(
+        { transform: ['translate(-50%,-50%) scale(0)', 'translate(-50%,-50%) scale(1)'] },
+        { duration: GROW[next], easing: 'cubic-bezier(0.45, 0, 0.25, 1)', fill: 'forwards' },
+      ).finished;
 
-      await transition.finished;
-      logReveal('finished', { theme: document.documentElement.dataset.theme });
-    } catch (err) {
-      // `ready` rejects with InvalidStateError when the transition is aborted:
-      // the tab is hidden, or another transition superseded this one. The
-      // theme is already applied by the callback, so the only job here is to
-      // drop the clip immediately — otherwise the CSS start-state leaves the
-      // incoming layer hidden for the rest of the transition.
-      delete root.dataset.themeAnim;
-      logReveal('aborted', { reason: err instanceof Error ? err.message : String(err) });
+      // The disc now covers everything and is already the incoming ground
+      // colour, so swapping the theme beneath it cannot be seen.
+      apply(next);
+
+      await disc.animate({ opacity: [1, 0] }, { duration: SETTLE, easing: 'linear', fill: 'forwards' }).finished;
+    } catch {
+      // An interrupted animation must never strand the page mid-swap.
+      apply(next);
     } finally {
-      delete root.dataset.themeAnim;
+      disc.remove();
       busy.current = false;
-      // The origin variables are deliberately NOT removed. Clearing them here
-      // raced with the next transition and dropped it to the top-centre
-      // fallback. They are overwritten on every click, so leaving them is safe.
     }
   };
 
@@ -187,19 +107,6 @@ export function ThemeToggle() {
     theme === null ? 'Switch theme' : theme === 'dark' ? 'Turn the light on' : 'Turn the light off';
 
   return (
-    <>
-      {bloom && (
-        <span
-          aria-hidden="true"
-          className={`bulb-bloom${bloom.on ? ' is-on' : ''}`}
-          style={{
-            left: bloom.x,
-            top: bloom.y,
-            width: bloom.r * 2,
-            height: bloom.r * 2,
-          }}
-        />
-      )}
     <button
       ref={ref}
       type="button"
@@ -210,17 +117,13 @@ export function ThemeToggle() {
     >
       <span className="bulb__cord" aria-hidden="true" />
       <svg className="bulb__glass" viewBox="0 0 24 24" aria-hidden="true">
-        {/* glass */}
         <path
           className="bulb__bowl"
           d="M12 3.2a6 6 0 0 0-3.6 10.8c.5.38.8.95.86 1.57l.06.63h5.36l.06-.63c.06-.62.36-1.19.86-1.57A6 6 0 0 0 12 3.2Z"
         />
-        {/* filament */}
         <path className="bulb__filament" d="M10.4 12.2c.5-1.1.9-1.6 1.6-1.6s1.1.5 1.6 1.6" />
-        {/* cap */}
         <path className="bulb__cap" d="M9.6 17.6h4.8M10.1 19.4h3.8" />
       </svg>
     </button>
-    </>
   );
 }
