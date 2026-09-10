@@ -286,12 +286,19 @@ a.contact__card:hover{border-color:var(--text);transform:translateY(-3px)}
 section:has(.zf-compare.is-toggle) .zf-compare__toggle{display:flex}
 
 /* Draft flag — every number on this preview is invented. It must be impossible
-   to mistake this for the live site while it is on a public URL. */
+   to mistake this for the live site while it is on a public URL. Off for now:
+   settings.draftNotice is null, so the element is not rendered. The machinery
+   stays, and setting the string again brings back the banner and the space it
+   needs in one move.
+
+   The offsets are conditional on the flag actually being present. They used to
+   be unconditional, so clearing the notice would have left a 26px band of
+   nothing above the page and the dock hanging below its own top. */
 .draft-flag{position:fixed;z-index:80;left:0;right:0;top:0;padding:6px 12px;text-align:center;
   font:500 11.5px/1.4 var(--font-core);letter-spacing:.01em;color:var(--text);background:var(--sand)}
-body{padding-top:26px}
-.dock{top:40px}
-@media (max-width:860px){.dock{top:auto}}
+body:has(.draft-flag){padding-top:26px}
+body:has(.draft-flag) .dock{top:40px}
+@media (max-width:860px){body:has(.draft-flag) .dock{top:auto}}
 
 }
 
@@ -488,10 +495,6 @@ html.is-theme-switching *::after { transition: none !important; }
      the white mark — no second set of files. Scoped to the images so the nib
      below can keep using the ink token normally. */
   [data-theme='dark'] .intro__band img{filter:invert(1)}
-
-  /* The pen dot. Sized against the mark so it holds its proportion. */
-  .intro__nib{position:absolute;width:1.8%;aspect-ratio:1;border-radius:50%;
-    background:var(--text);opacity:0;transform:translate(-50%,-50%)}
 }
 
 @media (prefers-color-scheme: dark) {

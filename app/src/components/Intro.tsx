@@ -23,8 +23,8 @@ const LH = 2032;
 // Stroke regions in layer coordinates. Adjacent boxes overlap by a couple of
 // units on purpose: it kills the hairline seam between bands at fractional
 // pixel sizes.
-const BAR = { box: [120, 150, 900, 306], x0: 150, x1: 990, y: 250 };
-const DIAG = { box: [120, 448, 900, 896], a: [862, 450], b: [186, 1335] };
+const BAR = { box: [120, 150, 900, 306] };
+const DIAG = { box: [120, 448, 900, 896] };
 const SWOOSH = { box: [110, 1332, 1530, 424], p0: [186, 1340], c: [950, 1830], p1: [1600, 1440] };
 const T1 = { box: [0, 1695, 1630, 125] };
 const T2 = { box: [0, 1820, 1630, 160] };
@@ -91,7 +91,6 @@ export function Intro() {
       const el = host.querySelector<HTMLElement>(`[data-band="${b.key}"]`);
       if (el) bands.set(b.key, el);
     }
-    const nib = host.querySelector<HTMLElement>('[data-nib]');
 
     let raf = 0;
     let timer = 0;
@@ -122,15 +121,14 @@ export function Intro() {
       if (!start) start = now;
       const t = (now - start) / 1000;
 
-      const bar = seg(t, CUE.bar, CUE.diag);
-      const diag = seg(t, CUE.diag, CUE.swoosh);
       const sw = seg(t, CUE.swoosh, CUE.arch);
-      set('bar', bar);
-      set('diag', diag);
+      set('bar', seg(t, CUE.bar, CUE.diag));
+      set('diag', seg(t, CUE.diag, CUE.swoosh));
       set('frame', seg(t, CUE.arch, CUE.word));
 
       // The tail is wiped to the pen point's own x rather than linearly in
-      // time, so the nib stays on the stroke instead of drifting off the curve.
+      // time. The curve doubles back, so a linear wipe would race ahead of
+      // the ink through the middle of the sweep and crawl at the end.
       const tail = quad(SWOOSH.p0, SWOOSH.c, SWOOSH.p1, sw);
       set('swoosh', (tail[0] - SWOOSH.box[0]) / (SWOOSH.p1[0] - SWOOSH.box[0]));
 
@@ -139,20 +137,6 @@ export function Intro() {
       const span = CUE.end - CUE.word;
       set('w1', seg(t, CUE.word, CUE.word + span * 0.66));
       set('w2', seg(t, CUE.word + span * 0.34, CUE.end));
-
-      if (nib) {
-        let at: number[] | null = null;
-        if (bar > 0.001 && bar < 0.999) at = [BAR.x0 + (BAR.x1 - BAR.x0) * bar, BAR.y];
-        else if (diag > 0.001 && diag < 0.999)
-          at = [DIAG.a[0] + (DIAG.b[0] - DIAG.a[0]) * diag, DIAG.a[1] + (DIAG.b[1] - DIAG.a[1]) * diag];
-        else if (sw > 0.001 && sw < 0.999) at = tail;
-
-        nib.style.opacity = at ? '1' : '0';
-        if (at) {
-          nib.style.left = pct(at[0] / LW);
-          nib.style.top = pct(at[1] / LH);
-        }
-      }
 
       if (t >= CUE.end + HOLD) { finish(); return; }
       raf = requestAnimationFrame(frame);
@@ -203,7 +187,6 @@ export function Intro() {
             </div>
           );
         })}
-        <i className="intro__nib" data-nib />
       </div>
     </div>
   );
