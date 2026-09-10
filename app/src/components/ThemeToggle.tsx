@@ -101,9 +101,24 @@ export function ThemeToggle() {
     inner.style.left = `${offsetLeft - window.scrollX}px`;
     inner.style.right = 'auto';
     inner.style.width = `${document.body.clientWidth - parseFloat(bodyBox.paddingLeft) - parseFloat(bodyBox.paddingRight)}px`;
+    // Only what is on screen needs copying: the reveal never shows anything
+    // outside the viewport. Skipping off-screen sections keeps the cost flat
+    // as pages grow, which is the difference between this and cloning a
+    // 40-image case study.
+    const vh = window.innerHeight;
     for (const node of Array.from(document.body.children)) {
       if (node instanceof HTMLScriptElement) continue;
-      inner.appendChild(node.cloneNode(true));
+      if (node instanceof HTMLElement) {
+        const box = node.getBoundingClientRect();
+        const offscreen = box.bottom < -200 || box.top > vh + 200;
+        // position:fixed elements are always on screen wherever they sit in
+        // the document, so they are never culled.
+        if (offscreen && getComputedStyle(node).position !== 'fixed') continue;
+      }
+      const copy = node.cloneNode(true) as HTMLElement;
+      // Nothing in a still image needs to fetch, decode or play.
+      copy.querySelectorAll?.('video, iframe, canvas, object, embed').forEach(el => el.remove());
+      inner.appendChild(copy);
     }
     layer.appendChild(inner);
     layer.style.setProperty('--ux', `${x}px`);

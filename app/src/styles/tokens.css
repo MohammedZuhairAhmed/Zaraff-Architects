@@ -47,7 +47,6 @@
   /* ---- Warm neutrals: section grounds, drawn from lime plaster and sand ---- */
   --limewash:#E8E2D6;
   --sand:#CDBFA8;
-  --sand-deep:#B9A88D;
   --warm-veil:rgba(120,100,70,.06);
   /* Body copy on the sand and limewash bands. */
   --body-on-warm:#4C4740;
@@ -63,13 +62,6 @@
   --on-media-border-soft:rgba(255,255,255,.18);
 
 
-  /* ---- Fixed ground colours, never theme-swapped ----
-     The canvas background propagates from body and is NOT captured in the
-     root view-transition snapshot, so both layers are transparent-backed and
-     the canvas shows the incoming theme immediately. These let each snapshot
-     paint its own ground so the reveal is actually visible. */
-  --ground-light:#F7F4EE;
-  --ground-dark:#12100D;
   /* Mask stop. Alpha, not colour — it decides what the veil hides, and must
      not follow the theme. */
   --mask-opaque:#000000;
@@ -103,7 +95,6 @@
   --wa-tint:linear-gradient(180deg,rgba(31,168,85,.10),transparent 60%);
   --chip-on-invert:rgba(20,18,15,.06);
   --hatch-drawing:rgba(14,14,13,.07);
-  --tier-emphasis-wash:linear-gradient(180deg,rgba(140,47,34,.08),transparent 220px);
   --divider-outline:rgba(0,0,0,.35);
   /* Bulb. Unlit in light mode is the resting state — the room is already lit. */
   --bulb-glow:rgba(255,214,140,.30);
@@ -153,14 +144,12 @@
   --fw-label:500; /* @kind font */
 
   /* ---- Spacing ladder ---- */
-  --space-xxs:4px;
   --space-xs:8px;
   --space-sm:16px;
   --space-md:24px;
   --space-lg:40px;
   --space-xl:64px;
   --space-xxl:96px;
-  --space-section:128px;
   --gutter:56px;
 
   /* ---- Motion: spring easing, three durations ---- */
@@ -176,8 +165,6 @@
   /* ---- Radius: near-square ---- */
   /* Varied, not uniform: containers soften, the things inside them stay tight.
      One radius on everything is the SaaS-kit tell. */
-  --radius-none:0;
-  --radius-xs:6px;
   --radius-sm:10px;
   --radius-md:16px;
   --radius-lg:24px;
@@ -244,7 +231,6 @@
       --wa-tint:linear-gradient(180deg,rgba(31,168,85,.14),transparent 60%);
       --chip-on-invert:rgba(255,255,255,.09);
       --hatch-drawing:rgba(14,14,13,.07);
-      --tier-emphasis-wash:linear-gradient(180deg,rgba(140,47,34,.14),transparent 220px);
       --divider-outline:rgba(0,0,0,.55);
       --bulb-glow:rgba(255,214,140,.22);
       --bulb-edge:#E0A951;
@@ -254,7 +240,6 @@
       /* Warm bands go dark too, or they punch holes in a night page. */
       --limewash:#1C1813;
       --sand:#2A2318;
-      --sand-deep:#3A3122;
       --body-on-warm:#B5AEA2;
       --warm-veil:rgba(205,191,168,.07);
 
@@ -307,7 +292,6 @@
       --wa-tint:linear-gradient(180deg,rgba(31,168,85,.14),transparent 60%);
       --chip-on-invert:rgba(255,255,255,.09);
       --hatch-drawing:rgba(14,14,13,.07);
-      --tier-emphasis-wash:linear-gradient(180deg,rgba(140,47,34,.14),transparent 220px);
       --divider-outline:rgba(0,0,0,.55);
       --bulb-glow:rgba(255,214,140,.22);
       --bulb-edge:#E0A951;
@@ -315,7 +299,6 @@
       --bulb-halo:rgba(255,196,92,.45);
         --limewash:#1C1813;
         --sand:#2A2318;
-        --sand-deep:#3A3122;
         --body-on-warm:#B5AEA2;
         --warm-veil:rgba(205,191,168,.07);
         --shadow-lift:0 18px 40px -24px rgba(0,0,0,.9),0 2px 8px -4px rgba(0,0,0,.6);

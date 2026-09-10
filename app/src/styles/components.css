@@ -84,19 +84,5 @@
 .zf-invert .zf-frame-box{border-color:var(--invert-hairline)}
 .zf-invert .zf-frame-box--elevated{background:var(--chalk)}
 
-/* ---------- Forced states, for specimen cards only ---------- */
-.zf-btn--primary.is-hover{background:var(--primary-hover)}
-.zf-btn--whatsapp.is-hover{background:var(--whatsapp-hover)}
-.zf-btn--secondary.is-hover{border-color:var(--text)}
-.zf-invert .zf-btn--secondary.is-hover{border-color:var(--invert-text)}
-.zf-btn.is-focus{outline:1px solid var(--text);outline-offset:2px}
-.zf-invert .zf-btn.is-focus{outline-color:var(--invert-text)}
-.zf-link.is-hover{color:var(--primary);text-decoration-color:var(--primary)}
-.zf-link.is-focus{outline:1px solid var(--text);outline-offset:3px}
-.zf-invert .zf-link.is-focus{outline-color:var(--invert-text)}
-.zf-input.is-hover,.zf-select.is-hover{border-bottom-color:var(--text)}
-.zf-invert .zf-input.is-hover,.zf-invert .zf-select.is-hover{border-bottom-color:var(--invert-text)}
-.zf-input.is-focus,.zf-select.is-focus{border-bottom-color:var(--text);box-shadow:0 1px 0 0 var(--text);outline:1px solid var(--text);outline-offset:3px}
-.zf-invert .zf-input.is-focus,.zf-invert .zf-select.is-focus{border-bottom-color:var(--invert-text);box-shadow:0 1px 0 0 var(--invert-text);outline-color:var(--invert-text)}
 
 }

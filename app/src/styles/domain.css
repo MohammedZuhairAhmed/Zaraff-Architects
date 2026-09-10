@@ -108,18 +108,6 @@ a.zf-plate:focus-visible{outline:1px solid var(--text);outline-offset:4px}
 .zf-invert .zf-facts__key{color:var(--invert-text-muted)}
 .zf-invert .zf-facts__val{color:var(--invert-text)}
 
-/* ---------- Sticky mobile WhatsApp bar ---------- */
-.zf-wabar{position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--glass-bg-solid);backdrop-filter:blur(10px);border-top:var(--frame);padding:var(--space-xs) var(--space-sm);padding-bottom:calc(var(--space-xs) + env(safe-area-inset-bottom,0px));display:grid;grid-template-columns:minmax(0,1fr) auto;gap:var(--space-sm);align-items:center}
-.zf-wabar__copy{min-width:0}
-.zf-wabar__title{font-size:var(--fs-label);font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.zf-wabar__sub{font-size:var(--fs-body-small);color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.zf-wabar .zf-btn{padding:14px 18px}
-.zf-wabar--static{position:static}
-.zf-wabar__spacer{height:calc(68px + env(safe-area-inset-bottom,0px))}
-@media (min-width:760px){.zf-wabar:not(.zf-wabar--static){display:none}.zf-wabar__spacer:not(.zf-wabar__spacer--keep){display:none}}
 
-/* ---------- Specimen helpers: force the narrow layout inside a wide page ---------- */
-.zf-packages--stacked{grid-template-columns:minmax(0,1fr) !important;gap:var(--space-md) !important}
-.zf-facts--stacked .zf-facts__row{grid-template-columns:minmax(0,1fr) !important;gap:2px !important}
 
 }
