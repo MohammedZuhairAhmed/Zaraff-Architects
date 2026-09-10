@@ -30,7 +30,14 @@ a.zf-plate:hover .zf-media img,a.zf-plate:focus-visible .zf-media img{transform:
 
 a.zf-plate{text-decoration:none}
 a.zf-plate .zf-plate__title{transition:color var(--dur-fast) var(--ease-out),transform var(--dur) var(--ease-spring)}
-a.zf-plate:hover .zf-plate__title{color:var(--primary-lifted);transform:translateX(4px)}
+a.zf-plate:hover .zf-plate__title,a.zf-plate:focus-visible .zf-plate__title{color:var(--primary-lifted);transform:translateX(4px)}
+
+/* Focus state: the hovered card lifts and the others recede. Attention has to
+   go somewhere — a grid where nothing changes reads as a static picture. */
+a.zf-plate{transition:transform var(--dur) var(--ease-spring),opacity var(--dur) var(--ease-out)}
+a.zf-plate .zf-plate__media{transition:box-shadow var(--dur) var(--ease-out)}
+a.zf-plate:hover,a.zf-plate:focus-visible{transform:translateY(-6px)}
+a.zf-plate:hover .zf-plate__media,a.zf-plate:focus-visible .zf-plate__media{box-shadow:var(--shadow-lift)}
 a.zf-plate:focus{outline:none}
 a.zf-plate:focus-visible{outline:1px solid var(--text);outline-offset:4px}
 
@@ -60,7 +67,11 @@ a.zf-plate:focus-visible{outline:1px solid var(--text);outline-offset:4px}
 .zf-packages{display:grid;gap:var(--space-md);grid-template-columns:1fr}
 @media (min-width:760px){.zf-packages{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--gutter)}}
 .zf-tier{display:grid;align-content:start;gap:var(--space-sm);border:var(--frame);padding:var(--space-md)}
-.zf-tier{border-radius:var(--radius-lg);position:relative;transition:transform var(--dur) var(--ease-spring),box-shadow var(--dur) var(--ease-out)}
+.zf-tier{border-radius:var(--radius-lg);position:relative;
+  transition:transform var(--dur) var(--ease-spring),box-shadow var(--dur) var(--ease-out),
+             opacity var(--dur) var(--ease-out),border-color var(--dur) var(--ease-out)}
+.zf-tier:hover{transform:translateY(-6px);box-shadow:var(--shadow-lift);border-color:var(--text-subtle)}
+.zf-tier--emphasis:hover{border-color:var(--primary)}
 .zf-tier--emphasis{border-color:var(--primary);background:var(--tier-emphasis-wash);box-shadow:var(--shadow-lift)}
 .zf-tier--emphasis::before{content:"";position:absolute;left:-1px;right:-1px;top:-1px;height:3px;background:var(--primary);border-radius:var(--radius-lg) var(--radius-lg) 0 0}
 .zf-tier__name{color:var(--text);font-size:var(--fs-heading);line-height:var(--lh-heading);letter-spacing:var(--ls-heading);margin:0}

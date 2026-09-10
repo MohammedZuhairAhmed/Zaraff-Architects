@@ -32,14 +32,18 @@ img{max-width:100%}
   color:var(--text);font-variant-numeric:tabular-nums;order:1}
 
 /* ---------- Grids ---------- */
-.grid{display:grid;gap:clamp(1.5rem,3vw,var(--gutter))}
+.grid{display:grid;gap:clamp(2rem,4vw,var(--gutter)) clamp(1.5rem,3vw,var(--gutter))}
 .grid--2{grid-template-columns:1fr}
 .grid--3{grid-template-columns:1fr}
 .grid--tight{margin-top:clamp(1.5rem,3vw,var(--gutter))}
 @media (min-width:800px){.grid--2{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (min-width:900px){.grid--3{grid-template-columns:repeat(3,minmax(0,1fr))}}
-/* Asymmetry: the second plate in a featured pair drops, so the row is not a slab. */
-@media (min-width:800px){.grid--2 > *:nth-child(2){transform:translateY(clamp(1.5rem,4vw,4rem))}}
+/* Asymmetry: the right column sits lower so a row is not a slab.
+   Uses margin, not transform — a transform is visual only, so the grid row
+   never grew to fit the offset and long indexes collided into each other. */
+@media (min-width:800px){
+  .grid--2 > *:nth-child(even){margin-block-start:clamp(1.5rem,4vw,4rem)}
+}
 
 /* ---------- Split (services on home) ---------- */
 .split{display:grid;gap:clamp(2rem,4vw,var(--space-xl));grid-template-columns:1fr}
@@ -98,8 +102,14 @@ a.contact__card:hover{border-color:var(--text);transform:translateY(-3px)}
 .tab:focus-visible{outline:1px solid var(--text);outline-offset:2px}
 
 /* ---------- CTA ---------- */
-.cta{background:var(--canvas-elevated);border-radius:var(--radius-xl);
-  width:min(100% - 2.5rem,1400px);margin-inline:auto}
+/* The CTA is a distinct object, not a continuation of whatever precedes it.
+   It previously used --canvas-elevated, a near neighbour of the limewash
+   band, so the two merged into one warm slab with no boundary. */
+.cta{background:var(--sand);border-radius:var(--radius-xl);
+  width:min(100% - 2.5rem,1400px);margin-inline:auto;
+  margin-block-start:clamp(3rem,7vw,7rem)}
+.cta .zf-display-large,.cta .zf-heading{color:var(--text)}
+.cta .zf-body{color:var(--body-on-warm)}
 .cta__inner{display:grid;justify-items:start;gap:var(--space-md);padding-block:clamp(1rem,3vw,3rem)}
 .cta__inner p{margin:0;max-width:48ch}
 .cta__inner h2{margin:0}
@@ -325,3 +335,22 @@ body{padding-top:26px}
 :root[data-theme-anim='off']::view-transition-new(root){z-index:1}
 :root[data-theme-anim='on']::view-transition-new(root){z-index:2}
 :root[data-theme-anim='on']::view-transition-old(root){z-index:1}
+
+@layer pages {
+  /* Warm bands are plates: hairline top and bottom so a band abutting another
+     warm surface still reads as a separate thing. */
+  .zf-limewash,.zf-sand{border-block:1px solid var(--rule-warm)}
+}
+
+@layer pages {
+  /* Sibling recede. :has() lets the grid know one of its children is hovered,
+     so the rest can step back without any JavaScript. */
+  @media (hover:hover){
+    .grid:has(a.zf-plate:hover) > a.zf-plate:not(:hover),
+    .zf-packages:has(.zf-tier:hover) > .zf-tier:not(:hover){opacity:.55}
+  }
+  @media (prefers-reduced-motion:reduce){
+    a.zf-plate:hover,a.zf-plate:focus-visible{transform:none}
+    .zf-tier:hover{transform:none}
+  }
+}
