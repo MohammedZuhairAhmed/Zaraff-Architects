@@ -285,8 +285,9 @@ body{padding-top:26px}
   /* ---- Pull-cord bulb ----
      The control is the metaphor: a cord you tug, a bulb that lights. The
      screen-wide reveal is done by the View Transitions API in ThemeToggle. */
-  .bulb{position:relative;display:inline-flex;align-items:flex-end;justify-content:center;
-    flex:none;width:44px;height:44px;padding:0 0 4px;background:transparent;border:0;
+  .bulb{position:fixed;z-index:61;top:calc(26px + 18px);right:clamp(1rem,2.6vw,2.2rem);
+    display:inline-flex;align-items:flex-end;justify-content:center;
+    width:44px;height:44px;padding:0 0 4px;background:transparent;border:0;
     cursor:pointer;-webkit-tap-highlight-color:transparent}
   .bulb:focus-visible{outline:1px solid var(--text);outline-offset:2px;border-radius:var(--radius-sm)}
 
@@ -321,7 +322,9 @@ body{padding-top:26px}
   @media (prefers-reduced-motion:reduce){
     .bulb__cord,.bulb__glass{transition:none}
   }
-  @media (max-width:400px){.bulb{display:none}}
+  /* On small screens the dock lives at the bottom, so the bulb keeps the
+     top-right corner to itself. */
+  @media (max-width:860px){.bulb{top:calc(26px + 10px);right:1rem}}
 }
 
 /* The reveal. Every UA animation on the root transition is disabled so the
@@ -382,7 +385,7 @@ body{padding-top:26px}
     translate:-50% -50%;border-radius:var(--radius-full);
     background:radial-gradient(circle,var(--bloom-core) 0%,var(--bloom-mid) 42%,transparent 70%);
     transform:scale(.04);opacity:0;
-    animation:bulb-bloom 900ms cubic-bezier(0.45,0,0.25,1) forwards}
+    animation:bulb-bloom 1100ms cubic-bezier(0.45,0,0.25,1) forwards}
   .bulb-bloom.is-on{background:radial-gradient(circle,var(--bloom-core-on) 0%,var(--bloom-mid-on) 44%,transparent 70%)}
 
   @keyframes bulb-bloom{
@@ -391,4 +394,13 @@ body{padding-top:26px}
     100%{transform:scale(1);opacity:0}
   }
   @media (prefers-reduced-motion:reduce){.bulb-bloom{display:none}}
+}
+
+@layer pages {
+  /* The bulb is fixed to the viewport's top-right, so the expanded dock has
+     to keep clear of it. The compact pill shrinks away from the edge and
+     needs no reserve; on small screens the dock is at the bottom entirely. */
+  @media (min-width:861px){
+    .dock:not(.is-compact) .dock__inner{padding-right:72px}
+  }
 }

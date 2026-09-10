@@ -65,7 +65,7 @@ export function ThemeToggle() {
     // repaint a full-viewport layer every frame. The clipped reveal below
     // does the honest work; this makes the leading edge feel like light.
     setBloom({ x, y, r, on: next === 'light' });
-    window.setTimeout(() => setBloom(null), 950);
+    window.setTimeout(() => setBloom(null), 1200);
 
     document.documentElement.dataset.themeAnim = next === 'dark' ? 'off' : 'on';
     const transition = document.startViewTransition(() => { apply(next); });
@@ -77,10 +77,12 @@ export function ThemeToggle() {
       document.documentElement.animate(
         { clipPath: lightOn ? clip : [...clip].reverse() },
         {
-          // This is the surface's one authored moment, so it sits in the
-          // 500-800ms band rather than the routine-transition band. Exit
-          // still faster than entrance.
-          duration: lightOn ? 780 : 640,
+          // Light-on runs materially longer than light-off. A bright area
+          // expanding over a dark ground reads faster than darkness closing
+          // in, so matching the numbers does not match the perception.
+          // Above the usual 500-800ms band by choice: this is the one
+          // authored moment on the surface and it was asked to be slower.
+          duration: lightOn ? 1050 : 700,
           // A hard ease-out front-loads the distance, which is why the light
           // read as "too fast" even at a longer duration. This distributes
           // the movement more evenly.

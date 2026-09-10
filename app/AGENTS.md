@@ -109,3 +109,11 @@ snapshot's geometry. It is a no-op when before/after geometry matches, so it
 only shows on the first transition after a load — which reads as the reveal
 starting from the wrong place. Disable the group animation too, and set
 `isolation:auto` on the image pair.
+
+## The bulb is fixed on purpose
+`.bulb` is position:fixed at the viewport's top-right and rendered from the
+root layout, not inside the dock. It used to live in the dock, which
+contracts and recentres on scroll — so the light source moved ~200px toward
+the middle whenever the page was scrolled, and the reveal appeared to come
+from the wrong place "at random". The expanded dock reserves padding-right
+for it; the compact pill pulls away from the edge and needs none.
