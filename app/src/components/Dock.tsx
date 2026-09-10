@@ -36,8 +36,15 @@ export function Dock({ whatsappNumber }: { whatsappNumber: string }) {
   const dockRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
 
-  // The section wins once you are inside one; the page name is the fallback.
-  const here = active?.name ?? NAV.find(n => n.href === pathname)?.label ?? 'Zaraff';
+  // The section wins once you are inside one; otherwise the page name.
+  // Nested routes such as /work/<slug> match their parent, and anything with
+  // no match shows nothing — repeating "Zaraff" beside the wordmark is noise,
+  // not orientation.
+  const pageLabel =
+    NAV.find(n => n.href === pathname)?.label ??
+    NAV.find(n => n.href !== '/' && pathname.startsWith(`${n.href}/`))?.label ??
+    null;
+  const here = active?.name ?? pageLabel;
 
   // Route change should never leave the panel hanging open.
   useEffect(() => setOpen(false), [pathname]);
@@ -148,17 +155,19 @@ export function Dock({ whatsappNumber }: { whatsappNumber: string }) {
     <div ref={dockRef} className={`dock${open ? ' is-open' : ''}`}>
       <div className="dock__inner">
         <Link className="dock__mark" href="/"><span>Zaraff</span></Link>
-        <span className="dock__where" aria-hidden="true">
-          {/* Animated only when a section drives it — which is only the home
-              page. Other routes show a fixed page name, so a slide would be
-              motion with nothing to say. */}
-          <span
-            key={here}
-            className={`dock__where-text${active ? ` is-${active.dir}` : ''}`}
-          >
-            {here}
+        {here && (
+          <span className="dock__where" aria-hidden="true">
+            {/* Animated only when a section drives it — which is only the home
+                page. Other routes show a fixed page name, so a slide would be
+                motion with nothing to say. */}
+            <span
+              key={here}
+              className={`dock__where-text${active ? ` is-${active.dir}` : ''}`}
+            >
+              {here}
+            </span>
           </span>
-        </span>
+        )}
         <nav className="dock__links" aria-label="Main">{links}</nav>
         <a
           className="dock__wa"
