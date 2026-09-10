@@ -158,6 +158,11 @@ Consequences to respect:
   it, trackpad momentum after the click leaves the copies sliding apart —
   160px of scroll produced 105px of visible drift.
 
+- No `content-visibility` on the clone. It was tried and reverted: it saved
+  ~4ms on a ~1ms operation and correlated with the layout shift returning.
+  Skipped sections were also decided once at click time, so anything scrolled
+  into view mid-reveal rendered blank.
+
 ### Verifying the clone
 Capture the real geometry BEFORE the clone is inserted. Once it is in the
 document, `document.querySelectorAll` matches both copies — that double-count

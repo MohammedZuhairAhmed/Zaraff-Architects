@@ -74,7 +74,6 @@ export function ThemeToggle() {
 
     const outgoing: Theme = theme === 'dark' ? 'dark' : 'light';
     busy.current = true;
-    const root = document.documentElement;
 
     // Copy the page BEFORE the theme changes, so the clone shows the old one.
     const layer = document.createElement('div');
@@ -92,7 +91,6 @@ export function ThemeToggle() {
     // content does. Ignoring that put every cloned element 26px high — the
     // draft banner's padding-top — and as the hole grew, content swapped
     // between two copies at different heights. That is the layout shift.
-    const vh = window.innerHeight;
     const bodyBox = getComputedStyle(document.body);
     const offsetTop =
       parseFloat(bodyBox.marginTop) + parseFloat(bodyBox.borderTopWidth) + parseFloat(bodyBox.paddingTop);
@@ -141,17 +139,6 @@ export function ThemeToggle() {
 
     // Now flip the real page. It is hidden behind the clone.
     apply(next);
-
-    // ?vtfreeze=1 holds the reveal half-open indefinitely, so a moving
-    // animation becomes a still image you can inspect. Click the bulb again
-    // (or reload) to clear it.
-    if (typeof window !== 'undefined' && new URLSearchParams(location.search).has('vtfreeze')) {
-      layer.style.setProperty('--hole', `${Math.round(r * 0.55)}px`);
-      // eslint-disable-next-line no-console
-      console.log('[reveal] frozen at', Math.round(r * 0.55), 'px from', Math.round(x), Math.round(y));
-      busy.current = false;
-      return;
-    }
 
     try {
       await layer.animate(
