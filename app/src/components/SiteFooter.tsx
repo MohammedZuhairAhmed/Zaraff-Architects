@@ -29,8 +29,16 @@ export async function SiteFooter({ studio, settings }: { studio: Studio; setting
     <footer className="foot zf-limewash">
       <div className="wrap foot__grid">
         <div>
-          <p className="foot__mark">{studio.name}</p>
-          <p className="zf-body-small">{studio.tagline}<br />{studio.location}</p>
+          {/* The lockup already sets "Zaraff Architects & Interiors", so the
+              tagline below it would only repeat the artwork in type. */}
+          <img
+            className="foot__mark"
+            src="/brand/mark.png"
+            alt={`${studio.name} ${studio.tagline}`}
+            width={358}
+            height={440}
+          />
+          <p className="zf-body-small">{studio.location}</p>
         </div>
         <div>
           <p className="foot__h">Pages</p>

@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 
 /**
- * The write-on intro: the Zaraff mark drawn as if by hand, once per session.
+ * The write-on intro: the Zaraff mark drawn as if by hand, on every load.
  *
  * The artwork is the real logo, cut into three transparent layers (the Z, the
  * arch frame, the wordmark). Each stroke is revealed by clipping a band over
@@ -82,12 +82,6 @@ export function Intro() {
   useEffect(() => {
     const html = document.documentElement;
     if (html.dataset.intro !== 'run') return;
-
-    // rAF does not fire in a background tab, so an intro armed on a load the
-    // visitor never looked at would sit frozen until the hard timeout swept
-    // it. Stand down instead — opening a link in a new tab and coming to it
-    // later should land on the page, not on a logo mid-stroke.
-    if (document.hidden) { delete html.dataset.intro; return; }
 
     const host = root.current;
     if (!host) return;

@@ -118,7 +118,7 @@ a.contact__card:hover{border-color:var(--text);transform:translateY(-3px)}
 .foot{margin-top:clamp(4rem,8vw,8rem);padding-block:clamp(3rem,5vw,5rem)}
 .foot__grid{display:grid;gap:var(--space-lg);grid-template-columns:repeat(2,1fr)}
 @media (min-width:800px){.foot__grid{grid-template-columns:1.6fr repeat(3,1fr)}}
-.foot__mark{margin:0 0 4px;font-size:28px;font-weight:600;letter-spacing:-.035em;color:var(--text)}
+.foot__mark{display:block;width:auto;height:clamp(104px,14vw,150px);margin:0 0 var(--space-sm)}
 .foot__h{margin:0 0 var(--space-xs);font-size:13px;font-weight:500;color:var(--text)}
 .foot .zf-body-small{color:var(--body-on-warm)}
 .foot__base{display:flex;justify-content:space-between;gap:var(--space-md);flex-wrap:wrap;
@@ -188,8 +188,8 @@ a.contact__card:hover{border-color:var(--text);transform:translateY(-3px)}
   background:var(--glass-bg);backdrop-filter:blur(16px) saturate(1.25);
   box-shadow:var(--glass-shadow)}
 
-.dock__mark{text-decoration:none;flex:none;padding-left:14px}
-.dock__mark span{font-size:23px;font-weight:600;letter-spacing:-.035em;color:var(--text)}
+.dock__mark{display:flex;align-items:center;text-decoration:none;flex:none;padding-left:14px}
+.dock__mark img{display:block;width:auto;height:27px}
 
 /* "Where you are" — only surfaces in the contracted state, like the island's
    at-a-glance line. Width animates so the morph reads as one object. */
@@ -275,7 +275,7 @@ a.contact__card:hover{border-color:var(--text);transform:translateY(-3px)}
   .dock__panel{order:1;margin:0 0 var(--space-xs)}
 
 }
-@media (max-width:400px){.dock__mark span{font-size:20px}}
+@media (max-width:400px){.dock__mark img{height:24px}}
 
 /* The film hero sits under a fixed dock, so give the copy room on small screens. */
 @media (max-width:860px){.film__copy{padding-bottom:clamp(6.5rem,16vh,9rem)}}
@@ -442,6 +442,19 @@ html.is-theme-switching,
 html.is-theme-switching *,
 html.is-theme-switching *::before,
 html.is-theme-switching *::after { transition: none !important; }
+
+@layer pages {
+  /* The logo artwork is pure black on transparent, so inverting it is exactly
+     the white mark. Same trick as the intro — one file, both themes. */
+  [data-theme='dark'] .foot__mark,
+  [data-theme='dark'] .dock__mark img{filter:invert(1)}
+}
+@media (prefers-color-scheme: dark) {
+  @layer pages {
+    :root:not([data-theme='light']) .foot__mark,
+    :root:not([data-theme='light']) .dock__mark img{filter:invert(1)}
+  }
+}
 
 /* ---------------------------------------------------------------------------
    Write-on intro

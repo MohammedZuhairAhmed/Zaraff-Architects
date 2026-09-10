@@ -154,7 +154,11 @@ export function Dock({ whatsappNumber }: { whatsappNumber: string }) {
   return (
     <div ref={dockRef} className={`dock${open ? ' is-open' : ''}`}>
       <div className="dock__inner">
-        <Link className="dock__mark" href="/"><span>Zaraff</span></Link>
+        {/* The Z alone. The full lockup is portrait and its arch and
+            wordmark are unreadable at the height of this pill. */}
+        <Link className="dock__mark" href="/" aria-label="Zaraff — home">
+          <img src="/brand/glyph.png" alt="" width={224} height={220} />
+        </Link>
         {here && (
           <span className="dock__where" aria-hidden="true">
             {/* Animated only when a section drives it — which is only the home

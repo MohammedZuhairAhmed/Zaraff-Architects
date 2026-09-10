@@ -10,19 +10,21 @@
  * render the same tree and the attribute alone reveals it. Reading
  * sessionStorage during render would have been a hydration mismatch.
  *
- * sessionStorage, not localStorage: the architect demoing the site on his phone
- * should not sit through it on every reload, but a client returning next week
- * should see it. The flag is written immediately, so a reload mid-animation
- * does not replay it.
+ * It runs on every page load, at every size. Client-side navigation does not
+ * remount the root layout, so internal links do not replay it — only a real
+ * load does, which is the intent.
  *
  * The hard timeout is the safety net. The overlay is opaque and covers the
  * page; if hydration never happens — JS blocked, chunk failed, slow device —
- * nothing else would ever clear it.
+ * nothing else would ever clear it. It is armed on first visibility rather
+ * than immediately: rAF does not run in a background tab, so counting down
+ * while hidden would sweep the intro away before it was ever seen.
  */
 const SCRIPT = `try{var r=document.documentElement;
-if(!sessionStorage.getItem('zf-intro')&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
-r.dataset.intro='run';sessionStorage.setItem('zf-intro','1');
-setTimeout(function(){if(r.dataset.intro)delete r.dataset.intro},4000)}}catch(e){}`;
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches){r.dataset.intro='run';
+var a=function(){setTimeout(function(){if(r.dataset.intro)delete r.dataset.intro},4000)};
+if(document.hidden){document.addEventListener('visibilitychange',function h(){
+if(!document.hidden){document.removeEventListener('visibilitychange',h);a()}})}else a()}}catch(e){}`;
 
 export function IntroScript() {
   return <script id="zf-intro" dangerouslySetInnerHTML={{ __html: SCRIPT }} />;
