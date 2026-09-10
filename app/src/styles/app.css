@@ -442,3 +442,54 @@ html.is-theme-switching,
 html.is-theme-switching *,
 html.is-theme-switching *::before,
 html.is-theme-switching *::after { transition: none !important; }
+
+/* ---------------------------------------------------------------------------
+   Write-on intro
+   Once per session, gated before first paint by IntroScript. The overlay
+   markup is always in the prerendered HTML and hidden here; the attribute on
+   <html> is what reveals it, so the server and client render the same tree.
+   --------------------------------------------------------------------------- */
+@property --p { syntax: '<number>'; inherits: false; initial-value: 0; }
+
+@layer pages {
+  /* Above the skip link (100) and the theme reveal (90): while it is up it is
+     the only thing on screen. */
+  .intro{position:fixed;inset:0;z-index:110;display:none;place-items:center;
+    background:var(--canvas)}
+  [data-intro] .intro{display:grid}
+  [data-intro='out'] .intro{opacity:0;transition:opacity .45s ease-in}
+
+  /* Height-led so the mark never outgrows a short viewport, with the width
+     expressed back as a height cap (78vw at this aspect) so no media query is
+     needed to keep it off the edges of a phone. */
+  .intro__mark{position:relative;aspect-ratio:1630/2032;height:min(56vh,97.2vw,440px)}
+
+  .intro__band{position:absolute;overflow:hidden}
+  /* Progress is a clip, not a width. Resizing the band would resize the layer
+     image inside it, since that image is sized as a percentage of the band. */
+  .intro__band[data-dir='x']{clip-path:inset(0 calc((1 - var(--p)) * 100%) 0 0)}
+  .intro__band[data-dir='y']{clip-path:inset(0 0 calc((1 - var(--p)) * 100%) 0)}
+  .intro__band img{position:absolute;display:block;max-width:none}
+
+  /* The layers are pure black on transparent, so inverting them is exactly
+     the white mark — no second set of files. Scoped to the images so the nib
+     below can keep using the ink token normally. */
+  [data-theme='dark'] .intro__band img{filter:invert(1)}
+
+  /* The pen dot. Sized against the mark so it holds its proportion. */
+  .intro__nib{position:absolute;width:1.8%;aspect-ratio:1;border-radius:50%;
+    background:var(--text);opacity:0;transform:translate(-50%,-50%)}
+}
+
+@media (prefers-color-scheme: dark) {
+  @layer pages {
+    :root:not([data-theme='light']) .intro__band img{filter:invert(1)}
+  }
+}
+
+/* An intro is a flourish. Anyone who has asked for less motion has asked not
+   to be shown one — and a static logo card that flashes for a moment is worse
+   than no card. IntroScript never arms it, and this is the belt and braces. */
+@media (prefers-reduced-motion: reduce) {
+  @layer pages { .intro{display:none !important} }
+}

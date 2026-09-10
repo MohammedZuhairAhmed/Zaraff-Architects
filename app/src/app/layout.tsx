@@ -4,6 +4,8 @@ import { getSettings, getStudio } from '@/content/cached';
 import { Dock } from '@/components/Dock';
 import { SiteFooter } from '@/components/SiteFooter';
 import { ThemeScript } from '@/components/ThemeScript';
+import { Intro } from '@/components/Intro';
+import { IntroScript } from '@/components/IntroScript';
 import '@/styles/index.css';
 
 /**
@@ -62,6 +64,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body suppressHydrationWarning>
         {/* First child of <body> so the theme lands before anything paints. */}
         <ThemeScript />
+        <IntroScript />
+        {/* Opaque and above everything, so it has to precede the content it
+            covers — the markup is inert until IntroScript arms it. */}
+        <Intro />
         <a className="zf-skip" href="#main">Skip to content</a>
         {settings.draftNotice && <div className="draft-flag">{settings.draftNotice}</div>}
 

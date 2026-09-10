@@ -184,3 +184,25 @@ border on the package cards.
 
 Tokens hold primitives. Compose at the use site:
 `border: var(--frame-width) solid var(--hairline)`.
+
+## The intro overlay
+Once per session, gated by `IntroScript` before first paint — the same
+blocking-inline-script pattern as the theme, for the same reason.
+
+- The overlay markup is always in the prerendered HTML and hidden by CSS. The
+  attribute on `<html>` reveals it. Reading `sessionStorage` during render
+  would be a hydration mismatch; reading it in an effect would be a flash.
+- The effect cleanup must NOT clear `data-intro`. StrictMode mounts, cleans up
+  and mounts again — clearing there disarmed the run before the second mount
+  read it, and the intro never played in dev. The 4s timeout inside
+  IntroScript is the only thing that guarantees the overlay cannot strand.
+- `LW`/`LH` and the stroke boxes are a virtual coordinate space. The layer
+  images are sized to the rendered box, so the PNGs can be any resolution.
+  Rewriting the boxes into a new pixel space collapses the deliberate 2-unit
+  overlaps and hairline seams appear between bands.
+- Progress is `clip-path`, not width. The layer image inside each band is
+  sized as a percentage OF the band, so animating the band's width would
+  scale the artwork with it.
+- `requestAnimationFrame` does not fire in a hidden tab. The clock therefore
+  starts on the first painted frame, not when the loop is scheduled, and a
+  load that begins hidden stands down rather than freezing mid-stroke.

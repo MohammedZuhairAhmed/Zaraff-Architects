@@ -121,6 +121,9 @@ export function ThemeToggle() {
     inner.style.width = `${document.body.clientWidth - parseFloat(bodyBox.paddingLeft) - parseFloat(bodyBox.paddingRight)}px`;
     for (const node of Array.from(document.body.children)) {
       if (node instanceof HTMLScriptElement) continue;
+      // Opted out by the element itself. A second copy of a full-screen
+      // opaque overlay is never what the reveal wants behind the hole.
+      if (node.hasAttribute('data-no-clone')) continue;
       const copy = node.cloneNode(true) as HTMLElement;
       // A still image has no reason to fetch, decode or play. Images are
       // left alone: they come from cache and are part of what is revealed.
