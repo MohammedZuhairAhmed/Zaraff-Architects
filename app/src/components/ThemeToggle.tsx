@@ -98,8 +98,17 @@ export function ThemeToggle() {
       parseFloat(bodyBox.marginTop) + parseFloat(bodyBox.borderTopWidth) + parseFloat(bodyBox.paddingTop);
     const offsetLeft =
       parseFloat(bodyBox.marginLeft) + parseFloat(bodyBox.borderLeftWidth) + parseFloat(bodyBox.paddingLeft);
-    inner.style.top = `${offsetTop - window.scrollY}px`;
-    inner.style.left = `${offsetLeft - window.scrollX}px`;
+    // Track scroll for as long as the clone is mounted. The clone is pinned
+    // to the scroll offset captured at click time, so any scrolling during
+    // the reveal — trackpad momentum after the click is enough — leaves it
+    // stale and the two copies visibly slide apart. 160px of scroll produced
+    // 105px of drift before this.
+    const syncScroll = () => {
+      inner.style.top = `${offsetTop - window.scrollY}px`;
+      inner.style.left = `${offsetLeft - window.scrollX}px`;
+    };
+    syncScroll();
+    window.addEventListener('scroll', syncScroll, { passive: true });
     inner.style.right = 'auto';
     inner.style.width = `${document.body.clientWidth - parseFloat(bodyBox.paddingLeft) - parseFloat(bodyBox.paddingRight)}px`;
     for (const node of Array.from(document.body.children)) {
@@ -168,6 +177,7 @@ export function ThemeToggle() {
     } catch {
       // An interrupted reveal must never strand a clone over the page.
     } finally {
+      window.removeEventListener('scroll', syncScroll);
       layer.remove();
       busy.current = false;
     }

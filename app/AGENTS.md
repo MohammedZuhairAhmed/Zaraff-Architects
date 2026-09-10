@@ -153,8 +153,18 @@ Consequences to respect:
   duplicated for as long as the clone is mounted, breaking getElementById,
   in-page anchors and aria-labelledby.
 
+- The clone is pinned to the scroll offset captured at click time, so a
+  `scroll` listener keeps it in sync for as long as it is mounted. Without
+  it, trackpad momentum after the click leaves the copies sliding apart —
+  160px of scroll produced 105px of visible drift.
+
 ### Verifying the clone
 Capture the real geometry BEFORE the clone is inserted. Once it is in the
 document, `document.querySelectorAll` matches both copies — that double-count
 produced a bogus "55% fewer nodes" measurement and a phantom section count of
 12 where there were 6.
+
+Static checks are not enough. Alignment held perfectly at every scroll depth
+and across all 204 elements, and the bug only appeared while the page was
+MOVING. Always test: scroll during the reveal, and toggle repeatedly while
+scrolling.
