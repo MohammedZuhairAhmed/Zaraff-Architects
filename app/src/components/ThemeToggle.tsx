@@ -39,6 +39,26 @@ export function ThemeToggle() {
   const [pulling, setPulling] = useState(false);
   const [bloom, setBloom] = useState<{ x: number; y: number; r: number; on: boolean } | null>(null);
   const ref = useRef<HTMLButtonElement>(null);
+  // A transition already running. Starting a second one supersedes the first,
+  // whose `ready` then rejects and whose cleanup strips the origin variables
+  // out from under the new transition — dropping it to the CSS fallback,
+  // which is top-centre. That is the "sometimes from the middle" bug.
+  const busy = useRef(false);
+
+  // Seed the origin from the bulb's real position on mount and keep it
+  // current on resize, so the CSS fallback is never the value in play.
+  useEffect(() => {
+    const sync = () => {
+      const r = ref.current?.getBoundingClientRect();
+      if (!r) return;
+      const root = document.documentElement;
+      root.style.setProperty('--vt-x', `${Math.round(r.left + r.width / 2)}px`);
+      root.style.setProperty('--vt-y', `${Math.round(r.top + r.height / 2)}px`);
+    };
+    sync();
+    window.addEventListener('resize', sync);
+    return () => window.removeEventListener('resize', sync);
+  }, []);
 
   useEffect(() => {
     const stored = localStorage.getItem('zf-theme');
@@ -59,6 +79,7 @@ export function ThemeToggle() {
   };
 
   const flip = async () => {
+    if (busy.current) return;
     const next: Theme = theme === 'dark' ? 'light' : 'dark';
 
     const rect = ref.current?.getBoundingClientRect();
@@ -106,6 +127,7 @@ export function ThemeToggle() {
     root.style.setProperty('--vt-x', `${x}px`);
     root.style.setProperty('--vt-y', `${y}px`);
     root.dataset.themeAnim = next === 'dark' ? 'off' : 'on';
+    busy.current = true;
     const transition = document.startViewTransition(() => { apply(next); });
 
     try {
@@ -144,10 +166,20 @@ export function ThemeToggle() {
 
       await transition.finished;
       logReveal('finished', { theme: document.documentElement.dataset.theme });
+    } catch (err) {
+      // `ready` rejects with InvalidStateError when the transition is aborted:
+      // the tab is hidden, or another transition superseded this one. The
+      // theme is already applied by the callback, so the only job here is to
+      // drop the clip immediately — otherwise the CSS start-state leaves the
+      // incoming layer hidden for the rest of the transition.
+      delete root.dataset.themeAnim;
+      logReveal('aborted', { reason: err instanceof Error ? err.message : String(err) });
     } finally {
-      delete document.documentElement.dataset.themeAnim;
-      document.documentElement.style.removeProperty('--vt-x');
-      document.documentElement.style.removeProperty('--vt-y');
+      delete root.dataset.themeAnim;
+      busy.current = false;
+      // The origin variables are deliberately NOT removed. Clearing them here
+      // raced with the next transition and dropped it to the top-centre
+      // fallback. They are overwritten on every click, so leaving them is safe.
     }
   };
 

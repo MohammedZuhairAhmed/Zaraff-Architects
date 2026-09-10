@@ -126,3 +126,18 @@ Append `?vtdebug=1` and open the console. Logs origin, viewport, scrollY,
 dock state, radius, which layer animates, and every view-transition animation
 the browser is actually running — a UA animation creeping back in is
 otherwise invisible.
+
+## transition.ready rejects, and you must handle it
+`document.startViewTransition(...).ready` rejects with InvalidStateError when
+the transition is aborted — the tab is hidden, or a second transition
+supersedes the first. `finished` still resolves. Unhandled, the custom
+animation never runs and any CSS start-state is left applied, hiding the
+incoming layer for the whole transition.
+
+Two rules that follow:
+- Guard against overlapping transitions with a ref; ignore clicks while one
+  is in flight.
+- Never clear the origin custom properties in cleanup. A late `finally` from
+  the previous transition strips them out from under the next one, which then
+  falls back to `50% 0px` — top-centre. They are seeded on mount and
+  overwritten per click, so leaving them is safe.
