@@ -362,11 +362,22 @@ body{padding-top:26px}
 @layer pages {
 }
 
+/* The hole radius has to be a registered property, or it cannot be
+   interpolated and the mask would jump rather than grow. */
+@property --hole {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
 @layer pages {
-  /* The flood. One element, transform only, so it composites on the GPU and
-     behaves the same in every browser. Sits above everything while it grows;
-     it is already the incoming ground colour, so the theme swapping beneath
-     it is invisible. */
-  .theme-flood{position:fixed;z-index:90;pointer-events:none;border-radius:50%;
-    transform:translate(-50%,-50%) scale(0);will-change:transform,opacity}
+  /* The veil. Painted in the colour we are leaving, covering the whole
+     viewport, with a hole at the bulb that grows to expose the already-
+     switched page underneath. The animation IS the reveal — nothing is
+     painted over the new page. */
+  .theme-unveil{position:fixed;inset:0;z-index:90;pointer-events:none;
+    -webkit-mask-image:radial-gradient(circle at var(--ux) var(--uy),
+      transparent var(--hole), var(--mask-opaque) calc(var(--hole) + 2px));
+    mask-image:radial-gradient(circle at var(--ux) var(--uy),
+      transparent var(--hole), var(--mask-opaque) calc(var(--hole) + 2px))}
 }

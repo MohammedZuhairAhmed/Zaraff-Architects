@@ -15,17 +15,20 @@ type Theme = 'light' | 'dark';
  * This is one absolutely-positioned circle, animated with `transform` only,
  * so it composites on the GPU and behaves identically everywhere:
  *
- *   1. a disc of the DESTINATION colour scales up from the bulb
- *   2. once it covers the viewport, the theme is applied underneath it
- *   3. the disc fades, revealing the newly themed page
+ *   1. the theme is applied immediately, so the page below is already new
+ *   2. an overlay painted in the OUTGOING ground colour hides it
+ *   3. a hole opens in that overlay at the bulb and grows
  *
- * Because the disc is already the incoming ground colour, step 2 is
- * invisible — there is no flash, and the origin cannot drift.
+ * The new page is revealed THROUGH the hole, so the animation is the reveal
+ * rather than a flat colour being painted over everything. Going dark, this
+ * reads as darkness spreading from the bulb; going light, as light flooding
+ * in. Outside the hole is flat outgoing colour rather than the old page,
+ * which is the one thing a snapshot would buy — and snapshots are what made
+ * the View Transitions version unpredictable.
  */
 const GROUND: Record<Theme, string> = { light: '#F7F4EE', dark: '#12100D' };
 
 const GROW = { light: 820, dark: 640 } as const;
-const SETTLE = 220;
 
 export function ThemeToggle() {
   const [theme, setTheme] = useState<Theme | null>(null);
@@ -73,32 +76,32 @@ export function ThemeToggle() {
     // Reach the furthest corner so the disc covers the viewport completely.
     const r = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
 
+    const outgoing: Theme = theme === 'dark' ? 'dark' : 'light';
     busy.current = true;
-    const disc = document.createElement('div');
-    disc.className = 'theme-flood';
-    disc.style.left = `${x}px`;
-    disc.style.top = `${y}px`;
-    disc.style.width = disc.style.height = `${r * 2}px`;
-    disc.style.background = GROUND[next];
-    document.body.appendChild(disc);
+
+    // Cover the viewport in the colour we are leaving, then change the theme
+    // underneath it. Nothing visibly happens yet.
+    const veil = document.createElement('div');
+    veil.className = 'theme-unveil';
+    veil.style.background = GROUND[outgoing];
+    veil.style.setProperty('--ux', `${x}px`);
+    veil.style.setProperty('--uy', `${y}px`);
+    veil.style.setProperty('--ur', `${Math.ceil(r)}px`);
+    document.body.appendChild(veil);
+    // Force a frame so the veil paints before the theme flips beneath it.
+    void veil.offsetWidth;
+    apply(next);
 
     try {
-      // Grow the destination colour out of the bulb.
-      await disc.animate(
-        { transform: ['translate(-50%,-50%) scale(0)', 'translate(-50%,-50%) scale(1)'] },
-        { duration: GROW[next], easing: 'cubic-bezier(0.45, 0, 0.25, 1)', fill: 'forwards' },
+      // Open a hole at the bulb and grow it. The new page shows through.
+      await veil.animate(
+        [{ ['--hole' as string]: '0px' }, { ['--hole' as string]: `${Math.ceil(r)}px` }],
+        { duration: GROW[next], easing: 'cubic-bezier(0.4, 0, 0.2, 1)', fill: 'forwards' },
       ).finished;
-
-      // The disc now covers everything and is already the incoming ground
-      // colour, so swapping the theme beneath it cannot be seen.
-      apply(next);
-
-      await disc.animate({ opacity: [1, 0] }, { duration: SETTLE, easing: 'linear', fill: 'forwards' }).finished;
     } catch {
-      // An interrupted animation must never strand the page mid-swap.
-      apply(next);
+      // Interruption must never strand a veil over the page.
     } finally {
-      disc.remove();
+      veil.remove();
       busy.current = false;
     }
   };

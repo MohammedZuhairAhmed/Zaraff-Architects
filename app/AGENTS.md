@@ -117,11 +117,17 @@ failures: `ready` rejecting with InvalidStateError, snapshot geometry
 confusion, the canvas not being part of the snapshot, and behaviour that
 differed between Chrome 152 and 153. None of it was reproducible on demand.
 
-What ships instead: one absolutely-positioned disc of the DESTINATION ground
-colour, scaled from the bulb with `transform` only. When it covers the
-viewport the theme is applied beneath it — invisible, because the disc is
-already that colour — then the disc fades and is removed.
+What ships instead: the theme is applied immediately, an overlay painted in
+the OUTGOING ground colour hides it, and a hole opens at the bulb and grows.
+The new page is revealed through the hole, so the animation is the reveal.
+The hole radius is a registered `@property` — a plain custom property cannot
+be interpolated and the mask would jump.
 
-Trade-off, on purpose: the flood is a flat colour rather than a reveal of the
-new page's content. It is far less impressive and completely predictable.
-Do not reintroduce View Transitions here without a reproducible test.
+An earlier attempt scaled a disc of the INCOMING colour over the page. It was
+reliable but wrong: it painted a flat colour over everything, which reads as
+the canvas changing instantly and then something animating on top.
+
+Known trade: outside the hole is flat outgoing colour, not the old page. A
+snapshot would fix that, and snapshots are exactly what made the View
+Transitions version unpredictable. Do not reintroduce it without a
+reproducible test.
