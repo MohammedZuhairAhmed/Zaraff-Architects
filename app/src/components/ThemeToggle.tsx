@@ -125,42 +125,15 @@ export function ThemeToggle() {
       inner.appendChild(copy);
     }
 
-    // Keep the clone's rendering cost proportional to the viewport, not to
-    // the page.
-    //
-    // Every node is kept, because removing an off-screen section shifts
-    // everything after it and breaks alignment. Instead, sections that are
-    // fully off-screen are marked `content-visibility: hidden`, so the
-    // browser skips their layout, paint and compositing entirely — they are
-    // never visible through the hole, so there is nothing to lose.
-    //
-    // `contain-intrinsic-size` is pinned to each section's MEASURED size, so
-    // a skipped section still occupies exactly the space it did. Without
-    // that, containment would collapse it and every later section would
-    // slide up — the misalignment bug again, by another route.
-    const SECTIONS = 'main > section, footer';
-    const realSections = document.querySelectorAll<HTMLElement>(SECTIONS);
-    const clonedSections = inner.querySelectorAll<HTMLElement>(SECTIONS);
-    for (let i = 0; i < realSections.length && i < clonedSections.length; i++) {
-      const el = realSections[i];
-      const box = el.getBoundingClientRect();
-      if (box.bottom >= 0 && box.top <= vh) continue; // on screen, render it
+    // No content-visibility on off-screen clone sections. It saved about 4ms
+    // on a toggle that costs 1ms, and it is the only change between the
+    // reveal being right and the layout shift returning. Skipped sections
+    // are decided once at click time, so anything that scrolls into view
+    // mid-reveal renders blank in the clone — and the reserved-space maths
+    // has already been wrong once. Not worth it at this page size.
+    // If the site ever gets heavy enough to need it, re-evaluate visibility
+    // on scroll as well, and verify while the page is MOVING.
 
-      // contain-intrinsic-size describes the CONTENT box, while
-      // getBoundingClientRect returns the BORDER box. Feeding it the border
-      // box adds the element's padding on top of the reserved space — 240px
-      // per section here — and the error accumulates down the page. Subtract
-      // padding and border to get the content box.
-      const cs = getComputedStyle(el);
-      const px = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight)
-               + parseFloat(cs.borderLeftWidth) + parseFloat(cs.borderRightWidth);
-      const py = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom)
-               + parseFloat(cs.borderTopWidth) + parseFloat(cs.borderBottomWidth);
-
-      const clone = clonedSections[i];
-      clone.style.containIntrinsicSize = `${box.width - px}px ${box.height - py}px`;
-      clone.style.contentVisibility = 'hidden';
-    }
     layer.appendChild(inner);
     layer.style.setProperty('--ux', `${x}px`);
     layer.style.setProperty('--uy', `${y}px`);
@@ -168,6 +141,17 @@ export function ThemeToggle() {
 
     // Now flip the real page. It is hidden behind the clone.
     apply(next);
+
+    // ?vtfreeze=1 holds the reveal half-open indefinitely, so a moving
+    // animation becomes a still image you can inspect. Click the bulb again
+    // (or reload) to clear it.
+    if (typeof window !== 'undefined' && new URLSearchParams(location.search).has('vtfreeze')) {
+      layer.style.setProperty('--hole', `${Math.round(r * 0.55)}px`);
+      // eslint-disable-next-line no-console
+      console.log('[reveal] frozen at', Math.round(r * 0.55), 'px from', Math.round(x), Math.round(y));
+      busy.current = false;
+      return;
+    }
 
     try {
       await layer.animate(
