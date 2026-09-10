@@ -239,6 +239,10 @@ a.contact__card:hover{border-color:var(--text);transform:translateY(-3px)}
 
 /* ---- Small screens: thumb zone, and it carries WhatsApp permanently ---- */
 @media (max-width:860px){
+  /* The dock is fixed to the bottom here, so the page has to reserve room
+     or the last of the content sits underneath it. */
+  body{padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+
   /* Fixed width on purpose. The pill used to hug its contents, so it changed
      size between the top of the page and scrolled, and again whenever the
      section label changed. */

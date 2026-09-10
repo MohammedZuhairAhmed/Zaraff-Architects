@@ -118,15 +118,15 @@
   --font-core:'Archivo',system-ui,sans-serif;
   /* Fluid display. The gap between 132px and 13px is the hierarchy —
      a 56/16 ratio reads as a document, not as a building. */
-  --fs-display-mega:clamp(4rem,11vw,10.5rem);
+  --fs-display-mega:clamp(3.6rem,16vw,10.5rem);
   --lh-display-mega:0.92; /* @kind font */
   --ls-display-mega:-0.05em;
   --fw-display-mega:600; /* @kind font */
-  --fs-display-large:clamp(2.75rem,6.4vw,5.25rem);
+  --fs-display-large:clamp(2.6rem,11vw,5.25rem);
   --lh-display-large:1.02; /* @kind font */
   --ls-display-large:-0.04em;
   --fw-display-large:600; /* @kind font */
-  --fs-display:clamp(2rem,3.6vw,3rem);
+  --fs-display:clamp(1.9rem,6vw,3rem);
   --lh-display:1.08; /* @kind font */
   --ls-display:-0.03em;
   --fw-display:500; /* @kind font */
