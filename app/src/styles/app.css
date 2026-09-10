@@ -285,9 +285,8 @@ body{padding-top:26px}
   /* ---- Pull-cord bulb ----
      The control is the metaphor: a cord you tug, a bulb that lights. The
      screen-wide reveal is done by the View Transitions API in ThemeToggle. */
-  .bulb{position:fixed;z-index:61;top:calc(26px + 18px);right:clamp(1rem,2.6vw,2.2rem);
-    display:inline-flex;align-items:flex-end;justify-content:center;
-    width:44px;height:44px;padding:0 0 4px;background:transparent;border:0;
+  .bulb{position:relative;display:inline-flex;align-items:flex-end;justify-content:center;
+    flex:none;width:44px;height:44px;padding:0 0 4px;background:transparent;border:0;
     cursor:pointer;-webkit-tap-highlight-color:transparent}
   .bulb:focus-visible{outline:1px solid var(--text);outline-offset:2px;border-radius:var(--radius-sm)}
 
@@ -322,9 +321,7 @@ body{padding-top:26px}
   @media (prefers-reduced-motion:reduce){
     .bulb__cord,.bulb__glass{transition:none}
   }
-  /* On small screens the dock lives at the bottom, so the bulb keeps the
-     top-right corner to itself. */
-  @media (max-width:860px){.bulb{top:calc(26px + 10px);right:1rem}}
+  @media (max-width:400px){.bulb{display:none}}
 }
 
 /* The reveal. Every UA animation on the root transition is disabled so the
@@ -339,6 +336,15 @@ body{padding-top:26px}
 ::view-transition-new(root){animation:none;mix-blend-mode:normal}
 :root[data-theme-anim] ::view-transition-new(root),
 :root[data-theme-anim] ::view-transition-old(root){will-change:clip-path}
+
+/* Each snapshot paints its own ground. Without this the canvas — which the
+   snapshot does not include — is already the incoming theme the instant the
+   transition begins, so the destination colour arrives before the circle
+   does and the reveal is invisible. This is what made light-on look instant. */
+:root[data-theme-anim='on']::view-transition-old(root){background-color:var(--ground-dark)}
+:root[data-theme-anim='on']::view-transition-new(root){background-color:var(--ground-light)}
+:root[data-theme-anim='off']::view-transition-old(root){background-color:var(--ground-light)}
+:root[data-theme-anim='off']::view-transition-new(root){background-color:var(--ground-dark)}
 /* Turning the light off animates the OUTGOING layer, so it must sit on top. */
 :root[data-theme-anim='off']::view-transition-old(root){z-index:2}
 :root[data-theme-anim='off']::view-transition-new(root){z-index:1}
@@ -396,11 +402,3 @@ body{padding-top:26px}
   @media (prefers-reduced-motion:reduce){.bulb-bloom{display:none}}
 }
 
-@layer pages {
-  /* The bulb is fixed to the viewport's top-right, so the expanded dock has
-     to keep clear of it. The compact pill shrinks away from the edge and
-     needs no reserve; on small screens the dock is at the bottom entirely. */
-  @media (min-width:861px){
-    .dock:not(.is-compact) .dock__inner{padding-right:72px}
-  }
-}

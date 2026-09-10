@@ -110,10 +110,19 @@ only shows on the first transition after a load — which reads as the reveal
 starting from the wrong place. Disable the group animation too, and set
 `isolation:auto` on the image pair.
 
-## The bulb is fixed on purpose
-`.bulb` is position:fixed at the viewport's top-right and rendered from the
-root layout, not inside the dock. It used to live in the dock, which
-contracts and recentres on scroll — so the light source moved ~200px toward
-the middle whenever the page was scrolled, and the reveal appeared to come
-from the wrong place "at random". The expanded dock reserves padding-right
-for it; the compact pill pulls away from the edge and needs none.
+## View Transitions: the canvas is not in the snapshot
+The root background propagates from `body` to the *canvas*, and the canvas is
+not captured in `::view-transition-old/new(root)`. Both layers are therefore
+transparent-backed, and the canvas already shows the INCOMING theme the
+instant the transition starts — so the destination colour arrives before the
+reveal does and the animation is invisible.
+
+Fix: give each snapshot its own opaque ground from `--ground-light` /
+`--ground-dark`, which are deliberately not theme-swapped. Without this,
+light-on looks like an instant white flash.
+
+## Debugging the reveal
+Append `?vtdebug=1` and open the console. Logs origin, viewport, scrollY,
+dock state, radius, which layer animates, and every view-transition animation
+the browser is actually running — a UA animation creeping back in is
+otherwise invisible.

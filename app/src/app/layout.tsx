@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from 'next';
 import { Archivo } from 'next/font/google';
 import { getSettings, getStudio } from '@/content/cached';
 import { Dock } from '@/components/Dock';
-import { ThemeToggle } from '@/components/ThemeToggle';
 import { SiteFooter } from '@/components/SiteFooter';
 import { ThemeScript } from '@/components/ThemeScript';
 import '@/styles/index.css';
@@ -73,10 +72,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         </div></div>
 
         <Dock whatsappNumber={settings.whatsappNumber} />
-        {/* Outside the dock on purpose. The dock contracts and recentres on
-            scroll, which moved the light source around — the reveal always
-            came from the bulb, but the bulb kept moving. Fixed position now. */}
-        <ThemeToggle />
 
         <script
           type="application/ld+json"

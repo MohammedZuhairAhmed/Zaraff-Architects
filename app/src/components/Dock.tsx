@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { WhatsAppGlyph } from './WhatsAppGlyph';
 import { waLink } from '@/lib/whatsapp';
+import { ThemeToggle } from './ThemeToggle';
 
 const NAV = [
   { href: '/', label: 'Home' },
@@ -80,6 +81,7 @@ export function Dock({ whatsappNumber }: { whatsappNumber: string }) {
           <WhatsAppGlyph className="dock__wa-glyph" />
           <span className="dock__wa-text">Message us</span>
         </a>
+        <ThemeToggle />
         <button
           ref={toggleRef}
           type="button"

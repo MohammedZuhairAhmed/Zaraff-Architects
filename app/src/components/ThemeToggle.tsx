@@ -5,6 +5,21 @@ import { useEffect, useRef, useState } from 'react';
 type Theme = 'light' | 'dark';
 
 /**
+ * Diagnostics for the reveal. Off unless ?vtdebug=1 is on the URL, so it
+ * costs nothing in normal use. Logs the origin, the radius, which layer is
+ * animated, and what the browser actually ended up running — the last one
+ * matters because a UA animation sneaking back in is invisible otherwise.
+ */
+const vtDebug = () =>
+  typeof window !== 'undefined' && new URLSearchParams(location.search).has('vtdebug');
+
+function logReveal(stage: string, data: Record<string, unknown>) {
+  if (!vtDebug()) return;
+  // eslint-disable-next-line no-console
+  console.log(`[vt] ${stage}`, data);
+}
+
+/**
  * A pull-cord bulb.
  *
  * Turning the light ON reveals the new theme through a circle expanding from
@@ -55,7 +70,20 @@ export function ThemeToggle() {
     window.setTimeout(() => setPulling(false), 420);
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduced || !document.startViewTransition) { apply(next); return; }
+    logReveal('click', {
+      from: theme, to: next,
+      origin: [Math.round(x), Math.round(y)],
+      viewport: [innerWidth, innerHeight],
+      scrollY: Math.round(scrollY),
+      dockCompact: document.querySelector('.dock')?.classList.contains('is-compact'),
+      reducedMotion: reduced,
+      supportsViewTransitions: !!document.startViewTransition,
+    });
+    if (reduced || !document.startViewTransition) {
+      logReveal('skipped', { why: reduced ? 'prefers-reduced-motion' : 'no View Transitions' });
+      apply(next);
+      return;
+    }
 
     // Reach the furthest corner, or the reveal leaves an unlit wedge.
     const r = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
@@ -91,7 +119,21 @@ export function ThemeToggle() {
           pseudoElement: lightOn ? '::view-transition-new(root)' : '::view-transition-old(root)',
         },
       );
+      logReveal('running', {
+        layer: lightOn ? 'new(root)' : 'old(root)',
+        radius: Math.round(r),
+        duration: lightOn ? 1050 : 700,
+        // If anything other than our own animation appears here, a UA
+        // animation is back and will fight the reveal.
+        // pseudoElement lives on KeyframeEffect, not the AnimationEffect base.
+        animations: document.getAnimations()
+          .map(a => a.effect as KeyframeEffect | null)
+          .filter((e): e is KeyframeEffect => !!e?.pseudoElement?.includes('view-transition'))
+          .map(e => ({ pseudo: e.pseudoElement, ms: e.getTiming().duration })),
+      });
+
       await transition.finished;
+      logReveal('finished', { theme: document.documentElement.dataset.theme });
     } finally {
       delete document.documentElement.dataset.themeAnim;
     }

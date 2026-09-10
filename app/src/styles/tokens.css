@@ -63,6 +63,14 @@
   --on-media-border-soft:rgba(255,255,255,.18);
 
 
+  /* ---- Fixed ground colours, never theme-swapped ----
+     The canvas background propagates from body and is NOT captured in the
+     root view-transition snapshot, so both layers are transparent-backed and
+     the canvas shows the incoming theme immediately. These let each snapshot
+     paint its own ground so the reveal is actually visible. */
+  --ground-light:#F7F4EE;
+  --ground-dark:#12100D;
+
   /* ---- Theme-reactive surfaces ----
      These were literal rgba() in the page CSS, which is why the hero washed
      out and the dock stayed a pale pill in dark mode: literals do not switch.
