@@ -48,7 +48,17 @@ export function ThemeToggle() {
   }, []);
 
   const apply = (next: Theme) => {
-    document.documentElement.dataset.theme = next;
+    const root = document.documentElement;
+    // Suppress transitions for the frame the theme lands in. Elements carry
+    // colour transitions for hover — border-color on the package tiers, for
+    // one — and without this they animate from the old theme's colour to the
+    // new one over ~400ms. On the tiers that interpolation passes through a
+    // pale grey, which reads as a white border appearing on the cards.
+    root.classList.add('is-theme-switching');
+    root.dataset.theme = next;
+    void root.offsetWidth; // flush the new values before transitions resume
+    requestAnimationFrame(() => root.classList.remove('is-theme-switching'));
+
     try { localStorage.setItem('zf-theme', next); } catch {}
     setTheme(next);
   };

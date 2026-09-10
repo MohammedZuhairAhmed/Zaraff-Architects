@@ -254,9 +254,11 @@ a.contact__card:hover{border-color:var(--text);transform:translateY(-3px)}
   .dock__toggle{display:flex}
   /* Mobile only: the nav links are behind the menu, so this is the only
      indication of where you are. */
-  .dock__where{display:block;flex:1 1 auto;min-width:0;opacity:1;margin-left:auto;
-    padding-left:var(--space-sm);text-align:right;
-    text-overflow:ellipsis;border-left:1px solid var(--hairline)}
+  .dock__where{display:grid;place-items:center;flex:1 1 auto;min-width:0;opacity:1;
+    padding-inline:var(--space-sm);text-align:center;
+    border-left:1px solid var(--hairline);
+    /* Clip so the outgoing and incoming labels slide within the pill. */
+    overflow:hidden;height:1.35em}
   .dock__wa{padding:11px 13px}
   .dock__wa-glyph{width:19px;height:19px}
   .dock__wa-text{display:none}
@@ -394,3 +396,36 @@ body{padding-top:26px}
   .theme-reveal *,.theme-reveal *::before,.theme-reveal *::after{
     animation:none !important;transition:none !important}
 }
+
+@layer pages {
+  /* The section label travels with the scroll: down-scroll sends it up and
+     brings the next one in from below. A static swap reads as a glitch. */
+  .dock__where-text{display:block;grid-area:1/1;white-space:nowrap;
+    overflow:hidden;text-overflow:ellipsis;max-width:100%}
+  .dock__where-text.is-down{animation:where-up var(--dur) var(--ease-spring)}
+  .dock__where-text.is-up{animation:where-down var(--dur) var(--ease-spring)}
+
+  @keyframes where-up{
+    from{transform:translateY(90%);opacity:0}
+    to{transform:translateY(0);opacity:1}
+  }
+  @keyframes where-down{
+    from{transform:translateY(-90%);opacity:0}
+    to{transform:translateY(0);opacity:1}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .dock__where-text.is-down,.dock__where-text.is-up{animation:none}
+  }
+
+  /* The menu links read as a list, so they centre with the button below. */
+  .dock__panel-links{justify-items:center;text-align:center}
+  .dock__panel-links .dock__link{width:100%}
+  .dock__panel-cta{display:inline-flex;align-items:center;justify-content:center;gap:var(--space-xs)}
+}
+
+/* Outside @layer so it beats everything: for the single frame the theme is
+   applied, nothing animates. Hover transitions resume immediately after. */
+html.is-theme-switching,
+html.is-theme-switching *,
+html.is-theme-switching *::before,
+html.is-theme-switching *::after { transition: none !important; }
